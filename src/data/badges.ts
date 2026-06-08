@@ -98,6 +98,20 @@ export const BADGES: Badge[] = [
     desc: 'すべての図鑑カードを習熟MAX（★★★）にした',
     earned: (p) => masterySum(p) >= TOTAL_CARDS * 3,
   },
+  {
+    id: 'daily-3',
+    name: '3日れんぞく',
+    emoji: '',
+    desc: '今日の検定に3日連続で挑戦した',
+    earned: (p) => p.dailyStreak >= 3,
+  },
+  {
+    id: 'daily-7',
+    name: '7日れんぞく',
+    emoji: '',
+    desc: '今日の検定に7日連続で挑戦した',
+    earned: (p) => p.dailyStreak >= 7,
+  },
 ];
 
 // 進捗からバッジidの配列を再計算
