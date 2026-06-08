@@ -4,6 +4,8 @@ import { sections } from '../src/data/sections.ts';
 import { FAQ_BY_SECTION } from '../src/data/faqs.ts';
 import { glossary } from '../src/data/glossary.ts';
 import { CHALK_CARDS, CATEGORY_LABEL, TOTAL_CARDS } from '../src/data/chalkCards.ts';
+import { iconSvg, SECTION_ICON } from '../src/data/chalkIcons.ts';
+import { figureSvg } from '../src/data/figures.ts';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
@@ -71,6 +73,8 @@ function markdownToHtml(content: string): string {
   while (i < lines.length) {
     const trimmed = lines[i].trim();
     if (trimmed === '') { i++; continue; }
+    const figM = /^\[\[figure:([\w-]+)\]\]$/.exec(trimmed);
+    if (figM) { out.push(figureSvg(figM[1])); i++; continue; }
     if (trimmed.startsWith('## ')) {
       const text = trimmed.slice(3);
       out.push(`<h2 id="${slugifyAscii(text, h2Index++)}" class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;border-radius:0 8px 8px 0;margin:32px 0 14px">${parseInlineToHtml(text)}</h2>`);
@@ -184,14 +188,16 @@ function buildSectionFallback(s: (typeof sections)[number]): string {
   const contentHtml = markdownToHtml(s.content);
   const faqHtml = buildFaqHtml(s.id);
   const leadHtml = s.lead ? `<p style="color:#4b5b51;font-size:1.05rem;background:#eef3ef;border-radius:14px;padding:16px 18px;margin:16px 0 24px">${escapeHtml(s.lead)}</p>` : '';
+  const kidHtml = s.kidSummary ? `<div style="background:#fff9ec;border:1px solid #f4c64a;border-radius:14px;padding:14px 18px;margin:0 0 24px"><span style="display:inline-block;background:${ACCENT};color:#3a2c06;font-weight:800;font-size:0.78rem;border-radius:999px;padding:3px 12px;margin-bottom:8px">やさしい まとめ</span><p style="margin:0;color:#233028;line-height:1.85">${escapeHtml(s.kidSummary)}</p></div>` : '';
   return `<article style="font-family:${FONT};line-height:1.85;max-width:920px;margin:0 auto;padding:24px 16px;color:#233028">
   <nav style="font-size:0.85rem;color:#6b7280;margin:0 0 16px"><a href="/chalk-lab/" style="color:${BOARD};text-decoration:none">${SITE_NAME}</a> <span style="color:#9ca3af">›</span> <span style="color:#4b5563;font-weight:600">${escapeHtml(s.shortTitle)}</span></nav>
   <header style="margin-bottom:20px">
-    <div style="font-size:2.4rem;line-height:1;margin-bottom:8px">${s.emoji}</div>
+    <div style="line-height:1;margin-bottom:8px">${iconSvg(SECTION_ICON[s.id], 60)}</div>
     <h1 style="font-size:1.7rem;color:${BOARD};border-bottom:3px solid ${ACCENT};padding-bottom:10px;margin:0 0 8px">${escapeHtml(s.title)}</h1>
     <div style="font-size:0.85rem;color:#8a9690;margin-top:10px">最終更新: ${formatDateJa(s.updatedAt)}</div>
   </header>
   ${leadHtml}
+  ${kidHtml}
   ${tocHtml}
   <div class="section-content">
 ${contentHtml}
@@ -319,7 +325,7 @@ const dexCatalogHtml = dexByCategory.map((cat) => {
     const rarity = '★'.repeat(c.rarity) + '☆'.repeat(3 - c.rarity);
     return `<div style="border:1px solid #e3e0d6;border-radius:14px;padding:16px 14px;background:#fff${c.rarity === 3 ? ';box-shadow:0 0 12px rgba(224,168,46,0.3);border-color:' + ACCENT : ''}">
       <div style="font-size:0.85rem;color:${ACCENT};letter-spacing:1px">${rarity}</div>
-      <div style="font-size:2rem;line-height:1">${c.emoji}</div>
+      <div style="line-height:1">${iconSvg(c.id, 56)}</div>
       <div style="font-weight:800;color:#233028;margin:6px 0">${escapeHtml(c.name)}</div>
       <p style="font-size:0.85rem;color:#233028;margin:0 0 8px;line-height:1.6">${escapeHtml(c.front)}</p>
       <p style="font-size:0.8rem;color:#4b5b51;margin:0 0 8px;line-height:1.65">${escapeHtml(c.back)}</p>

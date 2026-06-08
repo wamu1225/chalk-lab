@@ -4,6 +4,7 @@ import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { QUIZ, QUIZ_PASS } from '../data/quiz';
 import { loadProgress, saveProgress, masterCard } from '../utils/progress';
 import { getCard } from '../data/chalkCards';
+import { ChalkIcon } from './ChalkIcon';
 import { computeBadges } from '../data/badges';
 
 type Phase = 'intro' | 'playing' | 'result';
@@ -126,7 +127,8 @@ export function Quiz() {
           <strong>{selected === cur.answer ? '⭕ 正解！' : '❌ ざんねん'}</strong>
           {selected === cur.answer && cur.relatedCardId && getCard(cur.relatedCardId) && (
             <p className="quiz-card-up">
-              {getCard(cur.relatedCardId)!.emoji} 図鑑「{getCard(cur.relatedCardId)!.name}」の習熟度が上がった！
+              <ChalkIcon motif={cur.relatedCardId} size={20} className="quiz-card-up-icon" />
+              図鑑「{getCard(cur.relatedCardId)!.name}」の習熟度が上がった！
             </p>
           )}
           <p>{cur.explain}</p>

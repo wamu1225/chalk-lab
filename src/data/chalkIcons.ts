@@ -1,0 +1,67 @@
+// チョークラボの内製SVGアイコン（絵文字の代替）。
+// 「黒板に白チョークの線画＋カテゴリ色タイル」で全点統一。
+// React（ChalkIcon.tsx）と SSG（prerender.ts）の両方がこの定義を共有する。
+
+export const ICON_TINT = {
+  board: '#2a4a3a',
+  material: '#3a3550',
+  legend: '#5a4420',
+  geology: '#2d4456',
+  eco: '#2f4a2c',
+  sports: '#523040',
+  health: '#344a4a',
+  compare: '#3f3f46',
+} as const;
+
+export type IconTint = keyof typeof ICON_TINT;
+
+// 円石藻のスポーク生成
+function spokes(cx: number, cy: number, ri: number, ro: number): string {
+  let s = '';
+  for (let a = 0; a < 360; a += 45) {
+    const r = (a * Math.PI) / 180;
+    s += `<line x1="${(cx + ri * Math.cos(r)).toFixed(1)}" y1="${(cy + ri * Math.sin(r)).toFixed(1)}" x2="${(cx + ro * Math.cos(r)).toFixed(1)}" y2="${(cy + ro * Math.sin(r)).toFixed(1)}"/>`;
+  }
+  return s;
+}
+
+// motif id → { tint, art(0..64座標の白チョーク線画) }
+export const ICON_ART: Record<string, { tint: IconTint; art: string }> = {
+  'white-chalk': { tint: 'board', art: `<path d="M11 50 q9 -7 19 -2 q10 5 21 -4" fill="none" stroke="#fdfdfb" stroke-width="3.2" stroke-linecap="round" opacity="0.8"/><g transform="rotate(-43 32 28)"><rect x="26" y="11" width="12" height="34" rx="2" fill="#fdfdfb"/><rect x="33.5" y="11" width="4.5" height="34" rx="1.5" fill="#dcdacf"/><rect x="26" y="41" width="12" height="4" rx="1" fill="#c4c2b6"/></g>` },
+  'color-chalk': { tint: 'board', art: `<rect x="16" y="22" width="9" height="26" rx="2" fill="#fdfdfb"/><rect x="16" y="22" width="9" height="6" rx="2" fill="#e0556a"/><rect x="27.5" y="18" width="9" height="30" rx="2" fill="#fdfdfb"/><rect x="27.5" y="18" width="9" height="6" rx="2" fill="#5b8def"/><rect x="39" y="24" width="9" height="24" rx="2" fill="#fdfdfb"/><rect x="39" y="24" width="9" height="6" rx="2" fill="#e7b53a"/>` },
+  'dustless': { tint: 'board', art: `<rect x="26" y="12" width="11" height="27" rx="2" fill="#fdfdfb"/><rect x="32" y="12" width="5" height="27" rx="1.5" fill="#dcdacf"/><g fill="#fdfdfb"><circle cx="25" cy="46" r="1.6" opacity="0.7"/><circle cx="31" cy="50" r="1.6" opacity="0.6"/><circle cx="37" cy="47" r="1.6" opacity="0.7"/><circle cx="28" cy="55" r="1.3" opacity="0.5"/><circle cx="34" cy="56" r="1.3" opacity="0.5"/></g>` },
+  'luminous': { tint: 'board', art: `<g stroke="#ffe9a8" stroke-width="2.6" stroke-linecap="round"><line x1="32" y1="6" x2="32" y2="13"/><line x1="14" y1="14" x2="19" y2="19"/><line x1="50" y1="14" x2="45" y2="19"/><line x1="9" y1="30" x2="16" y2="30"/><line x1="55" y1="30" x2="48" y2="30"/></g><rect x="26" y="20" width="12" height="28" rx="2" fill="#fdfdfb"/><rect x="33" y="20" width="5" height="28" rx="1.5" fill="#dcdacf"/>` },
+  'calcium-carbonate': { tint: 'material', art: `<g fill="none" stroke="#fdfdfb" stroke-width="2.8" stroke-linejoin="round"><polygon points="32,12 41,17 41,27 32,32 23,27 23,17"/><polygon points="22,32 29,36 29,46 22,50 15,46 15,36"/><polygon points="42,32 49,36 49,46 42,50 35,46 35,36"/></g>` },
+  'gypsum': { tint: 'material', art: `<g stroke="#fdfdfb" stroke-width="2.6" fill="none" stroke-linejoin="round"><polygon points="32,12 47,22 32,32 17,22"/><path d="M17 22 V40 L32 50 V32"/><path d="M47 22 V40 L32 50"/></g>` },
+  'hagoromo': { tint: 'legend', art: `<rect x="18" y="32" width="28" height="20" rx="3" fill="none" stroke="#fdfdfb" stroke-width="3"/><line x1="18" y1="38" x2="46" y2="38" stroke="#fdfdfb" stroke-width="2.4"/><rect x="26" y="18" width="6" height="15" rx="1.5" fill="#fdfdfb"/><rect x="34" y="21" width="6" height="12" rx="1.5" fill="#fdfdfb" opacity="0.85"/><g stroke="#ffe2a0" stroke-width="2.6" stroke-linecap="round"><line x1="50" y1="13" x2="50" y2="21"/><line x1="46" y1="17" x2="54" y2="17"/></g>` },
+  'chalk-rock': { tint: 'geology', art: `<path d="M14 24 L20 20 L28 26 L36 21 L44 27 L50 23 L50 44 L14 44 Z" fill="#fdfdfb"/><path d="M11 49 q8 -4 16 0 t16 0 t16 0" fill="none" stroke="#cfe0e8" stroke-width="2.6" stroke-linecap="round" opacity="0.85"/>` },
+  'coccolith': { tint: 'geology', art: `<circle cx="32" cy="32" r="18" fill="none" stroke="#fdfdfb" stroke-width="3"/><circle cx="32" cy="32" r="8" fill="none" stroke="#fdfdfb" stroke-width="2.6"/><g stroke="#fdfdfb" stroke-width="2.6" stroke-linecap="round">${spokes(32, 32, 9, 17)}</g>` },
+  'cretaceous': { tint: 'geology', art: `<g fill="#fdfdfb"><ellipse cx="32" cy="22" rx="3.6" ry="7.5"/><ellipse cx="21" cy="27" rx="3.3" ry="6.5" transform="rotate(-30 21 27)"/><ellipse cx="43" cy="27" rx="3.3" ry="6.5" transform="rotate(30 43 27)"/><ellipse cx="32" cy="40" rx="7.5" ry="8.5"/></g>` },
+  'scallop': { tint: 'eco', art: `<path d="M32 44 L16 24 q16 -13 32 0 Z" fill="none" stroke="#fdfdfb" stroke-width="3" stroke-linejoin="round"/><g stroke="#fdfdfb" stroke-width="2.2" stroke-linecap="round"><line x1="32" y1="44" x2="23" y2="27"/><line x1="32" y1="44" x2="32" y2="23"/><line x1="32" y1="44" x2="41" y2="27"/></g><circle cx="32" cy="44" r="2.6" fill="#fdfdfb"/>` },
+  'eggshell': { tint: 'eco', art: `<path d="M32 13 C20 13 18 34 18 40 a14 14 0 0 0 28 0 C46 34 44 13 32 13 Z" fill="none" stroke="#fdfdfb" stroke-width="3"/><path d="M25 30 l5 4 l-3 4 l5 3" fill="none" stroke="#fdfdfb" stroke-width="2.4" stroke-linejoin="round"/>` },
+  'climbing': { tint: 'sports', art: `<path d="M20 30 q0 22 12 22 q12 0 12 -22 z" fill="none" stroke="#fdfdfb" stroke-width="3"/><path d="M20 30 q12 -9 24 0" fill="none" stroke="#fdfdfb" stroke-width="3"/><line x1="32" y1="24" x2="32" y2="15" stroke="#fdfdfb" stroke-width="2.6" stroke-linecap="round"/><circle cx="22" cy="52" r="2" fill="#fdfdfb" opacity="0.6"/><circle cx="42" cy="53" r="1.6" fill="#fdfdfb" opacity="0.5"/>` },
+  'billiard': { tint: 'sports', art: `<rect x="17" y="33" width="19" height="17" rx="2" fill="none" stroke="#fdfdfb" stroke-width="3"/><ellipse cx="26.5" cy="37" rx="6.5" ry="2.6" fill="#fdfdfb" opacity="0.85"/><line x1="42" y1="14" x2="30" y2="34" stroke="#fdfdfb" stroke-width="3" stroke-linecap="round"/>` },
+  'tailors-chalk': { tint: 'sports', art: `<polygon points="20,18 46,38 16,42" fill="none" stroke="#fdfdfb" stroke-width="3" stroke-linejoin="round"/><line x1="12" y1="50" x2="52" y2="50" stroke="#fdfdfb" stroke-width="2.6" stroke-dasharray="4 3" stroke-linecap="round"/>` },
+  'dust': { tint: 'health', art: `<rect x="20" y="24" width="24" height="12" rx="2" fill="#fdfdfb"/><rect x="20" y="24" width="24" height="4" rx="2" fill="#c9c7bc"/><g fill="#fdfdfb"><circle cx="18" cy="45" r="2.4" opacity="0.6"/><circle cx="26" cy="49" r="2" opacity="0.5"/><circle cx="34" cy="46" r="2.4" opacity="0.6"/><circle cx="44" cy="49" r="2" opacity="0.5"/></g>` },
+  'blackboard': { tint: 'compare', art: `<rect x="11" y="22" width="19" height="22" rx="2" fill="none" stroke="#fdfdfb" stroke-width="3"/><path d="M15 30 q4 -3 8 0" fill="none" stroke="#fdfdfb" stroke-width="2.2" stroke-linecap="round"/><rect x="34" y="22" width="19" height="22" rx="2" fill="#fdfdfb"/><path d="M38 30 h11 M38 36 h8" stroke="#7a8a82" stroke-width="2.2" stroke-linecap="round"/>` },
+  'making': { tint: 'board', art: `<rect x="12" y="20" width="20" height="24" rx="3" fill="none" stroke="#fdfdfb" stroke-width="3"/><rect x="32" y="27" width="22" height="10" rx="3" fill="#fdfdfb"/><rect x="48" y="27" width="6" height="10" rx="3" fill="#dcdacf"/>` },
+};
+
+// セクション id → motif id
+export const SECTION_ICON: Record<string, string> = {
+  basics: 'white-chalk',
+  types: 'color-chalk',
+  making: 'making',
+  hagoromo: 'hagoromo',
+  whiteboard: 'blackboard',
+  geology: 'chalk-rock',
+  sports: 'climbing',
+  health: 'dust',
+};
+
+// 静的SVG文字列（prerender 用 / Reactでも利用可）
+export function iconSvg(motif: string, size: number): string {
+  const def = ICON_ART[motif];
+  if (!def) return '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 64 64" role="img" aria-hidden="true"><rect width="64" height="64" rx="14" fill="${ICON_TINT[def.tint]}"/>${def.art}</svg>`;
+}

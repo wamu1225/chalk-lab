@@ -11,7 +11,27 @@ import { Quiz } from './components/Quiz';
 import { Badges } from './components/Badges';
 import { Dex } from './components/Dex';
 import { cardsForSection } from './data/chalkCards';
+import { ChalkIcon } from './components/ChalkIcon';
+import { SECTION_ICON } from './data/chalkIcons';
+import { FIGURES } from './data/figures';
 import './App.css';
+
+function ChalkLogo({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" role="img" aria-hidden="true">
+      <rect width="64" height="64" rx="12" fill="#1f3a2e" />
+      <path d="M11 49 q9 -7 19 -2 q10 5 21 -3" fill="none" stroke="#fdfdfb" strokeWidth="3.2" strokeLinecap="round" opacity="0.8" />
+      <g transform="rotate(-43 32 28)">
+        <rect x="26" y="9" width="13" height="37" rx="2" fill="#fdfdfb" />
+        <rect x="34.5" y="9" width="4.5" height="37" rx="1.5" fill="#dcdacf" />
+        <rect x="27.5" y="11" width="2.6" height="33" rx="1.3" fill="#ffffff" />
+        <rect x="26" y="42" width="13" height="4" rx="1" fill="#c4c2b6" />
+      </g>
+      <circle cx="18" cy="53" r="1.7" fill="#fdfdfb" opacity="0.6" />
+      <circle cx="24" cy="56" r="1.1" fill="#fdfdfb" opacity="0.45" />
+    </svg>
+  );
+}
 
 function getCurrentPath(): string {
   if (typeof window === 'undefined') return '/';
@@ -99,6 +119,21 @@ function parseContent(content: string): ReactNode[] {
     const trimmed = line.trim();
 
     if (trimmed === '') { i++; continue; }
+
+    const figMatch = /^\[\[figure:([\w-]+)\]\]$/.exec(trimmed);
+    if (figMatch) {
+      const fig = FIGURES[figMatch[1]];
+      if (fig) {
+        result.push(
+          <figure key={key++} className="content-figure">
+            <svg viewBox={fig.viewBox} preserveAspectRatio="xMidYMid meet" role="img" aria-label={fig.caption} dangerouslySetInnerHTML={{ __html: fig.body }} />
+            <figcaption>{fig.caption}</figcaption>
+          </figure>
+        );
+      }
+      i++;
+      continue;
+    }
 
     if (trimmed.startsWith('## ')) {
       const text = trimmed.slice(3);
@@ -203,7 +238,7 @@ function Header() {
           className="site-brand"
           onClick={(e) => { e.preventDefault(); navigateTo('/'); setNavOpen(false); }}
         >
-          <span className="brand-chalk" aria-hidden="true">🖍️</span>
+          <span className="brand-chalk" aria-hidden="true"><ChalkLogo size={26} /></span>
           <span>{SITE_NAME}</span>
         </a>
         <button
@@ -220,7 +255,7 @@ function Header() {
               href={`${BASE}/${s.id}/`}
               onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); setNavOpen(false); }}
             >
-              <span className="nav-emoji">{s.emoji}</span>
+              <ChalkIcon motif={SECTION_ICON[s.id]} size={20} className="nav-emoji" />
               <span>{s.shortTitle}</span>
             </a>
           ))}
@@ -235,7 +270,7 @@ function Home() {
   return (
     <>
       <div className="hero">
-        <div className="hero-emoji" aria-hidden="true">🖍️</div>
+        <div className="hero-emoji" aria-hidden="true"><ChalkLogo size={76} /></div>
         <h1>{SITE_NAME}</h1>
         <p>
           黒板のチョークから、伝説の羽衣チョーク、白い崖の「白亜」、クライミング用まで。<br />
@@ -264,7 +299,7 @@ function Home() {
             className="section-card"
             onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); }}
           >
-            <div className="section-card-emoji" aria-hidden="true">{s.emoji}</div>
+            <ChalkIcon motif={SECTION_ICON[s.id]} size={64} className="section-card-emoji" />
             <h2 className="section-card-title">{s.shortTitle}</h2>
             <p className="section-card-desc">{s.description}</p>
             <span className="section-card-cta">読む →</span>
@@ -329,7 +364,7 @@ function RelatedSections({ currentId }: { currentId: string }) {
             className="related-card"
             onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); }}
           >
-            <span className="related-emoji" aria-hidden="true">{s.emoji}</span>
+            <ChalkIcon motif={SECTION_ICON[s.id]} size={32} className="related-emoji" />
             <span className="related-title">{s.shortTitle}</span>
           </a>
         ))}
@@ -363,7 +398,7 @@ function DiscoveredCards({ sectionId }: { sectionId: string }) {
       <div className="discovered-grid">
         {cards.map((c) => (
           <div key={c.id} className={`discovered-card rarity-${c.rarity}`}>
-            <span className="discovered-emoji" aria-hidden="true">{c.emoji}</span>
+            <ChalkIcon motif={c.id} size={30} className="discovered-emoji" />
             <span className="discovered-name">{c.name}</span>
           </div>
         ))}
@@ -400,7 +435,7 @@ function SectionPage({ section }: { section: Section }) {
       <Breadcrumb currentTitle={section.shortTitle} />
       <article className="section-page">
         <header className="article-header">
-          <div className="article-emoji" aria-hidden="true">{section.emoji}</div>
+          <ChalkIcon motif={SECTION_ICON[section.id]} size={64} className="article-emoji" />
           <h1>{section.title}</h1>
           <div className="article-meta">
             <span className="article-meta-item"><Calendar size={14} /> 最終更新: {formatDate(section.updatedAt)}</span>
@@ -408,6 +443,12 @@ function SectionPage({ section }: { section: Section }) {
         </header>
         {section.lead && (
           <p className="lead">{section.lead}</p>
+        )}
+        {section.kidSummary && (
+          <div className="kid-summary">
+            <span className="kid-summary-label">やさしい まとめ</span>
+            <p>{section.kidSummary}</p>
+          </div>
         )}
         <TOC items={section.toc} />
         <div className="section-content">

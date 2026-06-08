@@ -26,7 +26,7 @@
   font-size: 1.2rem;
   letter-spacing: 0.02em;
 }
-.brand-chalk { font-size: 1.4rem; }
+.brand-chalk { display: inline-flex; align-items: center; }
 .nav-toggle {
   margin-left: auto;
   background: transparent;
@@ -55,7 +55,7 @@
   opacity: 0.92;
 }
 .site-nav a:hover { background: rgba(253, 253, 251, 0.12); opacity: 1; }
-.nav-emoji { font-size: 0.95rem; }
+.nav-emoji { display: inline-block; vertical-align: middle; margin-right: 4px; border-radius: 5px; }
 
 /* ===== Shell ===== */
 .site-shell {
@@ -75,7 +75,8 @@
   position: relative;
   overflow: hidden;
 }
-.hero-emoji { font-size: 3rem; margin-bottom: 6px; }
+.hero-emoji { display: flex; justify-content: center; margin-bottom: 10px; }
+.hero-emoji svg { border-radius: 18px; box-shadow: var(--shadow); }
 .hero h1 { margin: 0 0 12px; font-size: 2rem; }
 .hero p { margin: 0 auto; max-width: 640px; color: #e7ece8; font-size: 1.02rem; }
 
@@ -102,7 +103,7 @@
   transition: transform 0.15s, box-shadow 0.15s;
 }
 .section-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent-soft); }
-.section-card-emoji { font-size: 2rem; }
+.section-card-emoji { display: block; margin-bottom: 10px; }
 .section-card-title { font-size: 1.1rem; margin: 8px 0; }
 .section-card-desc { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 12px; flex: 1; }
 .section-card-cta { color: var(--board); font-weight: 700; font-size: 0.9rem; }
@@ -135,7 +136,7 @@
 /* ===== Article ===== */
 .section-page { }
 .article-header { margin-bottom: 16px; }
-.article-emoji { font-size: 2.4rem; }
+.article-emoji { display: block; margin-bottom: 8px; }
 .article-header h1 {
   font-size: 1.7rem;
   margin: 6px 0 8px;
@@ -247,7 +248,7 @@
   font-size: 0.9rem;
 }
 .related-card:hover { border-color: var(--accent-soft); box-shadow: var(--shadow); }
-.related-emoji { font-size: 1.3rem; }
+.related-emoji { display: inline-block; vertical-align: middle; border-radius: 7px; flex: none; }
 
 /* ===== Footer ===== */
 .section-footer { margin-top: 28px; }
@@ -395,7 +396,11 @@
   border: 1px dashed var(--accent-soft);
   border-radius: 10px;
   padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+.quiz-card-up-icon { border-radius: 6px; flex: none; }
 
 /* ===== Chalk Dex (図鑑) ===== */
 .dex-screen { max-width: 1040px; margin: 0 auto; padding: 28px 16px 56px; }
@@ -453,7 +458,8 @@
   min-height: 130px;
 }
 .dex-card-rarity { font-size: 0.85rem; color: var(--accent); letter-spacing: 1px; margin-bottom: 2px; }
-.dex-card-emoji { font-size: 2.2rem; line-height: 1; }
+.dex-card-art { display: block; margin-bottom: 8px; border-radius: 14px; }
+.dex-locked-tile { width: 56px; height: 56px; border-radius: 14px; background: #3a3a40; color: #8a8f95; font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
 .dex-card-name { font-weight: 800; color: var(--ink); margin: 6px 0 6px; font-size: 0.98rem; }
 .dex-card-front { font-size: 0.85rem; color: var(--ink); margin: 0 0 8px; line-height: 1.6; }
 .dex-card-back { font-size: 0.8rem; color: var(--ink-soft); margin: 0 0 10px; line-height: 1.65; }
@@ -483,10 +489,20 @@
   padding: 6px 14px 6px 10px;
 }
 .discovered-card.rarity-3 { border-color: var(--accent); box-shadow: 0 0 8px rgba(224,168,46,0.3); }
-.discovered-emoji { font-size: 1.3rem; }
+.discovered-emoji { display: inline-block; vertical-align: middle; border-radius: 7px; flex: none; }
 .discovered-name { font-weight: 700; color: var(--ink); font-size: 0.9rem; }
 .discovered-link { color: var(--board); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
 .discovered-link:hover { text-decoration: underline; }
+
+/* ===== やさしいまとめ（全年齢向け） ===== */
+.kid-summary { background: #fff9ec; border: 1px solid var(--accent); border-radius: 14px; padding: 14px 18px; margin: 0 0 24px; }
+.kid-summary-label { display: inline-block; background: var(--accent); color: #3a2c06; font-weight: 800; font-size: 0.78rem; border-radius: 999px; padding: 3px 12px; margin-bottom: 8px; }
+.kid-summary p { margin: 0; color: var(--ink); line-height: 1.85; }
+
+/* ===== 記事内の図（黒板風SVG） ===== */
+.content-figure { margin: 24px 0; }
+.content-figure svg { width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: var(--shadow); }
+.content-figure figcaption { margin-top: 8px; font-size: 0.85rem; color: var(--ink-soft); text-align: center; line-height: 1.7; }
 
 /* ===== Mobile ===== */
 @media (max-width: 720px) {

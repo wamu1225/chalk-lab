@@ -4,6 +4,7 @@ import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { CHALK_CARDS, CATEGORY_LABEL, TOTAL_CARDS } from '../data/chalkCards';
 import type { CardCategory } from '../data/chalkCards';
 import { loadProgress, discoveredCount, masterySum } from '../utils/progress';
+import { ChalkIcon } from './ChalkIcon';
 
 function rarityStars(n: number): string {
   return '★'.repeat(n) + '☆'.repeat(3 - n);
@@ -56,7 +57,7 @@ export function Dex() {
               if (!discovered) {
                 return (
                   <div key={card.id} className="dex-card locked">
-                    <div className="dex-card-emoji" aria-hidden="true">🔒</div>
+                    <div className="dex-locked-tile" aria-hidden="true">?</div>
                     <div className="dex-card-name">？？？</div>
                     <div className="dex-card-hint">よみものを読むと発見</div>
                   </div>
@@ -65,7 +66,7 @@ export function Dex() {
               return (
                 <div key={card.id} className={`dex-card rarity-${card.rarity}`}>
                   <div className="dex-card-rarity" title={`レア度 ${card.rarity}`}>{rarityStars(card.rarity)}</div>
-                  <div className="dex-card-emoji" aria-hidden="true">{card.emoji}</div>
+                  <ChalkIcon motif={card.id} size={60} className="dex-card-art" />
                   <div className="dex-card-name">{card.name}</div>
                   <p className="dex-card-front">{card.front}</p>
                   <p className="dex-card-back">{card.back}</p>
