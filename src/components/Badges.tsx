@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { BADGES } from '../data/badges';
 import { loadProgress } from '../utils/progress';
+import { LevelBanner } from './LevelBanner';
 import { sections } from '../data/sections';
 import { QUIZ_PER_PLAY } from '../data/quiz';
 
@@ -10,7 +11,7 @@ export function Badges() {
   const [progress, setProgress] = useState(loadProgress());
 
   useEffect(() => {
-    document.title = `あつめたバッジ | ${SITE_NAME}`;
+    document.title = `ステータス＆バッジ | ${SITE_NAME}`;
     window.scrollTo(0, 0);
     setProgress(loadProgress());
   }, []);
@@ -20,7 +21,8 @@ export function Badges() {
 
   return (
     <article className="badges-screen">
-      <h1 className="quiz-h1">🏆 あつめたバッジ</h1>
+      <h1 className="quiz-h1">🏆 ステータス＆バッジ</h1>
+      <LevelBanner />
       <p className="quiz-lead">
         よみものを読んだり、チョーク検定に挑戦したりすると、バッジがあつまります。
         いまの達成：<strong>{earnedCount} / {BADGES.length}</strong> 個。

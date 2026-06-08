@@ -499,6 +499,17 @@
 .discovered-link { color: var(--board); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
 .discovered-link:hover { text-decoration: underline; }
 
+/* ===== チョーク博士レベル（XP） ===== */
+.level-banner { background: linear-gradient(160deg, var(--board), var(--board-deep)); color: var(--chalk); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 22px; box-shadow: var(--shadow); }
+.level-banner.compact { padding: 13px 16px; }
+.level-banner-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.level-badge { background: var(--accent); color: #3a2c06; font-weight: 800; border-radius: 999px; padding: 2px 12px; font-size: 0.9rem; }
+.level-title { font-weight: 800; font-size: 1.05rem; }
+.level-xp { margin-left: auto; font-size: 0.85rem; opacity: 0.92; }
+.level-bar { height: 10px; background: rgba(255,255,255,0.18); border-radius: 999px; overflow: hidden; margin: 10px 0 6px; }
+.level-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-soft)); transition: width 0.4s ease; }
+.level-foot { font-size: 0.8rem; opacity: 0.92; }
+
 /* ===== やさしいまとめ（全年齢向け） ===== */
 .kid-summary { background: #fff9ec; border: 1px solid var(--accent); border-radius: 14px; padding: 14px 18px; margin: 0 0 24px; }
 .kid-summary-label { display: inline-block; background: var(--accent); color: #3a2c06; font-weight: 800; font-size: 0.78rem; border-radius: 999px; padding: 3px 12px; margin-bottom: 8px; }

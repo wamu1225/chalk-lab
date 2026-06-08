@@ -14,6 +14,7 @@ import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
 import { FIGURES } from './data/figures';
+import { LevelBanner } from './components/LevelBanner';
 import './App.css';
 
 function ChalkLogo({ size = 28 }: { size?: number }) {
@@ -277,6 +278,8 @@ function Home() {
           チョークの成分・歴史・トリビアを、読んで・クイズで遊んで、楽しく学べるサイトです。
         </p>
       </div>
+
+      <LevelBanner compact />
 
       <div className="play-banner">
         <div className="play-banner-text">
