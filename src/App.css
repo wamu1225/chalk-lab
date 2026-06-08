@@ -545,6 +545,11 @@
 .first-nudge-text strong { display: block; color: var(--board); margin-bottom: 2px; }
 .first-nudge-cta { font-weight: 800; color: var(--board); white-space: nowrap; }
 
+/* ===== 完全制覇バナー ===== */
+.complete-banner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: linear-gradient(160deg, #fff3cf, #ffe49b); border: 2px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 0 0 22px; color: #5a4420; box-shadow: 0 0 18px rgba(224, 168, 46, 0.4); line-height: 1.6; }
+.complete-banner-emoji { font-size: 2rem; line-height: 1; }
+.complete-banner strong { display: block; color: var(--board); margin-bottom: 2px; }
+
 /* ===== チョーク博士レベル（XP） ===== */
 .level-banner { background: linear-gradient(160deg, var(--board), var(--board-deep)); color: var(--chalk); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 22px; box-shadow: var(--shadow); }
 .level-banner.compact { padding: 13px 16px; }

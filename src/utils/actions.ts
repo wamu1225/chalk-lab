@@ -17,6 +17,10 @@ function notifyLevelAndBadges(prev: Progress, next: Progress) {
     const b = BADGES.find((x) => x.id === id);
     if (b) pushToast({ badgeId: id, title: `バッジ獲得：${b.name}`, link: { label: 'バッジを見る →', path: '/badges/' } });
   }
+  // 全バッジ達成＝完全制覇の瞬間に特別な祝福
+  if (prev.badges.length < BADGES.length && next.badges.length >= BADGES.length) {
+    pushToast({ emoji: '🏆', title: 'コンプリート達成！すべてのバッジを集めた！', accent: true, link: { label: 'ステータスを見る →', path: '/badges/' } });
+  }
 }
 
 // よみもの読了：訪問記録＋カード発見＋バッジ再計算＋演出

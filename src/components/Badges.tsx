@@ -24,6 +24,15 @@ export function Badges() {
     <article className="badges-screen">
       <h1 className="quiz-h1">🏆 ステータス＆バッジ</h1>
       <LevelBanner />
+      {earnedCount === BADGES.length && (
+        <div className="complete-banner" role="status">
+          <span className="complete-banner-emoji" aria-hidden="true">🏆</span>
+          <div>
+            <strong>コンプリート達成！</strong>
+            すべてのバッジを集めました。チョークのことなら、もうあなたは博士です！
+          </div>
+        </div>
+      )}
       <p className="quiz-lead">
         よみものを読んだり、チョーク検定に挑戦したりすると、バッジがあつまります。
         いまの達成：<strong>{earnedCount} / {BADGES.length}</strong> 個。
