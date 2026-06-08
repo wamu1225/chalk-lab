@@ -1,7 +1,7 @@
 // ユーザー行動の記録＋演出（トースト）を一手に集約する。
 // 読了・検定終了などのイベントで、カード発見・レベルアップ・バッジ獲得を通知する。
 import { loadProgress, saveProgress, markSectionVisited } from './progress';
-import type { Progress } from './progress';
+import type { Progress, CraftedChalk } from './progress';
 import { computeBadges, BADGES } from '../data/badges';
 import { computeXp, levelInfo } from './level';
 import { pushToast } from './toast';
@@ -55,6 +55,17 @@ function yesterdayKey(todayKey: string): string {
   const dt = new Date(y, m - 1, d);
   dt.setDate(dt.getDate() - 1);
   return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+}
+
+// チョーク工房：マイチョークを1本作る。棚に追加＋演出。
+export function recordCraft(prev: Progress, chalk: CraftedChalk): Progress {
+  const p = loadProgress();
+  p.craftedChalks = [chalk, ...p.craftedChalks].slice(0, 50);
+  p.badges = computeBadges(p);
+  saveProgress(p);
+  pushToast({ emoji: '🧪', title: `マイチョーク「${chalk.name}」完成！ ランク${chalk.rank}`, accent: true, link: { label: '工房を見る →', path: '/workshop/' } });
+  notifyLevelAndBadges(prev, p);
+  return p;
 }
 
 // 今日の検定の終了：通常の集計に加え、デイリー連続記録を更新する。

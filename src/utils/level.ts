@@ -10,6 +10,7 @@ export const XP_RULES = {
   perQuizPlay: 8,       // チョーク検定に挑戦
   perQuizBest: 5,       // 検定の最高正解数 1問あたり
   perBadge: 15,         // バッジ獲得
+  perCraft: 12,         // チョーク工房でマイチョークを作る
 };
 
 export function computeXp(p: Progress): number {
@@ -19,7 +20,8 @@ export function computeXp(p: Progress): number {
     masterySum(p) * XP_RULES.perMasteryStar +
     p.quizPlays * XP_RULES.perQuizPlay +
     p.quizBest * XP_RULES.perQuizBest +
-    p.badges.length * XP_RULES.perBadge
+    p.badges.length * XP_RULES.perBadge +
+    p.craftedChalks.length * XP_RULES.perCraft
   );
 }
 

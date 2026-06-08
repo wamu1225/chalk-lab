@@ -11,6 +11,7 @@ import { loadProgress } from './utils/progress';
 import { Quiz } from './components/Quiz';
 import { Badges } from './components/Badges';
 import { Dex } from './components/Dex';
+import { Workshop } from './components/Workshop';
 import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
@@ -310,6 +311,7 @@ function Home() {
         </div>
         <div className="play-banner-btns">
           <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>📚 チョーク図鑑</a>
+          <a href={`${BASE}/workshop/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>🧪 チョーク工房</a>
           <a href={`${BASE}/quiz/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>📝 チョーク検定</a>
           <a href={`${BASE}/badges/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>🏆 バッジ</a>
         </div>
@@ -562,6 +564,7 @@ function Footer() {
     <footer className="site-footer">
       <div>
         <a href={`${BASE}/dex/`} onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>チョーク図鑑</a>
+        <a href={`${BASE}/workshop/`} onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>チョーク工房</a>
         <a href={`${BASE}/quiz/`} onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>チョーク検定</a>
         <a href={`${BASE}/badges/`} onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>バッジ</a>
         <a href={`${BASE}/glossary/`} onClick={(e) => { e.preventDefault(); navigateTo('/glossary/'); }}>用語集</a>
@@ -716,6 +719,8 @@ export default function App() {
     content = <Badges />;
   } else if (normalized === '/dex') {
     content = <Dex />;
+  } else if (normalized === '/workshop') {
+    content = <Workshop />;
   } else {
     const id = normalized.replace(/^\//, '');
     const section = sections.find((s) => s.id === id);

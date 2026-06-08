@@ -16,9 +16,12 @@ export type Progress = {
   cards: Record<string, CardState>; // 図鑑カードの状態（cardId → 状態）
   dailyLastDate: string;     // 今日の検定に最後に挑戦した日（YYYY-MM-DD）
   dailyStreak: number;       // 今日の検定の連続挑戦日数
+  craftedChalks: CraftedChalk[]; // チョーク工房で作った「マイチョーク」
 };
 
-const DEFAULT: Progress = { visitedSections: [], quizPlays: 0, quizBest: 0, badges: [], cards: {}, dailyLastDate: '', dailyStreak: 0 };
+export type CraftedChalk = { name: string; rank: string; overall: number; ts: number };
+
+const DEFAULT: Progress = { visitedSections: [], quizPlays: 0, quizBest: 0, badges: [], cards: {}, dailyLastDate: '', dailyStreak: 0, craftedChalks: [] };
 
 function sanitizeCards(raw: unknown): Record<string, CardState> {
   const out: Record<string, CardState> = {};
@@ -46,6 +49,12 @@ export function loadProgress(): Progress {
       cards: sanitizeCards(p.cards),
       dailyLastDate: typeof p.dailyLastDate === 'string' ? p.dailyLastDate : '',
       dailyStreak: typeof p.dailyStreak === 'number' ? p.dailyStreak : 0,
+      craftedChalks: Array.isArray(p.craftedChalks)
+        ? p.craftedChalks.filter((c: unknown): c is CraftedChalk =>
+            !!c && typeof c === 'object' &&
+            typeof (c as CraftedChalk).name === 'string' &&
+            typeof (c as CraftedChalk).rank === 'string').slice(0, 50)
+        : [],
     };
   } catch {
     return { ...DEFAULT, cards: {} };
