@@ -137,6 +137,9 @@ export const sections: Section[] = [
 
 用途に合わせて、まったく違う材料が「チョーク」と呼ばれているのが面白いところです。`,
     updatedAt: UPDATED,
+    references: [
+      { label: '日本白墨工業（公式）｜カラーユニバーサルデザイン（CUD）認証のチョークについて', url: 'https://tenjin-chalk.co.jp/cud.html' },
+    ],
   },
   {
     id: 'making',
@@ -375,6 +378,9 @@ export const sections: Section[] = [
 
 毎日使うチョークの名前の裏に、何千万年もの地球の歴史がかくれています。`,
     updatedAt: UPDATED,
+    references: [
+      { label: '東京薬科大学（公式）｜植物プランクトン（円石藻）から石灰岩・白亜ができたしくみ', url: 'https://www.toyaku.ac.jp/lifescience/departments/applife/knowledge/article-022.html' },
+    ],
   },
   {
     id: 'sports',
@@ -476,5 +482,8 @@ export const sections: Section[] = [
 
 正しく付き合えば、チョークは安全で扱いやすい道具です。`,
     updatedAt: UPDATED,
+    references: [
+      { label: '文部科学省（公式）｜学校環境衛生（教室等の浮遊粉じんの基準を含む「学校環境衛生基準」）', url: 'https://www.mext.go.jp/a_menu/kenko/hoken/1353625.htm' },
+    ],
   },
 ];
