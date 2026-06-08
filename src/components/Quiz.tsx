@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Award, Flame } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { QUIZ, QUIZ_PASS, QUIZ_PER_PLAY, buildQuizPlay } from '../data/quiz';
 import type { QuizQuestion } from '../data/quiz';
-import { loadProgress, saveProgress, masterCard } from '../utils/progress';
+import { loadProgress, masterCard } from '../utils/progress';
+import type { Progress } from '../utils/progress';
+import { recordQuizFinish } from '../utils/actions';
 import { getCard } from '../data/chalkCards';
-import { computeBadges } from '../data/badges';
 import { ChalkIcon } from './ChalkIcon';
 
 type Phase = 'intro' | 'playing' | 'result';
@@ -20,6 +21,7 @@ export function Quiz() {
   const [streak, setStreak] = useState(0);
   const [maxStreak, setMaxStreak] = useState(0);
   const [best, setBest] = useState(0);
+  const startSnap = useRef<Progress | null>(null);
 
   useEffect(() => {
     document.title = `チョーク検定 | ${SITE_NAME}`;
@@ -30,6 +32,7 @@ export function Quiz() {
   const total = play.length || QUIZ_PER_PLAY;
 
   const start = () => {
+    startSnap.current = loadProgress();
     setPlay(buildQuizPlay());
     setIndex(0);
     setSelected(null);
@@ -60,12 +63,8 @@ export function Quiz() {
 
   const next = () => {
     if (index >= play.length - 1) {
-      const finalCorrect = correct;
-      const p = loadProgress();
-      p.quizPlays += 1;
-      if (finalCorrect > p.quizBest) p.quizBest = finalCorrect;
-      p.badges = computeBadges(p);
-      saveProgress(p);
+      const prev = startSnap.current ?? loadProgress();
+      const p = recordQuizFinish(prev, correct, play.length);
       setBest(p.quizBest);
       setPhase('result');
     } else {
