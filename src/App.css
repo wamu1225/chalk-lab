@@ -546,6 +546,13 @@
 .kid-summary-label { display: inline-block; background: var(--accent); color: #3a2c06; font-weight: 800; font-size: 0.78rem; border-radius: 999px; padding: 3px 12px; margin-bottom: 8px; }
 .kid-summary p { margin: 0; color: var(--ink); line-height: 1.85; }
 
+/* ===== 参考（出典） ===== */
+.references { margin: 32px 0; padding: 16px 18px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+.references h3 { margin: 0 0 10px; font-size: 1rem; color: var(--board); }
+.references ul { margin: 0; padding-left: 1.2em; }
+.references li { margin-bottom: 6px; }
+.references a { color: var(--board); font-weight: 600; word-break: break-word; }
+
 /* ===== 記事内の図（黒板風SVG） ===== */
 .content-figure { margin: 24px 0; }
 .content-figure svg { width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: var(--shadow); }

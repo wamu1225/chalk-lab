@@ -10,6 +10,7 @@ export type Section = {
   toc: string[];
   content: string;
   updatedAt: string;
+  references?: { label: string; url: string }[]; // 参考（実在・内容を確認できた一次情報のみ）
 };
 
 const UPDATED = '2026-06-08';
@@ -193,6 +194,9 @@ export const sections: Section[] = [
 
 身近な道具にも、たくさんの工夫とアイデアが詰まっています。`,
     updatedAt: UPDATED,
+    references: [
+      { label: '日本理化学工業（公式）｜環境に配慮したダストレスチョーク（炭酸カルシウム製・ホタテ貝殻使用）', url: 'https://rikagaku.co.jp/pages/chalk' },
+    ],
   },
   {
     id: 'hagoromo',
@@ -250,6 +254,9 @@ export const sections: Section[] = [
 
 道具ひとつにこれだけのドラマがあるのは、チョークの奥深さを感じさせます。`,
     updatedAt: UPDATED,
+    references: [
+      { label: 'SEJONGMALL（HAGOROMO製造元）会社案内｜日本から羽衣チョークの製造設備・技術を継承し韓国で製造', url: 'https://hagoromo.tradekorea.com/company.do' },
+    ],
   },
   {
     id: 'whiteboard',

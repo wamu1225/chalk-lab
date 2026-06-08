@@ -419,6 +419,22 @@ function DiscoveredCards({ sectionId, show }: { sectionId: string; show: boolean
   );
 }
 
+function References({ items }: { items?: { label: string; url: string }[] }) {
+  if (!items || items.length === 0) return null;
+  return (
+    <aside className="references" aria-label="参考">
+      <h3>📚 参考</h3>
+      <ul>
+        {items.map((r) => (
+          <li key={r.url}>
+            <a href={r.url} target="_blank" rel="noopener noreferrer">{r.label}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+}
+
 function SectionPage({ section }: { section: Section }) {
   const endRef = useRef<HTMLDivElement | null>(null);
   const [revealed, setRevealed] = useState(false);
@@ -495,6 +511,7 @@ function SectionPage({ section }: { section: Section }) {
         <div ref={endRef} aria-hidden="true" />
         <DiscoveredCards sectionId={section.id} show={revealed} />
         <FAQBlock sectionId={section.id} />
+        <References items={section.references} />
         <RelatedSections currentId={section.id} />
         <div className="section-footer">
           <a
