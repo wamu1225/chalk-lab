@@ -3,6 +3,7 @@ import { subscribeToasts } from '../utils/toast';
 import type { Toast } from '../utils/toast';
 import { getCard } from '../data/chalkCards';
 import { ChalkIcon } from './ChalkIcon';
+import { BadgeMedal } from './BadgeMedal';
 import { BASE, navigateTo } from '../utils/nav';
 
 export function ToastHost() {
@@ -23,7 +24,10 @@ export function ToastHost() {
       {toasts.map((t) => (
         <div key={t.id} className={`toast ${t.accent ? 'accent' : ''}`} role="status">
           <button className="toast-close" aria-label="閉じる" onClick={() => dismiss(t.id)}>×</button>
-          <div className="toast-title">{t.emoji ? `${t.emoji} ` : ''}{t.title}</div>
+          <div className="toast-title">
+            {t.badgeId && <BadgeMedal id={t.badgeId} earned size={26} className="toast-medal" />}
+            <span>{t.emoji && !t.badgeId ? `${t.emoji} ` : ''}{t.title}</span>
+          </div>
           {t.cards && t.cards.length > 0 && (
             <div className="toast-cards">
               {t.cards.map((id) => {

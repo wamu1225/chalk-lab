@@ -1,6 +1,7 @@
 import { sections } from './sections';
 import type { Progress } from '../utils/progress';
-import { discoveredCount } from '../utils/progress';
+import { discoveredCount, masterySum } from '../utils/progress';
+import { computeXp, levelInfo } from '../utils/level';
 import { QUIZ_PASS, QUIZ_PER_PLAY } from './quiz';
 import { CHALK_CARDS, TOTAL_CARDS } from './chalkCards';
 
@@ -82,6 +83,20 @@ export const BADGES: Badge[] = [
     emoji: '💎',
     desc: 'すべてのレア（★★★）カードをあつめた',
     earned: (p) => CHALK_CARDS.filter((c) => c.rarity === 3).every((c) => p.cards[c.id]?.discovered),
+  },
+  {
+    id: 'level-doctor',
+    name: 'チョーク博士',
+    emoji: '',
+    desc: 'レベル「チョーク博士」に到達した',
+    earned: (p) => levelInfo(computeXp(p)).level >= 5,
+  },
+  {
+    id: 'all-mastery',
+    name: '習熟マスター',
+    emoji: '',
+    desc: 'すべての図鑑カードを習熟MAX（★★★）にした',
+    earned: (p) => masterySum(p) >= TOTAL_CARDS * 3,
   },
 ];
 

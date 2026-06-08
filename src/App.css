@@ -383,6 +383,7 @@
 .badge-card.earned { border-color: var(--accent-soft); background: #fff9ec; box-shadow: 0 0 10px rgba(224,168,46,0.25); }
 .badge-card.locked { opacity: 0.7; }
 .badge-emoji { font-size: 2.2rem; }
+.badge-medal { display: block; margin: 0 auto 8px; }
 .badge-name { font-weight: 800; color: var(--ink); margin: 6px 0 4px; font-size: 0.95rem; }
 .badge-desc { font-size: 0.8rem; color: var(--ink-soft); }
 .badge-cta { margin: 24px 0 4px; }
@@ -506,7 +507,8 @@
 @keyframes toast-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 .toast-close { position: absolute; top: 6px; right: 10px; background: none; border: none; color: var(--chalk); font-size: 1.2rem; line-height: 1; cursor: pointer; opacity: 0.7; }
 .toast-close:hover { opacity: 1; }
-.toast-title { font-weight: 800; margin-bottom: 8px; padding-right: 16px; }
+.toast-title { font-weight: 800; margin-bottom: 8px; padding-right: 16px; display: flex; align-items: center; gap: 6px; }
+.toast-medal { flex: none; }
 .toast-cards { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
 .toast-card { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; padding: 4px 12px 4px 4px; font-size: 0.85rem; font-weight: 700; }
 .toast-card svg { border-radius: 7px; }

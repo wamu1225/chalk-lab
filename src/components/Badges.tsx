@@ -4,6 +4,7 @@ import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { BADGES } from '../data/badges';
 import { loadProgress } from '../utils/progress';
 import { LevelBanner } from './LevelBanner';
+import { BadgeMedal } from './BadgeMedal';
 import { sections } from '../data/sections';
 import { QUIZ_PER_PLAY } from '../data/quiz';
 
@@ -44,7 +45,7 @@ export function Badges() {
           const has = earned.has(b.id);
           return (
             <div key={b.id} className={`badge-card ${has ? 'earned' : 'locked'}`}>
-              <div className="badge-emoji" aria-hidden="true">{has ? b.emoji : '🔒'}</div>
+              <BadgeMedal id={b.id} earned={has} size={58} className="badge-medal" />
               <div className="badge-name">{b.name}</div>
               <div className="badge-desc">{b.desc}</div>
             </div>

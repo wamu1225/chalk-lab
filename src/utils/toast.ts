@@ -3,6 +3,7 @@
 export type Toast = {
   id: number;
   emoji?: string;
+  badgeId?: string;               // 指定すると先頭にバッジメダルを表示
   title: string;
   cards?: string[];               // 図鑑カードidを並べて表示
   link?: { label: string; path: string };

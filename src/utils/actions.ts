@@ -15,7 +15,7 @@ function notifyLevelAndBadges(prev: Progress, next: Progress) {
   const newBadges = next.badges.filter((b) => !prev.badges.includes(b));
   for (const id of newBadges) {
     const b = BADGES.find((x) => x.id === id);
-    if (b) pushToast({ emoji: b.emoji, title: `バッジ獲得：${b.name}`, link: { label: 'バッジを見る →', path: '/badges/' } });
+    if (b) pushToast({ badgeId: id, title: `バッジ獲得：${b.name}`, link: { label: 'バッジを見る →', path: '/badges/' } });
   }
 }
 
