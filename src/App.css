@@ -432,6 +432,13 @@
   background: linear-gradient(90deg, var(--accent), var(--accent-soft));
   transition: width 0.4s ease;
 }
+.dex-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.dex-chip { background: var(--paper); border: 1.5px solid var(--line); color: var(--ink); border-radius: 999px; padding: 8px 14px; font-size: 0.85rem; font-weight: 700; cursor: pointer; line-height: 1; }
+.dex-chip:hover { border-color: var(--accent-soft); }
+.dex-chip.active { background: var(--board); color: var(--chalk); border-color: var(--board); }
+.dex-chip-toggle.active { background: var(--accent); color: #3a2c06; border-color: var(--accent); }
+.dex-empty { text-align: center; color: var(--ink-soft); padding: 28px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+
 .dex-category { margin: 0 0 28px; }
 .dex-category-title {
   font-size: 1.05rem;
