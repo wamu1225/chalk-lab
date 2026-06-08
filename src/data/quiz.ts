@@ -227,25 +227,56 @@ export const QUIZ: QuizQuestion[] = [
   },
 ];
 
-// 配列をシャッフル（破壊しない）
-function shuffle<T>(arr: T[]): T[] {
+// 乱数：Math.random（通常）と、日替わりシード（今日の検定）で共用する
+function mulberry32(a: number): () => number {
+  return function () {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hashStr(s: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+
+// 配列をシャッフル（破壊しない・rnd差し替え可）
+function shuffleWith<T>(arr: T[], rnd: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rnd() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
-// 1プレイ分：ランダムに QUIZ_PER_PLAY 問選び、各問の選択肢もシャッフルして answer を貼り直す
-export function buildQuizPlay(): QuizQuestion[] {
-  const picked = shuffle(QUIZ).slice(0, QUIZ_PER_PLAY);
+// 1プレイ分：QUIZ_PER_PLAY 問選び、各問の選択肢もシャッフルして answer を貼り直す
+function buildPlay(rnd: () => number): QuizQuestion[] {
+  const picked = shuffleWith(QUIZ, rnd).slice(0, QUIZ_PER_PLAY);
   return picked.map((q) => {
-    const order = shuffle(q.choices.map((_, i) => i));
+    const order = shuffleWith(q.choices.map((_, i) => i), rnd);
     return {
       ...q,
       choices: order.map((i) => q.choices[i]),
       answer: order.indexOf(q.answer),
     };
   });
+}
+
+// 通常：毎回ランダム
+export function buildQuizPlay(): QuizQuestion[] {
+  return buildPlay(Math.random);
+}
+
+// 今日の検定：その日のキーをシードに、全員同じ出題・選択肢順
+export function buildDailyPlay(dateKey: string): QuizQuestion[] {
+  return buildPlay(mulberry32(hashStr(`chalk-daily-${dateKey}`)));
+}
+
+// ローカル日付の YYYY-MM-DD
+export function getTodayKey(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }

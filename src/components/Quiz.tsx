@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Award, Flame } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
-import { QUIZ, QUIZ_PASS, QUIZ_PER_PLAY, buildQuizPlay } from '../data/quiz';
+import { QUIZ, QUIZ_PASS, QUIZ_PER_PLAY, buildQuizPlay, buildDailyPlay, getTodayKey } from '../data/quiz';
 import type { QuizQuestion } from '../data/quiz';
 import { loadProgress, masterCard } from '../utils/progress';
 import type { Progress } from '../utils/progress';
-import { recordQuizFinish } from '../utils/actions';
+import { recordQuizFinish, recordDailyFinish } from '../utils/actions';
 import { getCard } from '../data/chalkCards';
 import { ChalkIcon } from './ChalkIcon';
 
@@ -21,19 +21,26 @@ export function Quiz() {
   const [streak, setStreak] = useState(0);
   const [maxStreak, setMaxStreak] = useState(0);
   const [best, setBest] = useState(0);
+  const [mode, setMode] = useState<'random' | 'daily'>('random');
+  const [dailyDone, setDailyDone] = useState(false);
+  const [dailyStreak, setDailyStreak] = useState(0);
   const startSnap = useRef<Progress | null>(null);
 
   useEffect(() => {
     document.title = `チョーク検定 | ${SITE_NAME}`;
     window.scrollTo(0, 0);
-    setBest(loadProgress().quizBest);
+    const pr = loadProgress();
+    setBest(pr.quizBest);
+    setDailyDone(pr.dailyLastDate === getTodayKey());
+    setDailyStreak(pr.dailyStreak);
   }, []);
 
   const total = play.length || QUIZ_PER_PLAY;
 
-  const start = () => {
+  const start = (m: 'random' | 'daily' = 'random') => {
+    setMode(m);
     startSnap.current = loadProgress();
-    setPlay(buildQuizPlay());
+    setPlay(m === 'daily' ? buildDailyPlay(getTodayKey()) : buildQuizPlay());
     setIndex(0);
     setSelected(null);
     setAnswered(false);
@@ -64,8 +71,12 @@ export function Quiz() {
   const next = () => {
     if (index >= play.length - 1) {
       const prev = startSnap.current ?? loadProgress();
-      const p = recordQuizFinish(prev, correct, play.length);
+      const p = mode === 'daily'
+        ? recordDailyFinish(prev, correct, play.length, getTodayKey())
+        : recordQuizFinish(prev, correct, play.length);
       setBest(p.quizBest);
+      setDailyDone(p.dailyLastDate === getTodayKey());
+      setDailyStreak(p.dailyStreak);
       setPhase('result');
     } else {
       setIndex((n) => n + 1);
@@ -80,10 +91,15 @@ export function Quiz() {
         <h1 className="quiz-h1">📝 チョーク検定</h1>
         <p className="quiz-lead">
           全{QUIZ.length}問のバンクから毎回ランダムに{QUIZ_PER_PLAY}問を出題。
-          {QUIZ_PASS}問以上の正解で合格です。選択肢の並びも毎回シャッフルされるので、何度でも腕だめしできます。
+          {QUIZ_PASS}問以上の正解で合格です。選択肢の並びも毎回シャッフルされます。
+          <br />「今日の検定」は全員おなじ{QUIZ_PER_PLAY}問。毎日挑戦して連続記録をのばそう。
         </p>
         {best > 0 && <p className="quiz-best">これまでの最高記録：{best} / {QUIZ_PER_PLAY} 問</p>}
-        <button className="quiz-btn-primary" onClick={start}>検定をはじめる</button>
+        <div className="quiz-modes">
+          <button className="quiz-btn-primary" onClick={() => start('random')}>ランダム検定をはじめる</button>
+          <button className="quiz-btn-daily" onClick={() => start('daily')}>🗓️ 今日の検定{dailyDone ? '（今日クリア済み）' : ''}</button>
+        </div>
+        {dailyStreak > 0 && <p className="quiz-best">今日の検定 連続記録：{dailyStreak}日{dailyDone ? '（今日クリア済み）' : ''}</p>}
         <div className="quiz-back">
           <a href={`${BASE}/`} onClick={(e) => { e.preventDefault(); navigateTo('/'); }}><ArrowLeft size={16} /> トップへ戻る</a>
         </div>
@@ -101,7 +117,7 @@ export function Quiz() {
         <p className="quiz-score">{correct} / {total} 問 正解</p>
         <p className="quiz-best">最高記録：{best} / {QUIZ_PER_PLAY} 問 ／ 最高コンボ：{maxStreak}</p>
         <div className="quiz-result-actions">
-          <button className="quiz-btn-primary" onClick={start}>もう一度（別の問題で）</button>
+          <button className="quiz-btn-primary" onClick={() => start('random')}>もう一度（別の問題で）</button>
           <a className="quiz-btn-ghost" href={`${BASE}/badges/`} onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>
             <Award size={16} /> バッジを見る
           </a>

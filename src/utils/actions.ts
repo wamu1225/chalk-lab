@@ -45,3 +45,29 @@ export function recordQuizFinish(prev: Progress, correct: number, perPlay: numbe
   notifyLevelAndBadges(prev, p);
   return p;
 }
+
+function yesterdayKey(todayKey: string): string {
+  const [y, m, d] = todayKey.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  dt.setDate(dt.getDate() - 1);
+  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+}
+
+// 今日の検定の終了：通常の集計に加え、デイリー連続記録を更新する。
+export function recordDailyFinish(prev: Progress, correct: number, perPlay: number, todayKey: string): Progress {
+  const p = loadProgress();
+  p.quizPlays += 1;
+  if (correct > p.quizBest) p.quizBest = correct;
+  if (p.dailyLastDate !== todayKey) {
+    p.dailyStreak = p.dailyLastDate === yesterdayKey(todayKey) ? p.dailyStreak + 1 : 1;
+    p.dailyLastDate = todayKey;
+    pushToast({ emoji: '🗓️', title: `今日の検定クリア！ ${p.dailyStreak}日連続`, accent: true });
+  }
+  p.badges = computeBadges(p);
+  saveProgress(p);
+  if (correct === perPlay) {
+    pushToast({ emoji: '👑', title: '全問正解！チョークマスター！', accent: true });
+  }
+  notifyLevelAndBadges(prev, p);
+  return p;
+}

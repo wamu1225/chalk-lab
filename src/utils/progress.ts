@@ -14,9 +14,11 @@ export type Progress = {
   quizBest: number;          // クイズ最高正解数
   badges: string[];          // 獲得バッジid
   cards: Record<string, CardState>; // 図鑑カードの状態（cardId → 状態）
+  dailyLastDate: string;     // 今日の検定に最後に挑戦した日（YYYY-MM-DD）
+  dailyStreak: number;       // 今日の検定の連続挑戦日数
 };
 
-const DEFAULT: Progress = { visitedSections: [], quizPlays: 0, quizBest: 0, badges: [], cards: {} };
+const DEFAULT: Progress = { visitedSections: [], quizPlays: 0, quizBest: 0, badges: [], cards: {}, dailyLastDate: '', dailyStreak: 0 };
 
 function sanitizeCards(raw: unknown): Record<string, CardState> {
   const out: Record<string, CardState> = {};
@@ -42,6 +44,8 @@ export function loadProgress(): Progress {
       quizBest: typeof p.quizBest === 'number' ? p.quizBest : 0,
       badges: Array.isArray(p.badges) ? p.badges : [],
       cards: sanitizeCards(p.cards),
+      dailyLastDate: typeof p.dailyLastDate === 'string' ? p.dailyLastDate : '',
+      dailyStreak: typeof p.dailyStreak === 'number' ? p.dailyStreak : 0,
     };
   } catch {
     return { ...DEFAULT, cards: {} };
