@@ -7,6 +7,7 @@ import { FAQ_BY_SECTION } from './data/faqs';
 import { glossary } from './data/glossary';
 import { BASE, SITE_NAME, navigateTo } from './utils/nav';
 import { recordSectionRead } from './utils/actions';
+import { loadProgress } from './utils/progress';
 import { Quiz } from './components/Quiz';
 import { Badges } from './components/Badges';
 import { Dex } from './components/Dex';
@@ -393,9 +394,9 @@ function FAQBlock({ sectionId }: { sectionId: string }) {
   );
 }
 
-function DiscoveredCards({ sectionId }: { sectionId: string }) {
+function DiscoveredCards({ sectionId, show }: { sectionId: string; show: boolean }) {
   const cards = cardsForSection(sectionId);
-  if (cards.length === 0) return null;
+  if (!show || cards.length === 0) return null;
   return (
     <aside className="discovered-cards" aria-label="このページで発見したカード">
       <h3>🃏 このページで発見した図鑑カード</h3>
@@ -420,6 +421,7 @@ function DiscoveredCards({ sectionId }: { sectionId: string }) {
 
 function SectionPage({ section }: { section: Section }) {
   const endRef = useRef<HTMLDivElement | null>(null);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     document.title = `${section.title} | ${SITE_NAME}`;
@@ -438,10 +440,16 @@ function SectionPage({ section }: { section: Section }) {
   // 本文を最後まで読み進めたら、カードを「発見」する（読了報酬）。
   // 開いた瞬間ではなく、本文末尾が見えたタイミングで1回だけ発火。
   useEffect(() => {
+    // 再訪（この記事のカードを発見済み）なら最初から発見ブロックを表示
+    const p = loadProgress();
+    const secCards = cardsForSection(section.id);
+    setRevealed(secCards.length > 0 && secCards.every((c) => p.cards[c.id]?.discovered));
+
     const el = endRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') {
       // 観測できない環境では従来どおり訪問時に記録（フォールバック）
       recordSectionRead(section.id);
+      setRevealed(true);
       return;
     }
     let done = false;
@@ -450,6 +458,7 @@ function SectionPage({ section }: { section: Section }) {
         if (entries[0].isIntersecting && !done) {
           done = true;
           recordSectionRead(section.id);
+          setRevealed(true);
           obs.disconnect();
         }
       },
@@ -484,7 +493,7 @@ function SectionPage({ section }: { section: Section }) {
           {parseContent(section.content)}
         </div>
         <div ref={endRef} aria-hidden="true" />
-        <DiscoveredCards sectionId={section.id} />
+        <DiscoveredCards sectionId={section.id} show={revealed} />
         <FAQBlock sectionId={section.id} />
         <RelatedSections currentId={section.id} />
         <div className="section-footer">

@@ -505,6 +505,16 @@
 .discovered-link { color: var(--board); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
 .discovered-link:hover { text-decoration: underline; }
 
+/* ===== アクセシビリティ：アニメ抑制の希望を尊重 ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ===== トースト（発見/レベルアップ/バッジ） ===== */
 /* 記事の上に被って読書を妨げないよう、右下コーナーに控えめに出す。クリックは透過。 */
 .toast-host { position: fixed; right: 16px; bottom: 16px; left: auto; transform: none; z-index: 200; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; width: 300px; max-width: calc(100vw - 24px); pointer-events: none; }
