@@ -1,0 +1,364 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import { sections } from '../src/data/sections.ts';
+import { FAQ_BY_SECTION } from '../src/data/faqs.ts';
+import { glossary } from '../src/data/glossary.ts';
+import { CHALK_CARDS, CATEGORY_LABEL, TOTAL_CARDS } from '../src/data/chalkCards.ts';
+
+const DIST_DIR = path.resolve(process.cwd(), 'dist');
+const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
+const BASE_URL = 'https://study-apps.com/chalk-lab';
+const SITE_NAME = 'チョークラボ';
+const BOARD = '#1f3a2e';
+const ACCENT = '#e0a82e';
+const FONT = "'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',Meiryo,sans-serif";
+
+console.log('--- chalk-lab SSG Pre-rendering ---');
+
+if (!fs.existsSync(INDEX_HTML_PATH)) {
+  console.error('Error: dist/index.html not found. Run "npm run build" first.');
+  process.exit(1);
+}
+
+const templateHtml = fs.readFileSync(INDEX_HTML_PATH, 'utf-8');
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function slugifyAscii(_text: string, index: number): string {
+  return `section-${index}`;
+}
+
+function parseInlineToHtml(text: string): string {
+  let result = '';
+  let remaining = text;
+  const patterns: { re: RegExp; render: (m: RegExpExecArray) => string }[] = [
+    {
+      re: /\[([^\]]+)\]\(([^)]+)\)/,
+      render: (m) => {
+        const label = escapeHtml(m[1]);
+        const href = m[2];
+        const isExternal = /^https?:\/\//.test(href);
+        const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+        return `<a href="${escapeHtml(href)}"${attrs} style="color:${BOARD};font-weight:600">${label}</a>`;
+      },
+    },
+    { re: /\*\*(.+?)\*\*/, render: (m) => `<strong>${escapeHtml(m[1])}</strong>` },
+    { re: /`([^`]+)`/, render: (m) => `<code class="inline-code">${escapeHtml(m[1])}</code>` },
+  ];
+  while (remaining.length > 0) {
+    let earliest: { idx: number; len: number; html: string } | null = null;
+    for (const p of patterns) {
+      const m = p.re.exec(remaining);
+      if (m && (earliest === null || m.index < earliest.idx)) {
+        earliest = { idx: m.index, len: m[0].length, html: p.render(m) };
+      }
+    }
+    if (!earliest) { result += escapeHtml(remaining); break; }
+    if (earliest.idx > 0) result += escapeHtml(remaining.slice(0, earliest.idx));
+    result += earliest.html;
+    remaining = remaining.slice(earliest.idx + earliest.len);
+  }
+  return result;
+}
+
+function markdownToHtml(content: string): string {
+  const lines = content.split('\n');
+  const out: string[] = [];
+  let i = 0;
+  let h2Index = 0;
+  while (i < lines.length) {
+    const trimmed = lines[i].trim();
+    if (trimmed === '') { i++; continue; }
+    if (trimmed.startsWith('## ')) {
+      const text = trimmed.slice(3);
+      out.push(`<h2 id="${slugifyAscii(text, h2Index++)}" class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;border-radius:0 8px 8px 0;margin:32px 0 14px">${parseInlineToHtml(text)}</h2>`);
+      i++; continue;
+    }
+    if (trimmed.startsWith('### ')) {
+      out.push(`<h3 class="content-h3" style="font-size:1.1rem;margin:24px 0 10px">${parseInlineToHtml(trimmed.slice(4))}</h3>`);
+      i++; continue;
+    }
+    if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith('|') && lines[i].trim().endsWith('|')) {
+        tableLines.push(lines[i].trim()); i++;
+      }
+      if (tableLines.length >= 2) {
+        const rows = tableLines.map((r) => r.split('|').slice(1, -1).map((c) => c.trim()));
+        const isSep = (r: string[]) => r.every((c) => /^[-:]+$/.test(c));
+        const header = rows[0];
+        const data = rows.slice(1).filter((r) => !isSep(r));
+        const headerHtml = header.map((c) => `<th style="border:1px solid #e3e0d6;padding:9px 12px;background:${BOARD};color:#fff">${parseInlineToHtml(c)}</th>`).join('');
+        const bodyHtml = data.map((row) => `<tr>${row.map((c) => `<td style="border:1px solid #e3e0d6;padding:9px 12px">${parseInlineToHtml(c)}</td>`).join('')}</tr>`).join('');
+        out.push(`<div style="overflow-x:auto;margin:0 0 20px"><table style="border-collapse:collapse;width:100%;font-size:0.94rem"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`);
+      }
+      continue;
+    }
+    if (/^\d+\.\s/.test(trimmed)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) { items.push(lines[i].trim().replace(/^\d+\.\s/, '')); i++; }
+      out.push(`<ol style="padding-left:1.4em;margin:0 0 16px">${items.map((it) => `<li>${parseInlineToHtml(it)}</li>`).join('')}</ol>`);
+      continue;
+    }
+    if (trimmed.startsWith('- ')) {
+      const items: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith('- ')) { items.push(lines[i].trim().slice(2)); i++; }
+      out.push(`<ul style="padding-left:1.4em;margin:0 0 16px">${items.map((it) => `<li>${parseInlineToHtml(it)}</li>`).join('')}</ul>`);
+      continue;
+    }
+    if (trimmed.startsWith('💡 ')) { out.push(`<p style="background:#fff7e6;border-left:4px solid ${ACCENT};border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('⚠️ ')) { out.push(`<p style="background:#fdecec;border-left:4px solid #d9534f;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('📖 ')) { out.push(`<p style="background:#eef3fb;border-left:4px solid #5b8def;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('✅ ')) { out.push(`<p style="background:#eaf6ed;border-left:4px solid #3a9d5d;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed === '---') { out.push('<hr>'); i++; continue; }
+    out.push(`<p style="margin:0 0 16px">${parseInlineToHtml(trimmed)}</p>`);
+    i++;
+  }
+  return out.join('\n');
+}
+
+function buildTocHtml(toc: string[]): string {
+  if (!toc.length) return '';
+  const items = toc.map((it, idx) => `<li><a href="#${slugifyAscii(it, idx)}" style="color:#4b5b51;text-decoration:none">${escapeHtml(it)}</a></li>`).join('');
+  return `<nav style="background:#fff;border:1px solid #e3e0d6;border-left:4px solid ${ACCENT};border-radius:14px;padding:14px 18px;margin:0 0 28px"><div style="font-weight:700;color:${BOARD};margin-bottom:6px">目次</div><ol style="margin:0;padding-left:1.4em">${items}</ol></nav>`;
+}
+
+function formatDateJa(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  return `${m[1]}年${parseInt(m[2], 10)}月${parseInt(m[3], 10)}日`;
+}
+
+// ── ルート index.html ──
+const sectionListHtml = sections
+  .map((s) => `<li style="margin-bottom:14px"><a href="/chalk-lab/${s.id}/" style="color:${BOARD};font-weight:600;text-decoration:none">${escapeHtml(s.shortTitle)}</a><br><span style="color:#555;font-size:0.9rem">${escapeHtml(s.description)}</span></li>`)
+  .join('\n');
+
+const rootStaticContent = `<article id="static-fallback" style="font-family:${FONT};line-height:1.8;max-width:920px;margin:0 auto;padding:24px 16px">
+  <h1 style="font-size:1.9rem;font-weight:700;border-bottom:3px solid ${ACCENT};padding-bottom:10px;margin-bottom:16px;color:${BOARD}">チョークラボ</h1>
+  <p style="color:#444;margin-bottom:24px">黒板のチョークから、伝説の羽衣チョーク、白い崖の「白亜」、クライミング用まで。チョークの成分・歴史・トリビアを、読んで・クイズで遊んで、楽しく学べるサイトです。</p>
+  <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:12px;color:${BOARD}">よみもの一覧</h2>
+  <ul style="list-style:none;padding:0">
+${sectionListHtml}
+  </ul>
+  <nav style="margin-top:32px;border-top:1px solid #ddd;padding-top:16px;display:flex;gap:16px;flex-wrap:wrap">
+    <a href="/chalk-lab/glossary/" style="color:${BOARD}">用語集</a>
+    <a href="/chalk-lab/about/" style="color:${BOARD}">サイトについて</a>
+    <a href="/chalk-lab/privacy/" style="color:${BOARD}">プライバシーポリシー</a>
+  </nav>
+</article>`;
+
+const homeJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: `${BASE_URL}/`,
+  description: 'チョークの成分・種類・歴史・トリビアを、クイズやバッジ集めで楽しく学べる解説サイト。',
+  inLanguage: 'ja',
+});
+
+let rootIndexHtml = templateHtml.replace('<div id="root"></div>', `<div id="root">${rootStaticContent}</div>`);
+rootIndexHtml = rootIndexHtml.replace('</head>', `<script type="application/ld+json">${homeJsonLd}</script>\n  </head>`);
+fs.writeFileSync(INDEX_HTML_PATH, rootIndexHtml);
+
+const subDirTemplateHtml = templateHtml
+  .replace(/href="\.\/assets\//g, 'href="../assets/')
+  .replace(/src="\.\/assets\//g, 'src="../assets/')
+  .replace(/href="\.\/favicon.svg"/g, 'href="../favicon.svg"');
+
+let generatedCount = 0;
+
+function buildFaqHtml(sectionId: string): string {
+  const faqs = FAQ_BY_SECTION[sectionId];
+  if (!faqs || faqs.length === 0) return '';
+  const items = faqs
+    .map((qa) => `<details style="background:#f7f6f1;border:1px solid #e3e0d6;border-radius:8px;margin-bottom:8px;padding:12px 16px"><summary style="cursor:pointer;font-weight:700;color:#233028">Q. ${escapeHtml(qa.question)}</summary><p style="margin:10px 0 0;color:#4b5b51;line-height:1.85">A. ${escapeHtml(qa.answer)}</p></details>`)
+    .join('');
+  return `<section style="margin:40px 0;padding:22px;background:#fff;border:1px solid #e3e0d6;border-radius:14px"><h3 style="margin:0 0 14px;color:${BOARD};font-size:1.05rem">❓ よくある質問</h3>${items}</section>`;
+}
+
+function buildSectionFallback(s: (typeof sections)[number]): string {
+  const tocHtml = buildTocHtml(s.toc);
+  const contentHtml = markdownToHtml(s.content);
+  const faqHtml = buildFaqHtml(s.id);
+  const leadHtml = s.lead ? `<p style="color:#4b5b51;font-size:1.05rem;background:#eef3ef;border-radius:14px;padding:16px 18px;margin:16px 0 24px">${escapeHtml(s.lead)}</p>` : '';
+  return `<article style="font-family:${FONT};line-height:1.85;max-width:920px;margin:0 auto;padding:24px 16px;color:#233028">
+  <nav style="font-size:0.85rem;color:#6b7280;margin:0 0 16px"><a href="/chalk-lab/" style="color:${BOARD};text-decoration:none">${SITE_NAME}</a> <span style="color:#9ca3af">›</span> <span style="color:#4b5563;font-weight:600">${escapeHtml(s.shortTitle)}</span></nav>
+  <header style="margin-bottom:20px">
+    <div style="font-size:2.4rem;line-height:1;margin-bottom:8px">${s.emoji}</div>
+    <h1 style="font-size:1.7rem;color:${BOARD};border-bottom:3px solid ${ACCENT};padding-bottom:10px;margin:0 0 8px">${escapeHtml(s.title)}</h1>
+    <div style="font-size:0.85rem;color:#8a9690;margin-top:10px">最終更新: ${formatDateJa(s.updatedAt)}</div>
+  </header>
+  ${leadHtml}
+  ${tocHtml}
+  <div class="section-content">
+${contentHtml}
+  </div>
+  ${faqHtml}
+  <p style="margin-top:32px"><a href="/chalk-lab/" style="color:${BOARD}">← トップへ戻る</a></p>
+</article>`;
+}
+
+function applyMeta(html: string, title: string, description: string, url: string, ogType: string): string {
+  return html
+    .replace(/<title>.*?<\/title>/, `<title>${title} | ${SITE_NAME}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:type" content="[^"]*"/, `<meta property="og:type" content="${ogType}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${url}"`)
+    .replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${url}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
+}
+
+function writeSectionPage(s: (typeof sections)[number]) {
+  const dir = path.join(DIST_DIR, s.id);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  let html = applyMeta(subDirTemplateHtml, s.title, s.description, `${BASE_URL}/${s.id}/`, 'article')
+    .replace('<div id="root"></div>', `<div id="root">${buildSectionFallback(s)}</div>`);
+
+  const articleJsonLd = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: s.title, description: s.description, url: `${BASE_URL}/${s.id}/`, inLanguage: 'ja',
+    datePublished: s.updatedAt, dateModified: s.updatedAt,
+    author: { '@type': 'Organization', name: 'study-apps.com' },
+    publisher: { '@type': 'Organization', name: 'study-apps.com', url: 'https://study-apps.com/' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/${s.id}/` },
+  });
+  const breadcrumbJsonLd = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: SITE_NAME, item: `${BASE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: s.shortTitle, item: `${BASE_URL}/${s.id}/` },
+    ],
+  });
+  const extraJsonLd: string[] = [];
+  const faqList = FAQ_BY_SECTION[s.id];
+  if (faqList && faqList.length) {
+    const faqJsonLd = JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'FAQPage',
+      mainEntity: faqList.map((qa) => ({ '@type': 'Question', name: qa.question, acceptedAnswer: { '@type': 'Answer', text: qa.answer } })),
+    });
+    extraJsonLd.push(`<script type="application/ld+json">${faqJsonLd}</script>`);
+  }
+  html = html.replace('</head>', `<script type="application/ld+json">${articleJsonLd}</script>\n  <script type="application/ld+json">${breadcrumbJsonLd}</script>\n  ${extraJsonLd.join('\n  ')}\n  </head>`);
+  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  generatedCount++;
+}
+
+for (const s of sections) writeSectionPage(s);
+
+function writeStaticPage(id: string, title: string, description: string, bodyHtml: string) {
+  const dir = path.join(DIST_DIR, id);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const fallback = `<article style="font-family:${FONT};line-height:1.85;max-width:920px;margin:0 auto;padding:24px 16px;color:#233028">
+  <nav style="font-size:0.85rem;color:#6b7280;margin:0 0 16px"><a href="/chalk-lab/" style="color:${BOARD};text-decoration:none">${SITE_NAME}</a> <span style="color:#9ca3af">›</span> <span style="color:#4b5563;font-weight:600">${escapeHtml(title)}</span></nav>
+  <h1 style="font-size:1.7rem;color:${BOARD};border-bottom:3px solid ${ACCENT};padding-bottom:10px">${escapeHtml(title)}</h1>
+  ${bodyHtml}
+  <p style="margin-top:32px"><a href="/chalk-lab/" style="color:${BOARD}">← トップへ戻る</a></p>
+</article>`;
+  const pageJsonLd = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, url: `${BASE_URL}/${id}/`, inLanguage: 'ja',
+    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: `${BASE_URL}/` },
+  });
+  const breadcrumbJsonLd = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: SITE_NAME, item: `${BASE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: title, item: `${BASE_URL}/${id}/` },
+    ],
+  });
+  let html = applyMeta(subDirTemplateHtml, title, description, `${BASE_URL}/${id}/`, 'website')
+    .replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
+  html = html.replace('</head>', `<script type="application/ld+json">${pageJsonLd}</script>\n  <script type="application/ld+json">${breadcrumbJsonLd}</script>\n  </head>`);
+  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  generatedCount++;
+}
+
+// 用語集
+const glossarySorted = [...glossary].sort((a, b) => (a.reading || a.term).localeCompare(b.reading || b.term, 'ja'));
+const glossaryHtml = glossarySorted.map((g) => {
+  const related = g.relatedSectionId ? sections.find((s) => s.id === g.relatedSectionId) : null;
+  const relatedLink = related ? `<a href="/chalk-lab/${related.id}/" style="display:inline-block;font-size:0.88rem;color:${BOARD};margin-top:4px">関連ページ：${escapeHtml(related.shortTitle)} →</a>` : '';
+  const readingSpan = g.reading && g.reading !== g.term ? `<span style="color:#8a9690;font-size:0.9rem;font-weight:400">（${escapeHtml(g.reading)}）</span>` : '';
+  return `<div style="border-bottom:1px solid #e3e0d6;padding:18px 0"><dt style="font-weight:700;color:${BOARD};font-size:1.08rem;margin-bottom:6px"><span style="margin-right:4px">${escapeHtml(g.term)}</span>${readingSpan}</dt><dd style="margin:0"><p style="margin:0 0 6px;line-height:1.85">${escapeHtml(g.description)}</p>${relatedLink}</dd></div>`;
+}).join('');
+
+writeStaticPage('glossary', 'チョーク用語集', 'チョークに関する用語（炭酸カルシウム、石膏、白亜、円石藻、羽衣チョークなど）の解説。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">本サイトに登場する用語をまとめました。炭酸カルシウム、石膏、白亜、円石藻など、チョークの理解に役立ててください。</p><dl style="margin:0;padding:0">${glossaryHtml}</dl>`);
+
+writeStaticPage('about', 'サイトについて', 'チョークラボについて。サイトの目的・編集方針・運営者・お問い合わせ・免責事項。',
+  `<p>「${SITE_NAME}」は、身近なのに意外と知らない「チョーク」について、楽しく学べることを目指した解説サイトです。チョークの成分や書けるしくみ、種類、作り方、歴史、白亜と白亜紀の関係、スポーツ用や裁縫用のチョークまで、はばひろく紹介しています。読むだけでなく、クイズやバッジ集めなどの遊んで学べるしかけも順次そろえていきます。</p>
+  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">編集・制作方針</h2><p>本サイトのコンテンツは、一般に公開されている情報や資料を参照しつつ、運営者が内容を再構成し、はじめての読者にも分かりやすい形で独自に解説しています。他サイトの文章をそのまま転載することはありません。成分・歴史などの記述は、確認できる事実をもとにまとめるよう努めており、誤りや古くなった情報に気づいた場合は、お問い合わせを受けて随時見直し・修正します。</p>
+  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">運営者について</h2><p>個人で運営しています。広告収入はサイトの維持費にあてています。</p>
+  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">お問い合わせ</h2><p>ご質問・誤りのご指摘は<a href="https://forms.gle/ccMv7oKwz6ysDHBe6" target="_blank" rel="noopener noreferrer" style="color:${BOARD}">こちらのGoogleフォーム</a>からお願いします。</p>
+  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">免責事項</h2><p>本サイトの情報は可能な限り正確を期していますが、その完全性・正確性を保証するものではありません。健康に関わる内容については一般的な情報提供であり、専門的な助言の代わりにはなりません。気になる症状がある場合は医師などの専門家にご相談ください。</p>`);
+
+writeStaticPage('privacy', 'プライバシーポリシー', 'チョークラボのプライバシーポリシー。Cookie・アクセス解析・広告の使用について。',
+  `<h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">アクセス解析</h2><p>本サイトでは Google Analytics を使用しています。Cookie を利用して匿名のトラフィックデータを収集します。収集される情報は匿名で、個人を特定するものではありません。</p>
+  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">広告について</h2><p>本サイトでは Google AdSense などの第三者配信の広告サービスを利用することがあります。広告配信事業者は、ユーザーの興味に応じた広告を表示するために Cookie を使用することがあります。Cookie の使用を望まない場合は、Google の広告設定から無効にできます。</p>
+  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:8px 14px;margin:32px 0 14px">免責事項</h2><p>本サイトの情報の利用により生じた損害について、運営者は一切の責任を負いません。</p>`);
+
+writeStaticPage('quiz', 'チョーク検定（クイズ）', 'チョークの科学・歴史・トリビアから出題する全10問のクイズ。読んだ知識を力だめしできます。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">チョークの科学・歴史・トリビアから全10問。8問以上の正解で合格です。よみものを読んでから挑戦すると解きやすくなります。</p>
+  <p>このページはブラウザで動くインタラクティブなクイズです。出題テーマには、チョークが黒板に書けるしくみ、炭酸カルシウムと石膏のちがい、白亜と白亜紀の関係、伝説の羽衣チョーク、クライミング用チョークの役割などが含まれます。正解すると解説が表示され、関連するよみものへのリンクから、より深く学べます。</p>
+  <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップのよみもの一覧</a>から各テーマを読んでから挑戦するのがおすすめです。バッジは<a href="/chalk-lab/badges/" style="color:${BOARD};font-weight:600">こちら</a>。</p>`);
+
+writeStaticPage('badges', 'あつめたバッジ', 'よみものを読んだり、チョーク検定に挑戦したりすると集まるバッジの一覧。学習の達成度を確認できます。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">よみものを読んだり、チョーク検定に挑戦したりすると、バッジがあつまります。学習の達成度を、このページで確認できます。</p>
+  <p>「チョークの入口」「チョーク見習い」「チョーク博士」（よみもの読破）、「はじめての検定」「検定合格」「チョークマスター」（クイズの成績）、「図鑑コンプリート」「レアハンター」（チョーク図鑑の収集）など、読む・解く・集めるを楽しめるよう用意しています。進み具合はお使いの端末に保存され、次に開いたときも引き継がれます。</p>
+  <p><a href="/chalk-lab/dex/" style="color:${BOARD};font-weight:600">チョーク図鑑を見る</a> ／ <a href="/chalk-lab/quiz/" style="color:${BOARD};font-weight:600">チョーク検定に挑戦する</a> ／ <a href="/chalk-lab/" style="color:${BOARD};font-weight:600">よみもの一覧へ</a></p>`);
+
+// チョーク図鑑（カタログとして全カードを静的出力＝SEO/クロール用）
+const dexByCategory = Array.from(new Set(CHALK_CARDS.map((c) => c.category)));
+const dexCatalogHtml = dexByCategory.map((cat) => {
+  const cards = CHALK_CARDS.filter((c) => c.category === cat).map((c) => {
+    const rarity = '★'.repeat(c.rarity) + '☆'.repeat(3 - c.rarity);
+    return `<div style="border:1px solid #e3e0d6;border-radius:14px;padding:16px 14px;background:#fff${c.rarity === 3 ? ';box-shadow:0 0 12px rgba(224,168,46,0.3);border-color:' + ACCENT : ''}">
+      <div style="font-size:0.85rem;color:${ACCENT};letter-spacing:1px">${rarity}</div>
+      <div style="font-size:2rem;line-height:1">${c.emoji}</div>
+      <div style="font-weight:800;color:#233028;margin:6px 0">${escapeHtml(c.name)}</div>
+      <p style="font-size:0.85rem;color:#233028;margin:0 0 8px;line-height:1.6">${escapeHtml(c.front)}</p>
+      <p style="font-size:0.8rem;color:#4b5b51;margin:0 0 8px;line-height:1.65">${escapeHtml(c.back)}</p>
+      <a href="/chalk-lab/${c.relatedSectionId}/" style="font-size:0.82rem;color:${BOARD};font-weight:600">くわしく読む →</a>
+    </div>`;
+  }).join('');
+  return `<h2 class="content-h2" style="font-size:1.05rem;color:${BOARD};border-left:5px solid ${ACCENT};background:#eef3ef;padding:6px 12px;border-radius:0 8px 8px 0;margin:28px 0 14px">${CATEGORY_LABEL[cat]}</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px">${cards}</div>`;
+}).join('');
+
+writeStaticPage('dex', 'チョーク図鑑', `チョークの種類・成分・トリビアを集める全${TOTAL_CARDS}種のカード図鑑。よみものを読むと発見、チョーク検定の正解で習熟度が上がります。`,
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">よみものを読むとカードを発見、チョーク検定に正解すると習熟度（★）が上がる、全${TOTAL_CARDS}種のチョーク図鑑です。白墨や色チョークから、伝説の羽衣チョーク、白亜・円石藻、クライミングやビリヤード用まで、はばひろく収録しています。</p>
+  ${dexCatalogHtml}
+  <p style="margin-top:28px"><a href="/chalk-lab/quiz/" style="color:${BOARD};font-weight:600">チョーク検定で習熟度を上げる</a> ／ <a href="/chalk-lab/" style="color:${BOARD};font-weight:600">よみもの一覧へ</a></p>`);
+
+console.log(`✓ Generated ${generatedCount} static pages`);
+
+// sitemap.xml
+const sitemapToday = new Date().toISOString().split('T')[0];
+const sitemapEntries = [
+  { path: '/', changefreq: 'weekly', priority: '1.0' },
+  ...sections.map((s) => ({ path: `/${s.id}/`, changefreq: 'monthly', priority: '0.9' })),
+  { path: '/dex/', changefreq: 'monthly', priority: '0.8' },
+  { path: '/quiz/', changefreq: 'monthly', priority: '0.8' },
+  { path: '/badges/', changefreq: 'monthly', priority: '0.5' },
+  { path: '/glossary/', changefreq: 'monthly', priority: '0.6' },
+  { path: '/about/', changefreq: 'yearly', priority: '0.3' },
+  { path: '/privacy/', changefreq: 'yearly', priority: '0.3' },
+];
+const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapEntries.map((e) => `  <url>
+    <loc>${BASE_URL}${e.path}</loc>
+    <lastmod>${sitemapToday}</lastmod>
+    <changefreq>${e.changefreq}</changefreq>
+    <priority>${e.priority}</priority>
+  </url>`).join('\n')}
+</urlset>
+`;
+fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml);
+console.log(`✓ sitemap.xml generated (${sitemapEntries.length} URLs)`);
+console.log('--- Done ---');
