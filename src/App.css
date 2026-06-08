@@ -530,6 +530,14 @@
 .toast-card svg { border-radius: 7px; }
 .toast a { color: var(--accent-soft); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
 
+/* ===== 初回ユーザーへの誘導ナッジ ===== */
+.first-nudge { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: #fff9ec; border: 2px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 0 0 22px; text-decoration: none; color: var(--ink); box-shadow: var(--shadow); }
+.first-nudge:hover { background: #fff4d9; }
+.first-nudge-emoji { font-size: 1.8rem; line-height: 1; }
+.first-nudge-text { flex: 1; min-width: 200px; line-height: 1.6; font-size: 0.95rem; }
+.first-nudge-text strong { display: block; color: var(--board); margin-bottom: 2px; }
+.first-nudge-cta { font-weight: 800; color: var(--board); white-space: nowrap; }
+
 /* ===== チョーク博士レベル（XP） ===== */
 .level-banner { background: linear-gradient(160deg, var(--board), var(--board-deep)); color: var(--chalk); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 22px; box-shadow: var(--shadow); }
 .level-banner.compact { padding: 13px 16px; }

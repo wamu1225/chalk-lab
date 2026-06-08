@@ -269,7 +269,12 @@ function Header() {
 }
 
 function Home() {
-  useEffect(() => { document.title = `${SITE_NAME} | チョークの科学・歴史・トリビアを楽しく学ぶ`; }, []);
+  const [isNew, setIsNew] = useState(false);
+  useEffect(() => {
+    document.title = `${SITE_NAME} | チョークの科学・歴史・トリビアを楽しく学ぶ`;
+    const p = loadProgress();
+    setIsNew(p.visitedSections.length === 0 && p.quizPlays === 0);
+  }, []);
   return (
     <>
       <div className="hero">
@@ -281,7 +286,22 @@ function Home() {
         </p>
       </div>
 
-      <LevelBanner compact />
+      {isNew ? (
+        <a
+          className="first-nudge"
+          href={`${BASE}/${sections[0].id}/`}
+          onClick={(e) => { e.preventDefault(); navigateTo(`/${sections[0].id}/`); }}
+        >
+          <span className="first-nudge-emoji" aria-hidden="true">👋</span>
+          <span className="first-nudge-text">
+            <strong>はじめての方へ</strong>
+            まずは1つ、よみものを読んでみましょう。最後まで読むと図鑑カードがもらえます。
+          </span>
+          <span className="first-nudge-cta">「{sections[0].shortTitle}」から読む →</span>
+        </a>
+      ) : (
+        <LevelBanner compact />
+      )}
 
       <div className="play-banner">
         <div className="play-banner-text">
