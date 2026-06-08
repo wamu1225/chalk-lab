@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowLeft, List, ChevronRight, Menu, X, Calendar } from 'lucide-react';
 import { sections } from './data/sections';
@@ -419,9 +419,10 @@ function DiscoveredCards({ sectionId }: { sectionId: string }) {
 }
 
 function SectionPage({ section }: { section: Section }) {
+  const endRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     document.title = `${section.title} | ${SITE_NAME}`;
-    recordSectionRead(section.id);
     const hash = window.location.hash;
     if (hash && hash.length > 1) {
       requestAnimationFrame(() => {
@@ -433,6 +434,30 @@ function SectionPage({ section }: { section: Section }) {
       window.scrollTo(0, 0);
     }
   }, [section.id, section.title]);
+
+  // 本文を最後まで読み進めたら、カードを「発見」する（読了報酬）。
+  // 開いた瞬間ではなく、本文末尾が見えたタイミングで1回だけ発火。
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      // 観測できない環境では従来どおり訪問時に記録（フォールバック）
+      recordSectionRead(section.id);
+      return;
+    }
+    let done = false;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !done) {
+          done = true;
+          recordSectionRead(section.id);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0, rootMargin: '0px 0px -8% 0px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [section.id]);
 
   return (
     <>
@@ -458,6 +483,7 @@ function SectionPage({ section }: { section: Section }) {
         <div className="section-content">
           {parseContent(section.content)}
         </div>
+        <div ref={endRef} aria-hidden="true" />
         <DiscoveredCards sectionId={section.id} />
         <FAQBlock sectionId={section.id} />
         <RelatedSections currentId={section.id} />
