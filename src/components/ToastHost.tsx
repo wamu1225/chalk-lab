@@ -11,8 +11,9 @@ export function ToastHost() {
 
   useEffect(() => {
     return subscribeToasts((t) => {
-      setToasts((cur) => [...cur, t]);
-      setTimeout(() => setToasts((cur) => cur.filter((x) => x.id !== t.id)), 6000);
+      // 同時表示は最新3件まで（積み上がって記事を覆わないように）
+      setToasts((cur) => [...cur, t].slice(-3));
+      setTimeout(() => setToasts((cur) => cur.filter((x) => x.id !== t.id)), 4500);
     });
   }, []);
 

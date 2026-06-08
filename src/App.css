@@ -506,8 +506,9 @@
 .discovered-link:hover { text-decoration: underline; }
 
 /* ===== トースト（発見/レベルアップ/バッジ） ===== */
-.toast-host { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 10px; align-items: center; width: 360px; max-width: 92vw; }
-.toast { position: relative; width: 100%; background: linear-gradient(160deg, var(--board), var(--board-deep)); color: var(--chalk); border-radius: 16px; padding: 14px 18px; box-shadow: 0 10px 32px rgba(0,0,0,0.35); animation: toast-in 0.35s ease; }
+/* 記事の上に被って読書を妨げないよう、右下コーナーに控えめに出す。クリックは透過。 */
+.toast-host { position: fixed; right: 16px; bottom: 16px; left: auto; transform: none; z-index: 200; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; width: 300px; max-width: calc(100vw - 24px); pointer-events: none; }
+.toast { position: relative; width: 100%; pointer-events: auto; background: linear-gradient(160deg, var(--board), var(--board-deep)); color: var(--chalk); border-radius: 14px; padding: 12px 16px; box-shadow: 0 10px 32px rgba(0,0,0,0.35); animation: toast-in 0.3s ease; opacity: 0.97; }
 .toast.accent { border: 2px solid var(--accent); box-shadow: 0 0 18px rgba(224,168,46,0.45); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 .toast-close { position: absolute; top: 6px; right: 10px; background: none; border: none; color: var(--chalk); font-size: 1.2rem; line-height: 1; cursor: pointer; opacity: 0.7; }
