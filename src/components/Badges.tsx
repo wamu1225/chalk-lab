@@ -4,7 +4,7 @@ import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { BADGES } from '../data/badges';
 import { loadProgress } from '../utils/progress';
 import { sections } from '../data/sections';
-import { QUIZ } from '../data/quiz';
+import { QUIZ_PER_PLAY } from '../data/quiz';
 
 export function Badges() {
   const [progress, setProgress] = useState(loadProgress());
@@ -32,7 +32,7 @@ export function Badges() {
           <span className="badge-stat-label">読んだよみもの</span>
         </div>
         <div className="badge-stat">
-          <span className="badge-stat-num">{progress.quizBest} / {QUIZ.length}</span>
+          <span className="badge-stat-num">{progress.quizBest} / {QUIZ_PER_PLAY}</span>
           <span className="badge-stat-label">検定の最高記録</span>
         </div>
       </div>

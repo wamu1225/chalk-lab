@@ -1,7 +1,7 @@
 import { sections } from './sections';
 import type { Progress } from '../utils/progress';
 import { discoveredCount } from '../utils/progress';
-import { QUIZ, QUIZ_PASS } from './quiz';
+import { QUIZ_PASS, QUIZ_PER_PLAY } from './quiz';
 import { CHALK_CARDS, TOTAL_CARDS } from './chalkCards';
 
 export type Badge = {
@@ -52,8 +52,8 @@ export const BADGES: Badge[] = [
     id: 'quiz-perfect',
     name: 'チョークマスター',
     emoji: '👑',
-    desc: 'チョーク検定で全問正解した',
-    earned: (p) => p.quizBest >= QUIZ.length,
+    desc: `チョーク検定で${QUIZ_PER_PLAY}問全問正解した`,
+    earned: (p) => p.quizBest >= QUIZ_PER_PLAY,
   },
   {
     id: 'dex-starter',

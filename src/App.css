@@ -402,6 +402,11 @@
 }
 .quiz-card-up-icon { border-radius: 6px; flex: none; }
 
+/* ===== Quiz topbar / difficulty / combo ===== */
+.quiz-topbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 6px 0 12px; }
+.quiz-difficulty { color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
+.quiz-combo { display: inline-flex; align-items: center; gap: 4px; background: #fde6c9; color: #9a4a00; font-weight: 800; font-size: 0.8rem; border-radius: 999px; padding: 2px 10px; margin-left: auto; }
+
 /* ===== Chalk Dex (図鑑) ===== */
 .dex-screen { max-width: 1040px; margin: 0 auto; padding: 28px 16px 56px; }
 .dex-stats { display: flex; gap: 14px; justify-content: center; margin: 18px 0 12px; flex-wrap: wrap; }
