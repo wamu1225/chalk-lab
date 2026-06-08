@@ -151,6 +151,74 @@ export const CHALK_CARDS: ChalkCard[] = [
     back: '黒板＋チョークは大きく安く力加減で表現でき、塗り直しで何十年も使える。ホワイトボードは粉なしで消しやすいがインク補充が要る。',
     relatedSectionId: 'whiteboard',
   },
+
+  // ── 拡張カード（G-3） ──
+  {
+    id: 'blackboard-origin', name: '黒板の登場', emoji: '', rarity: 2, category: 'compare',
+    front: '黒板は「一度に大勢へ教える」ために広まった道具。',
+    back: '大きな板を教室の前にかかげる方式が世界へ広まり、一斉に教える授業のかたちが定着しました。',
+    relatedSectionId: 'whiteboard',
+  },
+  {
+    id: 'sidewalk', name: '路面チョーク', emoji: '', rarity: 1, category: 'board',
+    front: '地面に大きくお絵かきできる、路面用のチョーク。',
+    back: 'スポーツの白線ひきや、公園での落書きあそびなどに使われます。',
+    relatedSectionId: 'types',
+  },
+  {
+    id: 'school-spec', name: '学校用のサイズ', emoji: '', rarity: 1, category: 'board',
+    front: '日本の学校用チョークは、長さ約6.5cmが標準。',
+    back: '業務用と学校用で、長さや太さが違うこともあります。',
+    relatedSectionId: 'types',
+  },
+  {
+    id: 'cud', name: 'カラーUDチョーク', emoji: '', rarity: 3, category: 'board',
+    front: '色の見え方の個人差に配慮した配色のチョーク。',
+    back: 'カラーユニバーサルデザイン（CUD）認証がついた製品もあり、多くの人に色が伝わるよう工夫されています。',
+    relatedSectionId: 'types',
+  },
+  {
+    id: 'allergy-free', name: 'アレルギー配慮', emoji: '', rarity: 2, category: 'health',
+    front: '食物アレルギーに配慮して作られたチョークがある。',
+    back: '原因になりうる特定原材料等28品目を含まないよう配慮した製品も。誤って口に入れても重い害が出にくいよう、安全性が確かめられているものもあります。',
+    relatedSectionId: 'health',
+  },
+  {
+    id: 'air-standard', name: '教室の空気の基準', emoji: '', rarity: 3, category: 'health',
+    front: '教室の空気は、粉じんを一定以下に保つ決まりがある。',
+    back: '学校環境衛生基準では、10マイクロメートル以下の浮遊粉じんを1立方メートルあたり0.10mg以下に保つよう定められています。',
+    relatedSectionId: 'health',
+  },
+  {
+    id: 'recycle', name: '資源の循環', emoji: '', rarity: 2, category: 'eco',
+    front: 'ごみを毎日使う道具に変える「資源の循環」。',
+    back: 'ホタテ貝殻や卵殻を活かしたチョークは、ごみを減らしながら役立つ道具を作る良い例です。',
+    relatedSectionId: 'making',
+  },
+  {
+    id: 'limestone', name: '石灰石', emoji: '', rarity: 1, category: 'material',
+    front: 'チョークの炭酸カルシウムは、石灰石からもとれる。',
+    back: '石灰石は炭酸カルシウムを主成分とする岩。貝殻や卵殻と同じ成分で、チョークの材料になります。',
+    relatedSectionId: 'basics',
+  },
+  {
+    id: 'pigment', name: '顔料', emoji: '', rarity: 1, category: 'material',
+    front: '色チョークの色は「顔料」でつけている。',
+    back: '白い土台に色のもとの粉（顔料）を混ぜて、赤・青・黄・緑などの色チョークを作ります。',
+    relatedSectionId: 'basics',
+  },
+  {
+    id: 'dover', name: 'ドーバーの白い崖', emoji: '', rarity: 2, category: 'geology',
+    front: 'イギリス・ドーバー海峡の真っ白な崖。',
+    back: '何キロも続く白い崖は、すべて小さなプランクトンの殻が積もってできた白亜です。',
+    relatedSectionId: 'geology',
+  },
+  {
+    id: 'coating', name: '表面コーティング', emoji: '', rarity: 2, category: 'board',
+    front: 'チョークの表面には、手に粉がつきにくい薄い膜。',
+    back: '製造の最後に表面をコーティングして、持っても手が汚れにくく、扱いやすくしています。',
+    relatedSectionId: 'making',
+  },
 ];
 
 export const TOTAL_CARDS = CHALK_CARDS.length;

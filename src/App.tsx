@@ -10,7 +10,7 @@ import { markSectionVisited } from './utils/progress';
 import { Quiz } from './components/Quiz';
 import { Badges } from './components/Badges';
 import { Dex } from './components/Dex';
-import { cardsForSection } from './data/chalkCards';
+import { cardsForSection, getCard } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
 import { FIGURES } from './data/figures';
@@ -417,10 +417,40 @@ function DiscoveredCards({ sectionId }: { sectionId: string }) {
   );
 }
 
+function CardToast({ ids }: { ids: string[] }) {
+  const [show, setShow] = useState(true);
+  useEffect(() => {
+    setShow(true);
+    const t = setTimeout(() => setShow(false), 5500);
+    return () => clearTimeout(t);
+  }, [ids]);
+  if (!show) return null;
+  return (
+    <div className="card-toast" role="status">
+      <button className="card-toast-close" aria-label="閉じる" onClick={() => setShow(false)}>×</button>
+      <div className="card-toast-head">🎉 新しいカードを発見！</div>
+      <div className="card-toast-cards">
+        {ids.map((id) => {
+          const c = getCard(id);
+          if (!c) return null;
+          return (
+            <span key={id} className="card-toast-card">
+              <ChalkIcon motif={id} size={30} />
+              <span>{c.name}</span>
+            </span>
+          );
+        })}
+      </div>
+      <a href={`${BASE}/dex/`} onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>図鑑を見る →</a>
+    </div>
+  );
+}
+
 function SectionPage({ section }: { section: Section }) {
+  const [toastCards, setToastCards] = useState<string[]>([]);
   useEffect(() => {
     document.title = `${section.title} | ${SITE_NAME}`;
-    markSectionVisited(section.id);
+    setToastCards(markSectionVisited(section.id));
     const hash = window.location.hash;
     if (hash && hash.length > 1) {
       requestAnimationFrame(() => {
@@ -470,6 +500,7 @@ function SectionPage({ section }: { section: Section }) {
           </a>
         </div>
       </article>
+      {toastCards.length > 0 && <CardToast key={section.id} ids={toastCards} />}
     </>
   );
 }

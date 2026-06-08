@@ -62,9 +62,11 @@ function ensureCard(p: Progress, id: string): CardState {
   return p.cards[id];
 }
 
-export function markSectionVisited(id: string): void {
+// 戻り値：この訪問で新たに発見されたカードidの配列（発見演出に使う）
+export function markSectionVisited(id: string): string[] {
   const p = loadProgress();
   let changed = false;
+  const newlyDiscovered: string[] = [];
   if (!p.visitedSections.includes(id)) {
     p.visitedSections.push(id);
     changed = true;
@@ -72,9 +74,10 @@ export function markSectionVisited(id: string): void {
   // この記事に紐づくカードを「発見」状態にする
   for (const card of cardsForSection(id)) {
     const cs = ensureCard(p, card.id);
-    if (!cs.discovered) { cs.discovered = true; changed = true; }
+    if (!cs.discovered) { cs.discovered = true; changed = true; newlyDiscovered.push(card.id); }
   }
   if (changed) saveProgress(p);
+  return newlyDiscovered;
 }
 
 // クイズ正解時：カードの習熟度を1つ上げる（最大3）。未発見なら発見もする。
