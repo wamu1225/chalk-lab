@@ -277,33 +277,33 @@
 
 /* ===== Play banner (home) ===== */
 .play-banner {
-  margin: 24px 0 8px;
-  background: linear-gradient(135deg, var(--board) 0%, var(--board-deep) 100%);
-  color: var(--chalk);
-  border-radius: var(--radius-lg);
-  padding: 22px 24px;
+  margin: 22px 0 8px;
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 18px;
   flex-wrap: wrap;
-  box-shadow: var(--shadow);
 }
 .play-banner-text { flex: 1; min-width: 220px; }
-.play-banner-text h2 { margin: 0 0 6px; font-size: 1.25rem; }
-.play-banner-text p { margin: 0; color: #e7ece8; font-size: 0.92rem; }
+.play-banner-text h2 { margin: 0 0 6px; font-size: 1.2rem; color: var(--board); }
+.play-banner-text p { margin: 0; color: var(--ink-soft); font-size: 0.9rem; }
 .play-banner-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 .play-btn {
   background: var(--accent-soft);
   color: var(--board-deep);
   font-weight: 800;
   text-decoration: none;
-  padding: 11px 18px;
+  padding: 10px 16px;
   border-radius: 10px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 .play-btn:hover { background: var(--accent); }
-.play-btn-ghost { background: transparent; color: var(--chalk); border: 1.5px solid rgba(253,253,251,0.5); }
-.play-btn-ghost:hover { background: rgba(253,253,251,0.12); }
+.play-btn-ghost { background: transparent; color: var(--board); border: 1.5px solid var(--line); }
+.play-btn-ghost:hover { background: var(--paper); }
 
 /* ===== Quiz ===== */
 .quiz-screen, .badges-screen {
