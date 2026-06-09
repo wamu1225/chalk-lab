@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { ArrowLeft, List, ChevronRight, Menu, X, Calendar } from 'lucide-react';
+import { ArrowLeft, List, ChevronRight, Menu, X, Calendar, Volume2, Square } from 'lucide-react';
 import { sections } from './data/sections';
 import type { Section } from './data/sections';
 import { FAQ_BY_SECTION } from './data/faqs';
@@ -476,9 +476,54 @@ function References({ items }: { items?: { label: string; url: string }[] }) {
   );
 }
 
+// 記事を読み上げ用の素テキストに変換（マークダウン記法・図トークン・表を除去）
+function toSpeakable(section: Section): string {
+  const src = (section.lead ? section.lead + '\n' : '') + section.content;
+  const out = src.split('\n').map((line) => {
+    let t = line.trim();
+    if (!t) return '';
+    if (/^\[\[figure:/.test(t)) return '';
+    if (/^\|.*\|$/.test(t)) return ''; // 表は読み上げ対象外
+    t = t.replace(/^#{2,3}\s*/, '');
+    t = t.replace(/^\d+\.\s*/, '');
+    t = t.replace(/^-\s*/, '');
+    t = t.replace(/^[💡⚠️📖✅]\s*/u, '');
+    t = t.replace(/\*\*(.+?)\*\*/g, '$1');
+    t = t.replace(/`([^`]+)`/g, '$1');
+    t = t.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+    return t;
+  }).filter(Boolean);
+  return `${section.title}。 ${out.join('。 ')}`.replace(/。+/g, '。');
+}
+
 function SectionPage({ section }: { section: Section }) {
   const endRef = useRef<HTMLDivElement | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [ttsAvailable, setTtsAvailable] = useState(false);
+  const [ttsOn, setTtsOn] = useState(false);
+
+  useEffect(() => {
+    setTtsAvailable(typeof window !== 'undefined' && 'speechSynthesis' in window);
+  }, []);
+
+  // セクション切替・離脱で読み上げを止める
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+    };
+  }, [section.id]);
+
+  const toggleSpeak = () => {
+    const synth = window.speechSynthesis;
+    if (ttsOn) { synth.cancel(); setTtsOn(false); return; }
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(toSpeakable(section));
+    u.lang = 'ja-JP';
+    u.onend = () => setTtsOn(false);
+    u.onerror = () => setTtsOn(false);
+    synth.speak(u);
+    setTtsOn(true);
+  };
 
   useEffect(() => {
     document.title = `${section.title} | ${SITE_NAME}`;
@@ -535,6 +580,11 @@ function SectionPage({ section }: { section: Section }) {
           <div className="article-meta">
             <span className="article-meta-item"><Calendar size={14} /> 最終更新: {formatDate(section.updatedAt)}</span>
           </div>
+          {ttsAvailable && (
+            <button className={`tts-btn ${ttsOn ? 'on' : ''}`} onClick={toggleSpeak} aria-pressed={ttsOn}>
+              {ttsOn ? <><Square size={15} /> 読み上げを止める</> : <><Volume2 size={15} /> 読み上げ</>}
+            </button>
+          )}
         </header>
         {section.lead && (
           <p className="lead">{section.lead}</p>
