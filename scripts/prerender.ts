@@ -191,7 +191,7 @@ function buildSectionFallback(s: (typeof sections)[number]): string {
   const refsHtml = (s.references && s.references.length)
     ? `<aside style="margin:32px 0;padding:16px 18px;background:#f7f6f1;border:1px solid #e3e0d6;border-radius:14px"><h3 style="margin:0 0 10px;font-size:1rem;color:${BOARD}">📚 参考</h3><ul style="margin:0;padding-left:1.2em">${s.references.map((r) => `<li style="margin-bottom:6px"><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer" style="color:${BOARD}">${escapeHtml(r.label)}</a></li>`).join('')}</ul></aside>`
     : '';
-  const leadHtml = s.lead ? `<p style="color:#4b5b51;font-size:1.05rem;background:#eef3ef;border-radius:14px;padding:16px 18px;margin:16px 0 24px">${escapeHtml(s.lead)}</p>` : '';
+  const leadHtml = s.lead ? `<p style="color:#233028;font-size:1.08rem;line-height:1.9;margin:14px 0 22px">${escapeHtml(s.lead)}</p>` : '';
   const kidHtml = s.kidSummary ? `<div style="background:#fff9ec;border:1px solid #f4c64a;border-radius:14px;padding:14px 18px;margin:0 0 24px"><span style="display:inline-block;background:${ACCENT};color:#3a2c06;font-weight:800;font-size:0.78rem;border-radius:999px;padding:3px 12px;margin-bottom:8px">やさしい まとめ</span><p style="margin:0;color:#233028;line-height:1.85">${escapeHtml(s.kidSummary)}</p></div>` : '';
   return `<article style="font-family:${FONT};line-height:1.85;max-width:920px;margin:0 auto;padding:24px 16px;color:#233028">
   <nav style="font-size:0.85rem;color:#6b7280;margin:0 0 16px"><a href="/chalk-lab/" style="color:${BOARD};text-decoration:none">${SITE_NAME}</a> <span style="color:#9ca3af">›</span> <span style="color:#4b5563;font-weight:600">${escapeHtml(s.shortTitle)}</span></nav>

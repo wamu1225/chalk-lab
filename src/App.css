@@ -149,12 +149,10 @@
 .article-meta { font-size: 0.82rem; color: var(--ink-soft); }
 .article-meta-item { display: inline-flex; align-items: center; gap: 4px; }
 .lead {
-  font-size: 1.05rem;
-  color: var(--ink-soft);
-  background: #eef3ef;
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  margin: 16px 0 24px;
+  font-size: 1.08rem;
+  color: var(--ink);
+  line-height: 1.9;
+  margin: 14px 0 22px;
 }
 
 /* ===== TOC ===== */
