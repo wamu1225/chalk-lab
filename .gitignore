@@ -43,6 +43,13 @@ scripts/sort-*
 scripts/split-*
 scripts/*.txt
 
+# スクショ確認ツールの出力・ルート直下の一時デバッグ（gitに含めない）
+scripts/shot-*.png
+shot-*.png
+debug-*.ts
+debug-*.cjs
+icon-sample.png
+
 # データのスクラッチ
 src/data/test.ts
 src/data/*_rebuilt.ts
