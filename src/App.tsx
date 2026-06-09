@@ -19,6 +19,9 @@ import { SECTION_ICON } from './data/chalkIcons';
 import { FIGURES } from './data/figures';
 import { LevelBanner } from './components/LevelBanner';
 import { ToastHost } from './components/ToastHost';
+import { CharaChalk } from './components/CharaChalk';
+import type { MascotExpr } from './data/mascot';
+import { computeXp, levelInfo } from './utils/level';
 import './App.css';
 
 function ChalkLogo({ size = 28 }: { size?: number }) {
@@ -272,10 +275,19 @@ function Header() {
 
 function Home() {
   const [isNew, setIsNew] = useState(false);
+  const [greet, setGreet] = useState<{ expr: MascotExpr; msg: string }>({ expr: 'smile', msg: 'はじめまして！ぼく「チョーくん」。いっしょにチョークのこと、たくさん知ろう！' });
   useEffect(() => {
     document.title = `${SITE_NAME} | チョークの科学・歴史・トリビアを楽しく学ぶ`;
     const p = loadProgress();
     setIsNew(p.visitedSections.length === 0 && p.quizPlays === 0);
+    const lv = levelInfo(computeXp(p)).level;
+    if (p.visitedSections.length === 0) {
+      setGreet({ expr: 'smile', msg: 'はじめまして！ぼく「チョーくん」。いっしょにチョークのこと、たくさん知ろう！' });
+    } else if (lv >= 5) {
+      setGreet({ expr: 'celebrate', msg: 'きみはもう一人前のチョーク博士だね！ほんとにすごい！' });
+    } else {
+      setGreet({ expr: 'cheer', msg: 'その調子！図鑑あつめ・工房・検定で、もっとチョーク博士に近づこう！' });
+    }
   }, []);
   return (
     <>
@@ -286,6 +298,11 @@ function Home() {
           黒板のチョークから、伝説の羽衣チョーク、白い崖の「白亜」、クライミング用まで。<br />
           チョークの成分・歴史・トリビアを、読んで・クイズで遊んで、楽しく学べるサイトです。
         </p>
+      </div>
+
+      <div className="mascot-greet">
+        <CharaChalk expr={greet.expr} size={64} className="mascot-fig" />
+        <div className="mascot-bubble">{greet.msg}</div>
       </div>
 
       {isNew ? (

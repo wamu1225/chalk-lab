@@ -537,6 +537,13 @@
 .toast-card svg { border-radius: 7px; }
 .toast a { color: var(--accent-soft); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
 
+/* ===== マスコット「チョーくん」 ===== */
+.mascot-greet { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; }
+.mascot-fig { flex: none; }
+.mascot-bubble { position: relative; flex: 1; background: var(--paper-card); border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 16px; color: var(--ink); font-weight: 700; line-height: 1.6; box-shadow: var(--shadow); }
+.mascot-bubble::before { content: ''; position: absolute; left: -9px; top: 22px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid var(--line); }
+.mascot-bubble::after { content: ''; position: absolute; left: -7px; top: 22px; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 8px solid var(--paper-card); }
+
 /* ===== 初回ユーザーへの誘導ナッジ ===== */
 .first-nudge { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: #fff9ec; border: 2px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 0 0 22px; text-decoration: none; color: var(--ink); box-shadow: var(--shadow); }
 .first-nudge:hover { background: #fff4d9; }

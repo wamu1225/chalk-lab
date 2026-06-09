@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
-import { ArrowLeft, Eraser, Trash2 } from 'lucide-react';
+import { ArrowLeft, Eraser, Trash2, Download } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 
 const BOARD = '#1f3a2e';
@@ -115,6 +115,19 @@ export function Draw() {
     last.current = null;
   };
 
+  const save = () => {
+    const c = canvasRef.current;
+    if (!c) return;
+    try {
+      const a = document.createElement('a');
+      a.href = c.toDataURL('image/png');
+      a.download = 'chalk-lab-board.png';
+      a.click();
+    } catch {
+      // ignore（セキュリティ制限などで保存不可の場合）
+    }
+  };
+
   return (
     <article className="draw-screen">
       <h1 className="quiz-h1">🖍️ 黒板キャンバス</h1>
@@ -139,6 +152,9 @@ export function Draw() {
         </button>
         <button className="draw-tool" onClick={paintBoard}>
           <Trash2 size={16} /> 全部消す
+        </button>
+        <button className="draw-tool" onClick={save}>
+          <Download size={16} /> 保存
         </button>
       </div>
 
