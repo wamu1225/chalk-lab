@@ -200,17 +200,19 @@
 .content-table th { background: var(--board); color: var(--chalk); font-weight: 700; }
 .content-table tbody tr:nth-child(even) { background: #f4f3ee; }
 
-/* ===== Callouts ===== */
+/* ===== Callouts（静かな共通地＋細い色帯で“色の氾濫”を抑える） ===== */
 .callout {
+  background: #f6f4ef;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--line);
   border-radius: 10px;
   padding: 12px 16px;
   margin: 0 0 18px;
-  border-left: 4px solid;
 }
-.callout-tip { background: #fff7e6; border-color: var(--accent); }
-.callout-warning { background: #fdecec; border-color: #d9534f; }
-.callout-info { background: #eef3fb; border-color: #5b8def; }
-.callout-success { background: #eaf6ed; border-color: #3a9d5d; }
+.callout-tip { border-left-color: var(--accent); }
+.callout-warning { border-left-color: #d9534f; }
+.callout-info { border-left-color: #5b8def; }
+.callout-success { border-left-color: #3a9d5d; }
 
 /* ===== FAQ ===== */
 .faq-block {

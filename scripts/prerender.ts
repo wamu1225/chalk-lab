@@ -113,10 +113,10 @@ function markdownToHtml(content: string): string {
       out.push(`<ul style="padding-left:1.4em;margin:0 0 16px">${items.map((it) => `<li>${parseInlineToHtml(it)}</li>`).join('')}</ul>`);
       continue;
     }
-    if (trimmed.startsWith('💡 ')) { out.push(`<p style="background:#fff7e6;border-left:4px solid ${ACCENT};border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
-    if (trimmed.startsWith('⚠️ ')) { out.push(`<p style="background:#fdecec;border-left:4px solid #d9534f;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
-    if (trimmed.startsWith('📖 ')) { out.push(`<p style="background:#eef3fb;border-left:4px solid #5b8def;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
-    if (trimmed.startsWith('✅ ')) { out.push(`<p style="background:#eaf6ed;border-left:4px solid #3a9d5d;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('💡 ')) { out.push(`<p style="background:#f6f4ef;border:1px solid #e3e0d6;border-left:4px solid ${ACCENT};border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('⚠️ ')) { out.push(`<p style="background:#f6f4ef;border:1px solid #e3e0d6;border-left:4px solid #d9534f;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('📖 ')) { out.push(`<p style="background:#f6f4ef;border:1px solid #e3e0d6;border-left:4px solid #5b8def;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
+    if (trimmed.startsWith('✅ ')) { out.push(`<p style="background:#f6f4ef;border:1px solid #e3e0d6;border-left:4px solid #3a9d5d;border-radius:10px;padding:12px 16px;margin:0 0 18px">${parseInlineToHtml(trimmed.slice(2).trim())}</p>`); i++; continue; }
     if (trimmed === '---') { out.push('<hr>'); i++; continue; }
     out.push(`<p style="margin:0 0 16px">${parseInlineToHtml(trimmed)}</p>`);
     i++;
