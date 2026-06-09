@@ -12,6 +12,7 @@ import { Quiz } from './components/Quiz';
 import { Badges } from './components/Badges';
 import { Dex } from './components/Dex';
 import { Workshop } from './components/Workshop';
+import { Draw } from './components/Draw';
 import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
@@ -312,6 +313,7 @@ function Home() {
         <div className="play-banner-btns">
           <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>📚 チョーク図鑑</a>
           <a href={`${BASE}/workshop/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>🧪 チョーク工房</a>
+          <a href={`${BASE}/draw/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/draw/'); }}>🖍️ 黒板キャンバス</a>
           <a href={`${BASE}/quiz/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>📝 チョーク検定</a>
           <a href={`${BASE}/badges/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>🏆 バッジ</a>
         </div>
@@ -565,6 +567,7 @@ function Footer() {
       <div>
         <a href={`${BASE}/dex/`} onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>チョーク図鑑</a>
         <a href={`${BASE}/workshop/`} onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>チョーク工房</a>
+        <a href={`${BASE}/draw/`} onClick={(e) => { e.preventDefault(); navigateTo('/draw/'); }}>黒板キャンバス</a>
         <a href={`${BASE}/quiz/`} onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>チョーク検定</a>
         <a href={`${BASE}/badges/`} onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>バッジ</a>
         <a href={`${BASE}/glossary/`} onClick={(e) => { e.preventDefault(); navigateTo('/glossary/'); }}>用語集</a>
@@ -721,6 +724,8 @@ export default function App() {
     content = <Dex />;
   } else if (normalized === '/workshop') {
     content = <Workshop />;
+  } else if (normalized === '/draw') {
+    content = <Draw />;
   } else {
     const id = normalized.replace(/^\//, '');
     const section = sections.find((s) => s.id === id);
