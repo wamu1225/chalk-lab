@@ -15,6 +15,7 @@ import { Workshop } from './components/Workshop';
 import { Draw } from './components/Draw';
 import { AdventureMap } from './components/AdventureMap';
 import { GuessGame } from './components/GuessGame';
+import { PlayHub } from './components/PlayHub';
 import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
@@ -332,10 +333,8 @@ function Home() {
         <div className="play-banner-btns">
           <a href={`${BASE}/map/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>🗺️ 旅のマップ</a>
           <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>📚 チョーク図鑑</a>
-          <a href={`${BASE}/workshop/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>🧪 チョーク工房</a>
-          <a href={`${BASE}/draw/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/draw/'); }}>🖍️ 黒板キャンバス</a>
           <a href={`${BASE}/quiz/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>📝 チョーク検定</a>
-          <a href={`${BASE}/badges/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>🏆 バッジ</a>
+          <a href={`${BASE}/play/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/play/'); }}>🎮 ぜんぶのあそび →</a>
         </div>
       </div>
 
@@ -802,6 +801,8 @@ export default function App() {
     content = <AdventureMap />;
   } else if (normalized === '/guess') {
     content = <GuessGame />;
+  } else if (normalized === '/play') {
+    content = <PlayHub />;
   } else {
     const id = normalized.replace(/^\//, '');
     const section = sections.find((s) => s.id === id);

@@ -368,12 +368,26 @@ writeStaticPage('guess', 'チョーク絵当て（図鑑カードクイズ）', 
   <p>白墨・色チョーク・ダストレス・羽衣チョーク・円石藻・クライミング用など、集めたカードがそのまま出題されます。<a href="/chalk-lab/dex/" style="color:${BOARD};font-weight:600">チョーク図鑑</a>でカードを集めてから挑戦しましょう。</p>
   <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
 
+writeStaticPage('play', 'あそぶ｜チョークラボの遊び一覧', 'チョークラボの遊び（旅マップ・図鑑・工房・黒板キャンバス・検定・絵当て・ステータス）をまとめた、あそびのハブページ。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">読んで・解いて・集めて・作って・描いて。チョークラボの遊びがぜんぶここに。</p>
+  <ul style="list-style:none;padding:0">
+    <li style="margin-bottom:12px"><a href="/chalk-lab/map/" style="color:${BOARD};font-weight:600">🗺️ 旅のマップ</a> — よみものを順にめぐって全踏破をめざそう。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/dex/" style="color:${BOARD};font-weight:600">📚 チョーク図鑑</a> — 読んで集めるカード28種。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/workshop/" style="color:${BOARD};font-weight:600">🧪 チョーク工房</a> — 成分を配合して自分だけのチョークを作ろう。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/draw/" style="color:${BOARD};font-weight:600">🖍️ 黒板キャンバス</a> — チョークで黒板にお絵かき。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/quiz/" style="color:${BOARD};font-weight:600">📝 チョーク検定</a> — 全30問からランダム10問。今日の検定も。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/guess/" style="color:${BOARD};font-weight:600">🎨 チョーク絵当て</a> — カードの絵を見て名前を当てよう。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/badges/" style="color:${BOARD};font-weight:600">🏆 ステータス＆バッジ</a> — レベル・XP・バッジを確認。</li>
+  </ul>
+  <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
+
 console.log(`✓ Generated ${generatedCount} static pages`);
 
 // sitemap.xml
 const sitemapToday = new Date().toISOString().split('T')[0];
 const sitemapEntries = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
+  { path: '/play/', changefreq: 'monthly', priority: '0.8' },
   ...sections.map((s) => ({ path: `/${s.id}/`, changefreq: 'monthly', priority: '0.9' })),
   { path: '/map/', changefreq: 'monthly', priority: '0.7' },
   { path: '/dex/', changefreq: 'monthly', priority: '0.8' },
