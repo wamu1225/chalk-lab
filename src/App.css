@@ -532,6 +532,9 @@
 .toast-close:hover { opacity: 1; }
 .toast-title { font-weight: 800; margin-bottom: 8px; padding-right: 16px; display: flex; align-items: center; gap: 6px; }
 .toast-medal { flex: none; }
+.toast-mascot { flex: none; }
+.quiz-result-emoji { display: flex; justify-content: center; margin-bottom: 4px; }
+.quiz-chara-line { color: var(--ink-soft); font-weight: 700; margin: 2px 0 14px; }
 .toast-cards { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
 .toast-card { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; padding: 4px 12px 4px 4px; font-size: 0.85rem; font-weight: 700; }
 .toast-card svg { border-radius: 7px; }

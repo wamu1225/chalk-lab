@@ -1,9 +1,12 @@
 // 軽量トースト基盤（pub/sub）。どこからでも pushToast でき、ToastHost が表示する。
 
+import type { MascotExpr } from '../data/mascot';
+
 export type Toast = {
   id: number;
   emoji?: string;
   badgeId?: string;               // 指定すると先頭にバッジメダルを表示
+  mascot?: MascotExpr;            // 指定すると先頭にマスコット（チョーくん）を表示
   title: string;
   cards?: string[];               // 図鑑カードidを並べて表示
   link?: { label: string; path: string };

@@ -8,6 +8,7 @@ import type { Progress } from '../utils/progress';
 import { recordQuizFinish, recordDailyFinish } from '../utils/actions';
 import { getCard } from '../data/chalkCards';
 import { ChalkIcon } from './ChalkIcon';
+import { CharaChalk } from './CharaChalk';
 
 type Phase = 'intro' | 'playing' | 'result';
 
@@ -112,8 +113,9 @@ export function Quiz() {
     const perfect = correct === total;
     return (
       <article className="quiz-screen">
-        <div className="quiz-result-emoji" aria-hidden="true">{perfect ? '👑' : passed ? '🏅' : '✏️'}</div>
+        <div className="quiz-result-emoji"><CharaChalk expr={perfect ? 'celebrate' : passed ? 'cheer' : 'normal'} size={80} /></div>
         <h1 className="quiz-h1">{perfect ? '全問正解！チョークマスター！' : passed ? '合格！おめでとう' : 'もう少し！'}</h1>
+        <p className="quiz-chara-line">{perfect ? 'チョーくん：かんぺき！きみはチョーク博士だ！' : passed ? 'チョーくん：合格おめでとう！その調子！' : 'チョーくん：だいじょうぶ、よみものを読めばもっと解けるよ！'}</p>
         <p className="quiz-score">{correct} / {total} 問 正解</p>
         <p className="quiz-best">最高記録：{best} / {QUIZ_PER_PLAY} 問 ／ 最高コンボ：{maxStreak}</p>
         <div className="quiz-result-actions">

@@ -10,7 +10,7 @@ function notifyLevelAndBadges(prev: Progress, next: Progress) {
   const prevLevel = levelInfo(computeXp(prev)).level;
   const nextInfo = levelInfo(computeXp(next));
   if (nextInfo.level > prevLevel) {
-    pushToast({ emoji: '⭐', title: `レベルアップ！「${nextInfo.title}」`, accent: true, link: { label: 'ステータスを見る →', path: '/badges/' } });
+    pushToast({ mascot: 'celebrate', title: `レベルアップ！「${nextInfo.title}」`, accent: true, link: { label: 'ステータスを見る →', path: '/badges/' } });
   }
   const newBadges = next.badges.filter((b) => !prev.badges.includes(b));
   for (const id of newBadges) {
@@ -19,7 +19,7 @@ function notifyLevelAndBadges(prev: Progress, next: Progress) {
   }
   // 全バッジ達成＝完全制覇の瞬間に特別な祝福
   if (prev.badges.length < BADGES.length && next.badges.length >= BADGES.length) {
-    pushToast({ emoji: '🏆', title: 'コンプリート達成！すべてのバッジを集めた！', accent: true, link: { label: 'ステータスを見る →', path: '/badges/' } });
+    pushToast({ mascot: 'celebrate', title: '🏆 コンプリート達成！すべてのバッジを集めた！', accent: true, link: { label: 'ステータスを見る →', path: '/badges/' } });
   }
 }
 
@@ -44,7 +44,7 @@ export function recordQuizFinish(prev: Progress, correct: number, perPlay: numbe
   p.badges = computeBadges(p);
   saveProgress(p);
   if (correct === perPlay) {
-    pushToast({ emoji: '👑', title: '全問正解！チョークマスター！', accent: true });
+    pushToast({ mascot: 'celebrate', title: '全問正解！チョークマスター！', accent: true });
   }
   notifyLevelAndBadges(prev, p);
   return p;
@@ -76,12 +76,12 @@ export function recordDailyFinish(prev: Progress, correct: number, perPlay: numb
   if (p.dailyLastDate !== todayKey) {
     p.dailyStreak = p.dailyLastDate === yesterdayKey(todayKey) ? p.dailyStreak + 1 : 1;
     p.dailyLastDate = todayKey;
-    pushToast({ emoji: '🗓️', title: `今日の検定クリア！ ${p.dailyStreak}日連続`, accent: true });
+    pushToast({ mascot: 'cheer', title: `🗓️ 今日の検定クリア！ ${p.dailyStreak}日連続`, accent: true });
   }
   p.badges = computeBadges(p);
   saveProgress(p);
   if (correct === perPlay) {
-    pushToast({ emoji: '👑', title: '全問正解！チョークマスター！', accent: true });
+    pushToast({ mascot: 'celebrate', title: '全問正解！チョークマスター！', accent: true });
   }
   notifyLevelAndBadges(prev, p);
   return p;
