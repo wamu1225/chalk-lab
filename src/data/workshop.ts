@@ -60,6 +60,15 @@ export const INGREDIENTS: { key: keyof Omit<Recipe, 'coating'>; label: string; h
   { key: 'pigment', label: '顔料', hint: '色・発色のもと' },
 ];
 
+// おすすめ配合（実在のチョーク像を再現）。遊びながら「成分→性質」の関係が学べる。
+export const PRESETS: { name: string; note: string; recipe: Recipe }[] = [
+  { name: 'ダストレスふう', note: '炭酸カルシウム多め。折れにくく粉が舞いにくい、今の学校の主流タイプ。', recipe: { carbonate: 95, gypsum: 20, scallop: 12, pigment: 35, coating: true } },
+  { name: '石膏チョークふう', note: '石膏多め。やわらかく書きやすいけれど、粉は舞いやすい。', recipe: { carbonate: 35, gypsum: 80, scallop: 5, pigment: 35, coating: false } },
+  { name: '羽衣ふう', note: 'なめらか・折れにくい・手が汚れにくい。伝説の羽衣チョークのイメージ。', recipe: { carbonate: 90, gypsum: 45, scallop: 10, pigment: 30, coating: true } },
+  { name: 'エコふう', note: 'ホタテ貝殻を多めに。ごみを減らすエコ配合（入れすぎると硬くなる）。', recipe: { carbonate: 70, gypsum: 20, scallop: 22, pigment: 30, coating: true } },
+  { name: '色チョークふう', note: '顔料を多めに。発色あざやかな色チョーク。', recipe: { carbonate: 80, gypsum: 25, scallop: 10, pigment: 85, coating: true } },
+];
+
 export const SCORE_BARS: { key: keyof Omit<Scores, 'overall' | 'rank' | 'comment'>; label: string }[] = [
   { key: 'smoothness', label: '書き味' },
   { key: 'strength', label: '折れにくさ' },

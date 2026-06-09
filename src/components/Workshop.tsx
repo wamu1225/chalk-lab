@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
-import { DEFAULT_RECIPE, INGREDIENTS, SCORE_BARS, computeScores } from '../data/workshop';
+import { DEFAULT_RECIPE, INGREDIENTS, SCORE_BARS, PRESETS, computeScores } from '../data/workshop';
 import type { Recipe } from '../data/workshop';
 import { loadProgress } from '../utils/progress';
 import type { Progress } from '../utils/progress';
@@ -15,6 +15,7 @@ function formatDate(ts: number): string {
 export function Workshop() {
   const [recipe, setRecipe] = useState<Recipe>(DEFAULT_RECIPE);
   const [name, setName] = useState('');
+  const [presetNote, setPresetNote] = useState('');
   const [progress, setProgress] = useState<Progress>(loadProgress());
   const startSnap = useRef<Progress | null>(null);
 
@@ -63,6 +64,18 @@ export function Workshop() {
           </div>
         );
       })()}
+
+      <div className="workshop-presets">
+        <span className="workshop-presets-label">おすすめ配合（タップで再現）：</span>
+        <div className="workshop-preset-btns">
+          {PRESETS.map((p) => (
+            <button key={p.name} className="workshop-preset" onClick={() => { setRecipe(p.recipe); setPresetNote(p.note); }}>
+              {p.name}
+            </button>
+          ))}
+        </div>
+      </div>
+      {presetNote && <p className="workshop-preset-note">📖 {presetNote}</p>}
 
       <div className="workshop-grid">
         <section className="workshop-mix" aria-label="配合">
