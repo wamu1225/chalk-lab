@@ -595,6 +595,18 @@
 .content-figure svg { width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: var(--shadow); }
 .content-figure figcaption { margin-top: 8px; font-size: 0.85rem; color: var(--ink-soft); text-align: center; line-height: 1.7; }
 
+/* ===== チョーク誕生の旅（タイムライン） ===== */
+.timeline-screen { max-width: 640px; margin: 0 auto; padding: 28px 16px 56px; }
+.timeline-stage { margin: 8px 0 12px; }
+.timeline-svg { width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: var(--shadow); }
+.timeline-dots { display: flex; justify-content: center; gap: 8px; margin: 6px 0 12px; }
+.tl-dot { width: 12px; height: 12px; border-radius: 50%; border: none; background: var(--line); cursor: pointer; padding: 0; }
+.tl-dot.active { background: var(--accent); }
+.timeline-title { font-size: 1.15rem; color: var(--board); margin: 4px 0 8px; }
+.timeline-body { color: var(--ink); line-height: 1.9; margin: 0 0 16px; }
+.timeline-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.timeline-count { font-weight: 800; color: var(--ink-soft); font-size: 0.9rem; }
+
 /* ===== あそびハブ ===== */
 .hub-screen { max-width: 880px; margin: 0 auto; padding: 28px 16px 56px; }
 .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 8px; }

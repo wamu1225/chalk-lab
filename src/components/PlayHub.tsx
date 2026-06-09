@@ -10,6 +10,7 @@ const MODES: { path: string; emoji: string; title: string; desc: string }[] = [
   { path: '/draw/', emoji: '🖍️', title: '黒板キャンバス', desc: 'チョークで黒板にお絵かき。色・消す・保存ができる。' },
   { path: '/quiz/', emoji: '📝', title: 'チョーク検定', desc: '全30問からランダム10問。毎日の「今日の検定」も。' },
   { path: '/guess/', emoji: '🎨', title: 'チョーク絵当て', desc: 'カードの絵を見て名前を当てよう。字が読めなくてもOK。' },
+  { path: '/timeline/', emoji: '⏳', title: 'チョーク誕生の旅', desc: '円石藻→白亜→白亜紀→チョーク。5ステップでたどる物語。' },
   { path: '/badges/', emoji: '🏆', title: 'ステータス＆バッジ', desc: 'レベル・XP・バッジ・コンプ率を確認しよう。' },
 ];
 

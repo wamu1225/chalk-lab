@@ -16,6 +16,7 @@ import { Draw } from './components/Draw';
 import { AdventureMap } from './components/AdventureMap';
 import { GuessGame } from './components/GuessGame';
 import { PlayHub } from './components/PlayHub';
+import { Timeline } from './components/Timeline';
 import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
@@ -640,6 +641,7 @@ function Footer() {
         <a href={`${BASE}/draw/`} onClick={(e) => { e.preventDefault(); navigateTo('/draw/'); }}>黒板キャンバス</a>
         <a href={`${BASE}/quiz/`} onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>チョーク検定</a>
         <a href={`${BASE}/guess/`} onClick={(e) => { e.preventDefault(); navigateTo('/guess/'); }}>絵当て</a>
+        <a href={`${BASE}/timeline/`} onClick={(e) => { e.preventDefault(); navigateTo('/timeline/'); }}>誕生の旅</a>
         <a href={`${BASE}/badges/`} onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>バッジ</a>
         <a href={`${BASE}/glossary/`} onClick={(e) => { e.preventDefault(); navigateTo('/glossary/'); }}>用語集</a>
         <a href={`${BASE}/about/`} onClick={(e) => { e.preventDefault(); navigateTo('/about/'); }}>サイトについて</a>
@@ -803,6 +805,8 @@ export default function App() {
     content = <GuessGame />;
   } else if (normalized === '/play') {
     content = <PlayHub />;
+  } else if (normalized === '/timeline') {
+    content = <Timeline />;
   } else {
     const id = normalized.replace(/^\//, '');
     const section = sections.find((s) => s.id === id);

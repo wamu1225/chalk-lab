@@ -6,6 +6,7 @@ import { glossary } from '../src/data/glossary.ts';
 import { CHALK_CARDS, CATEGORY_LABEL, TOTAL_CARDS } from '../src/data/chalkCards.ts';
 import { iconSvg, SECTION_ICON } from '../src/data/chalkIcons.ts';
 import { figureSvg } from '../src/data/figures.ts';
+import { TIMELINE } from '../src/data/timeline.ts';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
@@ -381,6 +382,14 @@ writeStaticPage('play', 'あそぶ｜チョークラボの遊び一覧', 'チョ
   </ul>
   <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
 
+const timelineHtml = TIMELINE
+  .map((s) => `<div style="margin:0 0 26px"><div style="max-width:360px"><svg viewBox="0 0 300 170" style="width:100%;height:auto;border-radius:14px;box-shadow:0 6px 20px rgba(31,58,46,0.1)">${s.svg}</svg></div><h2 class="content-h2" style="font-size:1.1rem;color:${BOARD};margin:12px 0 6px">${escapeHtml(s.title)}</h2><p style="margin:0;color:#233028;line-height:1.85">${escapeHtml(s.body)}</p></div>`)
+  .join('');
+writeStaticPage('timeline', 'チョーク誕生の旅（白亜紀タイムライン）', '毎日のチョークが、円石藻→海底に堆積→白亜→白亜紀→黒板のチョーク、と何千万年もかけて生まれた物語を5ステップでたどる体験。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">毎日のチョークは、何千万年も前の小さなプランクトン「円石藻」からできました。誕生のながれを①〜⑤でたどってみましょう。</p>
+  ${timelineHtml}
+  <p style="margin-top:8px"><a href="/chalk-lab/geology/" style="color:${BOARD};font-weight:600">白亜と白亜紀をくわしく読む</a> ／ <a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
+
 console.log(`✓ Generated ${generatedCount} static pages`);
 
 // sitemap.xml
@@ -388,6 +397,7 @@ const sitemapToday = new Date().toISOString().split('T')[0];
 const sitemapEntries = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
   { path: '/play/', changefreq: 'monthly', priority: '0.8' },
+  { path: '/timeline/', changefreq: 'monthly', priority: '0.7' },
   ...sections.map((s) => ({ path: `/${s.id}/`, changefreq: 'monthly', priority: '0.9' })),
   { path: '/map/', changefreq: 'monthly', priority: '0.7' },
   { path: '/dex/', changefreq: 'monthly', priority: '0.8' },
