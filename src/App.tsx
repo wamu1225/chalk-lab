@@ -21,7 +21,6 @@ import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
 import { FIGURES } from './data/figures';
-import { LevelBanner } from './components/LevelBanner';
 import { ToastHost } from './components/ToastHost';
 import { CharaChalk } from './components/CharaChalk';
 import type { MascotExpr } from './data/mascot';
@@ -279,19 +278,17 @@ function Header() {
 }
 
 function Home() {
-  const [isNew, setIsNew] = useState(false);
-  const [greet, setGreet] = useState<{ expr: MascotExpr; msg: string }>({ expr: 'smile', msg: 'はじめまして！ぼく「チョーくん」。いっしょにチョークのこと、たくさん知ろう！' });
+  const [greet, setGreet] = useState<{ expr: MascotExpr; msg: string; cta: boolean }>({ expr: 'smile', msg: 'はじめまして！ぼく「チョーくん」。まずは1つ、よみものを読んでみてね。', cta: true });
   useEffect(() => {
     document.title = `${SITE_NAME} | チョークの科学・歴史・トリビアを楽しく学ぶ`;
     const p = loadProgress();
-    setIsNew(p.visitedSections.length === 0 && p.quizPlays === 0);
     const lv = levelInfo(computeXp(p)).level;
     if (p.visitedSections.length === 0) {
-      setGreet({ expr: 'smile', msg: 'はじめまして！ぼく「チョーくん」。いっしょにチョークのこと、たくさん知ろう！' });
+      setGreet({ expr: 'smile', msg: 'はじめまして！ぼく「チョーくん」。まずは1つ、よみものを読んでみてね。', cta: true });
     } else if (lv >= 5) {
-      setGreet({ expr: 'celebrate', msg: 'きみはもう一人前のチョーク博士だね！ほんとにすごい！' });
+      setGreet({ expr: 'celebrate', msg: 'きみはもう一人前のチョーク博士だね！ほんとにすごい！', cta: false });
     } else {
-      setGreet({ expr: 'cheer', msg: 'その調子！図鑑あつめ・工房・検定で、もっとチョーク博士に近づこう！' });
+      setGreet({ expr: 'cheer', msg: 'その調子！図鑑・工房・検定で、もっとチョーク博士に近づこう！', cta: false });
     }
   }, []);
   return (
@@ -307,25 +304,17 @@ function Home() {
 
       <div className="mascot-greet">
         <CharaChalk expr={greet.expr} size={64} className="mascot-fig" />
-        <div className="mascot-bubble">{greet.msg}</div>
+        <div className="mascot-bubble">
+          {greet.msg}
+          {greet.cta && (
+            <a
+              className="mascot-cta"
+              href={`${BASE}/${sections[0].id}/`}
+              onClick={(e) => { e.preventDefault(); navigateTo(`/${sections[0].id}/`); }}
+            >「{sections[0].shortTitle}」から読む →</a>
+          )}
+        </div>
       </div>
-
-      {isNew ? (
-        <a
-          className="first-nudge"
-          href={`${BASE}/${sections[0].id}/`}
-          onClick={(e) => { e.preventDefault(); navigateTo(`/${sections[0].id}/`); }}
-        >
-          <span className="first-nudge-emoji" aria-hidden="true">👋</span>
-          <span className="first-nudge-text">
-            <strong>はじめての方へ</strong>
-            まずは1つ、よみものを読んでみましょう。最後まで読むと図鑑カードがもらえます。
-          </span>
-          <span className="first-nudge-cta">「{sections[0].shortTitle}」から読む →</span>
-        </a>
-      ) : (
-        <LevelBanner compact />
-      )}
 
       <div className="play-banner">
         <div className="play-banner-text">
