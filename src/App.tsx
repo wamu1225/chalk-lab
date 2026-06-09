@@ -13,6 +13,7 @@ import { Badges } from './components/Badges';
 import { Dex } from './components/Dex';
 import { Workshop } from './components/Workshop';
 import { Draw } from './components/Draw';
+import { AdventureMap } from './components/AdventureMap';
 import { cardsForSection } from './data/chalkCards';
 import { ChalkIcon } from './components/ChalkIcon';
 import { SECTION_ICON } from './data/chalkIcons';
@@ -328,6 +329,7 @@ function Home() {
           <p>よみものを読むと<strong>チョーク図鑑</strong>のカードを発見。チョーク検定に正解すると習熟度が上がり、バッジも集まります。</p>
         </div>
         <div className="play-banner-btns">
+          <a href={`${BASE}/map/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>🗺️ 旅のマップ</a>
           <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>📚 チョーク図鑑</a>
           <a href={`${BASE}/workshop/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>🧪 チョーク工房</a>
           <a href={`${BASE}/draw/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/draw/'); }}>🖍️ 黒板キャンバス</a>
@@ -487,7 +489,7 @@ function toSpeakable(section: Section): string {
     t = t.replace(/^#{2,3}\s*/, '');
     t = t.replace(/^\d+\.\s*/, '');
     t = t.replace(/^-\s*/, '');
-    t = t.replace(/^[💡⚠️📖✅]\s*/u, '');
+    t = t.replace(/^(?:[\u{1F300}-\u{1FAFF}☀-➿←-⇿️]\s*)+/u, '');
     t = t.replace(/\*\*(.+?)\*\*/g, '$1');
     t = t.replace(/`([^`]+)`/g, '$1');
     t = t.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
@@ -632,6 +634,7 @@ function Footer() {
   return (
     <footer className="site-footer">
       <div>
+        <a href={`${BASE}/map/`} onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>旅のマップ</a>
         <a href={`${BASE}/dex/`} onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>チョーク図鑑</a>
         <a href={`${BASE}/workshop/`} onClick={(e) => { e.preventDefault(); navigateTo('/workshop/'); }}>チョーク工房</a>
         <a href={`${BASE}/draw/`} onClick={(e) => { e.preventDefault(); navigateTo('/draw/'); }}>黒板キャンバス</a>
@@ -793,6 +796,8 @@ export default function App() {
     content = <Workshop />;
   } else if (normalized === '/draw') {
     content = <Draw />;
+  } else if (normalized === '/map') {
+    content = <AdventureMap />;
   } else {
     const id = normalized.replace(/^\//, '');
     const section = sections.find((s) => s.id === id);

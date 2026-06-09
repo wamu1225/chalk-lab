@@ -355,6 +355,14 @@ writeStaticPage('draw', '黒板キャンバス（チョークで書く体験）'
   <p>「チョークで書く」しくみ——やわらかいチョークがこすれて粉になり、黒板の細かなデコボコにひっかかって残る——を、実際に手を動かして体感できる全年齢向けのページです。書き味のことは <a href="/chalk-lab/basics/" style="color:${BOARD};font-weight:600">チョークの基礎</a> でくわしく紹介しています。</p>
   <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
 
+const mapStaticList = sections
+  .map((s, i) => `<li style="margin-bottom:12px"><a href="/chalk-lab/${s.id}/" style="color:${BOARD};font-weight:600;text-decoration:none">${i + 1}. ${escapeHtml(s.shortTitle)}</a> — <span style="color:#555;font-size:0.9rem">${escapeHtml(s.description)}</span></li>`)
+  .join('\n');
+writeStaticPage('map', 'チョークの旅マップ', 'よみもの8本を“旅のマップ”としてめぐり、読んだ地点にスタンプを集めて全踏破をめざす、全年齢向けの学習導線。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">よみものをめぐる旅のマップです。1〜8の地点を順に読み進めて、ぜんぶ踏破するとチョーク博士。どの地点からでも読めます。</p>
+  <ol style="padding-left:1.2em">${mapStaticList}</ol>
+  <p style="margin-top:20px"><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
+
 console.log(`✓ Generated ${generatedCount} static pages`);
 
 // sitemap.xml
@@ -362,6 +370,7 @@ const sitemapToday = new Date().toISOString().split('T')[0];
 const sitemapEntries = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
   ...sections.map((s) => ({ path: `/${s.id}/`, changefreq: 'monthly', priority: '0.9' })),
+  { path: '/map/', changefreq: 'monthly', priority: '0.7' },
   { path: '/dex/', changefreq: 'monthly', priority: '0.8' },
   { path: '/workshop/', changefreq: 'monthly', priority: '0.7' },
   { path: '/draw/', changefreq: 'monthly', priority: '0.7' },
