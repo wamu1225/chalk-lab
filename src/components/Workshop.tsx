@@ -53,6 +53,17 @@ export function Workshop() {
         <a href={`${BASE}/making/`} onClick={(e) => { e.preventDefault(); navigateTo('/making/'); }}>作り方</a>）の知識が活きます。
       </p>
 
+      {(() => {
+        const best = progress.craftedChalks.reduce((m, c) => Math.max(m, c.overall), 0);
+        const bestRank = best >= 85 ? 'S' : best >= 72 ? 'A' : best >= 55 ? 'B' : best > 0 ? 'C' : null;
+        return (
+          <div className="workshop-challenge">
+            <span>🎯 目標：<strong>ランクA（総合72）以上</strong>のマイチョークを作ろう！バランスよく配合するのがコツ。</span>
+            {bestRank && <span className="workshop-best">これまでの最高：ランク{bestRank}（総合{best}）</span>}
+          </div>
+        );
+      })()}
+
       <div className="workshop-grid">
         <section className="workshop-mix" aria-label="配合">
           <h2 className="workshop-h2">配合</h2>

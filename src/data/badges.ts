@@ -112,6 +112,20 @@ export const BADGES: Badge[] = [
     desc: '今日の検定に7日連続で挑戦した',
     earned: (p) => p.dailyStreak >= 7,
   },
+  {
+    id: 'workshop-first',
+    name: '工房デビュー',
+    emoji: '',
+    desc: 'チョーク工房でマイチョークを作った',
+    earned: (p) => p.craftedChalks.length >= 1,
+  },
+  {
+    id: 'workshop-master',
+    name: 'チョークの名工',
+    emoji: '',
+    desc: '工房でランクA以上のチョークを作った',
+    earned: (p) => p.craftedChalks.some((c) => c.rank === 'S' || c.rank === 'A'),
+  },
 ];
 
 // 進捗からバッジidの配列を再計算

@@ -7,6 +7,7 @@ const TIER: Record<string, string> = {
   dex: '#5b8def',      // 図鑑系（青）
   special: '#9b6bd6',  // 特別（紫）
   daily: '#e07b39',    // 継続系（オレンジ）
+  craft: '#2aa7a0',    // 工房系（ティール）
 };
 
 const GLYPHS: Record<string, string> = {
@@ -25,6 +26,7 @@ const GLYPHS: Record<string, string> = {
   lock: `<rect x="24" y="31" width="16" height="13" rx="2.5" fill="#9aa0a6"/><path d="M27 31 v-4 a5 5 0 0 1 10 0 v4" fill="none" stroke="#9aa0a6" stroke-width="3"/><circle cx="32" cy="37" r="1.8" fill="#1f3a2e"/>`,
   calendar: `<rect x="20" y="22" width="24" height="20" rx="2.5" fill="none" stroke="#fff" stroke-width="2.6"/><line x1="20" y1="28" x2="44" y2="28" stroke="#fff" stroke-width="2.6"/><line x1="26" y1="19" x2="26" y2="24" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><line x1="38" y1="19" x2="38" y2="24" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M27 35 l3.4 3.4 l6 -6.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`,
   flame: `<path d="M32 17 C40 25 38 33 34 37 C39 37 40 30 40 30 C44 36 42 46 32 46 C22 46 21 37 25 32 C25 35 27 37 29 37 C26 33 27 24 32 17 Z" fill="#fff"/>`,
+  beaker: `<path d="M27 19 v8 l-7 14 a3.5 3.5 0 0 0 3.2 5 h17.6 a3.5 3.5 0 0 0 3.2 -5 l-7 -14 v-8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/><line x1="24.5" y1="19" x2="39.5" y2="19" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M24.5 39 q7.5 3 15 0" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="29" cy="43" r="1.4" fill="#fff"/><circle cx="35" cy="41" r="1.2" fill="#fff"/>`,
 };
 
 type MedalDef = { tier: keyof typeof TIER; glyph: string };
@@ -44,6 +46,8 @@ export const MEDAL: Record<string, MedalDef> = {
   'all-mastery': { tier: 'special', glyph: 'starburst' },
   'daily-3': { tier: 'daily', glyph: 'calendar' },
   'daily-7': { tier: 'daily', glyph: 'flame' },
+  'workshop-first': { tier: 'craft', glyph: 'beaker' },
+  'workshop-master': { tier: 'quiz', glyph: 'beaker' },
 };
 
 // メダルの内側SVG文字列（React / 文字列の双方で使う）

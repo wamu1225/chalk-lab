@@ -30,13 +30,17 @@ const clamp = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
 
 export function computeScores(r: Recipe): Scores {
   const overScallop = Math.max(0, r.scallop - 25); // 混ぜすぎ域
-  const smoothness = clamp(35 + r.gypsum * 0.45 + (r.coating ? 15 : 0) - r.pigment * 0.15 - overScallop * 0.6);
-  const strength = clamp(30 + r.carbonate * 0.4 + Math.min(r.scallop, 40) * 0.4);
-  const dustless = clamp(30 + r.carbonate * 0.4 + r.scallop * 0.3 - r.gypsum * 0.35);
-  const color = clamp(20 + r.pigment * 0.8);
+  const smoothness = clamp(45 + r.gypsum * 0.40 + (r.coating ? 15 : 0) - r.pigment * 0.12 - overScallop * 0.6);
+  const strength = clamp(45 + r.carbonate * 0.35 + Math.min(r.scallop, 35) * 0.30);
+  const dustless = clamp(42 + r.carbonate * 0.35 - r.gypsum * 0.30 + r.scallop * 0.20);
+  const color = clamp(25 + r.pigment * 0.75);
   const eco = clamp(r.scallop * 1.4);
-  const overall = clamp(0.3 * smoothness + 0.25 * strength + 0.25 * dustless + 0.2 * color);
-  const rank: Scores['rank'] = overall >= 85 ? 'S' : overall >= 70 ? 'A' : overall >= 55 ? 'B' : 'C';
+  // バランスボーナス：4性能すべてを高く保つ（万能チョークは作れない＝バランスが大事）ほど加点
+  const perf = [smoothness, strength, dustless, color];
+  const avg = 0.3 * smoothness + 0.25 * strength + 0.25 * dustless + 0.2 * color;
+  const balanceBonus = Math.min(15, Math.max(0, (Math.min(...perf) - 50) * 0.6));
+  const overall = clamp(avg + balanceBonus);
+  const rank: Scores['rank'] = overall >= 85 ? 'S' : overall >= 72 ? 'A' : overall >= 55 ? 'B' : 'C';
 
   let comment: string;
   if (eco >= 65) comment = 'ホタテ貝殻をたっぷり活かしたエコなチョーク！資源の循環の好例です。';
