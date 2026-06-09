@@ -79,6 +79,9 @@ export const sections: Section[] = [
 
 まずは「チョーク＝白い鉱物の粉を固めた棒」とイメージできればOKです。`,
     updatedAt: UPDATED,
+    references: [
+      { label: '日本白墨工業（公式）｜チョークの成分（炭酸カルシウム製＝硬め／石膏製＝やわらかい）の違い', url: 'https://tenjin-chalk.co.jp/chalk.html' },
+    ],
   },
   {
     id: 'types',
@@ -431,6 +434,9 @@ export const sections: Section[] = [
 
 同じ「チョーク」でも、すべりを「止める・あやつる・印をつける」と、役割はさまざまです。`,
     updatedAt: UPDATED,
+    references: [
+      { label: 'CLIMBING-net（山と溪谷社）｜クライミング用チョークの基礎知識（炭酸マグネシウムが汗を吸ってすべりを防ぐ）', url: 'https://www.climbing-net.com/general/about-chalk/' },
+    ],
   },
   {
     id: 'health',
