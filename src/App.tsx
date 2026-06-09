@@ -294,12 +294,9 @@ function Home() {
   return (
     <>
       <div className="hero">
-        <div className="hero-emoji" aria-hidden="true"><ChalkLogo size={76} /></div>
+        <div className="hero-emoji" aria-hidden="true"><ChalkLogo size={52} /></div>
         <h1>{SITE_NAME}</h1>
-        <p>
-          黒板のチョークから、伝説の羽衣チョーク、白い崖の「白亜」、クライミング用まで。<br />
-          チョークの成分・歴史・トリビアを、読んで・クイズで遊んで、楽しく学べるサイトです。
-        </p>
+        <p>チョークの成分・歴史・トリビアを、読んで・クイズで遊んで楽しく学べるサイトです。</p>
       </div>
 
       <div className="mascot-greet">
@@ -345,22 +342,25 @@ function Home() {
         );
       })()}
 
-      <h2 className="home-section-title">よみもの一覧</h2>
-      <div className="section-grid">
+      <h2 className="home-section-title">よみもの</h2>
+      <ol className="read-list">
         {sections.map((s) => (
-          <a
-            key={s.id}
-            href={`${BASE}/${s.id}/`}
-            className="section-card"
-            onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); }}
-          >
-            <ChalkIcon motif={SECTION_ICON[s.id]} size={64} className="section-card-emoji" />
-            <h2 className="section-card-title">{s.shortTitle}</h2>
-            <p className="section-card-desc">{s.description}</p>
-            <span className="section-card-cta">読む →</span>
-          </a>
+          <li key={s.id}>
+            <a
+              className="read-item"
+              href={`${BASE}/${s.id}/`}
+              onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); }}
+            >
+              <ChalkIcon motif={SECTION_ICON[s.id]} size={40} className="read-item-icon" />
+              <span className="read-item-body">
+                <span className="read-item-title">{s.shortTitle}</span>
+                <span className="read-item-desc">{s.description}</span>
+              </span>
+              <span className="read-item-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ol>
 
       <div className="home-trust">
         <h3>このサイトについて</h3>
