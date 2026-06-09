@@ -363,6 +363,11 @@ writeStaticPage('map', 'チョークの旅マップ', 'よみもの8本を“旅
   <ol style="padding-left:1.2em">${mapStaticList}</ol>
   <p style="margin-top:20px"><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
 
+writeStaticPage('guess', 'チョーク絵当て（図鑑カードクイズ）', '集めた図鑑カードの絵を見て名前を当てる、全年齢向けの絵当てクイズ。正解するとそのカードの習熟度が上がります。',
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">図鑑カードの絵（アイコン）を見て、正しい名前を当てるゲームです。字が読めなくても、絵で楽しめます。正解すると、そのカードの習熟度（★）が上がります。あそぶには、よみものを読んでカードを4枚以上集めてください。</p>
+  <p>白墨・色チョーク・ダストレス・羽衣チョーク・円石藻・クライミング用など、集めたカードがそのまま出題されます。<a href="/chalk-lab/dex/" style="color:${BOARD};font-weight:600">チョーク図鑑</a>でカードを集めてから挑戦しましょう。</p>
+  <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップへ戻る</a></p>`);
+
 console.log(`✓ Generated ${generatedCount} static pages`);
 
 // sitemap.xml
@@ -375,6 +380,7 @@ const sitemapEntries = [
   { path: '/workshop/', changefreq: 'monthly', priority: '0.7' },
   { path: '/draw/', changefreq: 'monthly', priority: '0.7' },
   { path: '/quiz/', changefreq: 'monthly', priority: '0.8' },
+  { path: '/guess/', changefreq: 'monthly', priority: '0.7' },
   { path: '/badges/', changefreq: 'monthly', priority: '0.5' },
   { path: '/glossary/', changefreq: 'monthly', priority: '0.6' },
   { path: '/about/', changefreq: 'yearly', priority: '0.3' },

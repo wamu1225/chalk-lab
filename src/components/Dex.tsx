@@ -125,7 +125,10 @@ export function Dex() {
       })()}
 
       <div className="dex-cta">
-        <a className="quiz-btn-primary" href={`${BASE}/quiz/`} onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>
+        <a className="quiz-btn-primary" href={`${BASE}/guess/`} onClick={(e) => { e.preventDefault(); navigateTo('/guess/'); }}>
+          🎨 集めたカードで絵当てクイズ
+        </a>
+        <a className="quiz-btn-ghost" href={`${BASE}/quiz/`} onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>
           チョーク検定で習熟度を上げる
         </a>
       </div>

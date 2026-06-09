@@ -535,6 +535,8 @@
 .toast-mascot { flex: none; }
 .quiz-result-emoji { display: flex; justify-content: center; margin-bottom: 4px; }
 .quiz-chara-line { color: var(--ink-soft); font-weight: 700; margin: 2px 0 14px; }
+.guess-figure { display: flex; justify-content: center; margin: 8px 0 18px; }
+.guess-figure svg { border-radius: 22px; box-shadow: var(--shadow); }
 .toast-cards { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
 .toast-card { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; padding: 4px 12px 4px 4px; font-size: 0.85rem; font-weight: 700; }
 .toast-card svg { border-radius: 7px; }
