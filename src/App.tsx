@@ -26,6 +26,7 @@ import { ToastHost } from './components/ToastHost';
 import { CharaChalk } from './components/CharaChalk';
 import type { MascotExpr } from './data/mascot';
 import { computeXp, levelInfo } from './utils/level';
+import { todaysTrivia } from './data/trivia';
 import './App.css';
 
 function ChalkLogo({ size = 28 }: { size?: number }) {
@@ -338,6 +339,22 @@ function Home() {
           <a href={`${BASE}/play/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/play/'); }}>🎮 ぜんぶのあそび →</a>
         </div>
       </div>
+
+      {(() => {
+        const t = todaysTrivia();
+        const sec = sections.find((s) => s.id === t.sectionId);
+        return (
+          <a
+            className="trivia-box"
+            href={`${BASE}/${t.sectionId}/`}
+            onClick={(e) => { e.preventDefault(); navigateTo(`/${t.sectionId}/`); }}
+          >
+            <span className="trivia-label">💡 きょうのチョーク豆知識</span>
+            <span className="trivia-text">{t.text}</span>
+            {sec && <span className="trivia-more">「{sec.shortTitle}」で読む →</span>}
+          </a>
+        );
+      })()}
 
       <h2 className="home-section-title">よみもの一覧</h2>
       <div className="section-grid">
