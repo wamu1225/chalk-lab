@@ -4,6 +4,7 @@ import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { sections } from '../data/sections';
 import { SECTION_ICON } from '../data/chalkIcons';
 import { ChalkIcon } from './ChalkIcon';
+import { CharaChalk } from './CharaChalk';
 import { loadProgress } from '../utils/progress';
 
 export function AdventureMap() {
@@ -17,6 +18,7 @@ export function AdventureMap() {
 
   const done = new Set(visited);
   const nextIdx = sections.findIndex((s) => !done.has(s.id));
+  const allDone = sections.length > 0 && done.size >= sections.length;
 
   return (
     <article className="map-screen">
@@ -50,7 +52,16 @@ export function AdventureMap() {
             </li>
           );
         })}
-        <li className="map-goal">🏆 ゴール：チョーク博士！</li>
+        <li className={`map-goal ${allDone ? 'reached' : ''}`}>
+          {allDone ? (
+            <span className="map-goal-done">
+              <CharaChalk expr="celebrate" size={52} />
+              <span>全踏破おめでとう！きみはもうチョーク博士だ！</span>
+            </span>
+          ) : (
+            <>🏆 ゴール：チョーク博士！（ぜんぶ読むとここに到達）</>
+          )}
+        </li>
       </ol>
 
       <div className="quiz-back">
