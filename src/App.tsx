@@ -240,6 +240,12 @@ function parseContent(content: string): ReactNode[] {
   return result;
 }
 
+const HEADER_NAV: { path: string; label: string }[] = [
+  { path: '/map/', label: 'よみもの' },
+  { path: '/play/', label: 'あそぶ' },
+  { path: '/dex/', label: '図鑑' },
+];
+
 function Header() {
   const [navOpen, setNavOpen] = useState(false);
   return (
@@ -261,14 +267,13 @@ function Header() {
           {navOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
         <nav className={`site-nav ${navOpen ? 'open' : ''}`} aria-label="メインナビゲーション">
-          {sections.map((s) => (
+          {HEADER_NAV.map((n) => (
             <a
-              key={s.id}
-              href={`${BASE}/${s.id}/`}
-              onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); setNavOpen(false); }}
+              key={n.path}
+              href={`${BASE}${n.path}`}
+              onClick={(e) => { e.preventDefault(); navigateTo(n.path); setNavOpen(false); }}
             >
-              <ChalkIcon motif={SECTION_ICON[s.id]} size={20} className="nav-emoji" />
-              <span>{s.shortTitle}</span>
+              {n.label}
             </a>
           ))}
         </nav>
