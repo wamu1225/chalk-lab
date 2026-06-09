@@ -470,18 +470,22 @@
   background: linear-gradient(160deg, #fffdf6, #fff5dd);
   box-shadow: 0 0 14px rgba(224, 168, 46, 0.35);
 }
+.dex-guide { display: block; background: #fff9ec; border: 1.5px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 0 0 18px; text-decoration: none; color: var(--ink); line-height: 1.65; }
+.dex-guide strong { display: block; color: var(--board); margin-bottom: 2px; }
 .dex-card.locked {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: #f0efe9;
+  background: #f3f2ee;
   border-style: dashed;
   color: var(--ink-soft);
-  min-height: 130px;
+  min-height: 84px;
+  padding: 12px;
 }
 .dex-card-rarity { font-size: 0.85rem; color: var(--accent); letter-spacing: 1px; margin-bottom: 2px; }
 .dex-card-art { display: block; margin-bottom: 8px; border-radius: 14px; }
-.dex-locked-tile { width: 56px; height: 56px; border-radius: 14px; background: #3a3a40; color: #8a8f95; font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+.dex-locked-tile { width: 44px; height: 44px; border-radius: 12px; background: #d9d7cf; color: #9a978d; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+.dex-card.locked .dex-card-name { font-size: 0.85rem; color: var(--ink-soft); }
 .dex-card-name { font-weight: 800; color: var(--ink); margin: 6px 0 6px; font-size: 0.98rem; }
 .dex-card-front { font-size: 0.85rem; color: var(--ink); margin: 0 0 8px; line-height: 1.6; }
 .dex-card-back { font-size: 0.8rem; color: var(--ink-soft); margin: 0 0 10px; line-height: 1.65; }

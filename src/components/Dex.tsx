@@ -48,6 +48,17 @@ export function Dex() {
       </div>
       <div className="dex-progress-bar"><span style={{ width: `${TOTAL_CARDS ? (found / TOTAL_CARDS) * 100 : 0}%` }} /></div>
 
+      {found === 0 && (
+        <a
+          className="dex-guide"
+          href={`${BASE}/map/`}
+          onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}
+        >
+          <strong>まだカードがありません。</strong>
+          よみものを最後まで読むと、ここにカードが集まります。まずは「旅のマップ」から読んでみよう！
+        </a>
+      )}
+
       <div className="dex-filters" role="group" aria-label="図鑑の絞り込み">
         <button className={`dex-chip ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>すべて</button>
         {categories.map((cat) => (
@@ -85,7 +96,6 @@ export function Dex() {
                         <div key={card.id} className="dex-card locked">
                           <div className="dex-locked-tile" aria-hidden="true">?</div>
                           <div className="dex-card-name">？？？</div>
-                          <div className="dex-card-hint">よみものを読むと発見</div>
                         </div>
                       );
                     }
