@@ -255,12 +255,14 @@
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--board); font-weight: 700; text-decoration: none; }
 .site-footer {
   background: var(--board-deep);
-  color: #c9d2cc;
+  color: #9faca3;
   text-align: center;
-  padding: 24px 16px;
+  padding: 26px 16px 28px;
   font-size: 0.85rem;
 }
-.site-footer a { color: var(--accent-soft); text-decoration: none; margin: 0 8px; }
+.site-footer > div:first-child { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px 18px; margin-bottom: 8px; }
+.site-footer a { color: #dbe5df; text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
 
 /* ===== Glossary ===== */
 .glossary-list { margin: 0; }
