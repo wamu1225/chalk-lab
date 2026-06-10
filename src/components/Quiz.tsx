@@ -91,7 +91,7 @@ export function Quiz() {
       <article className="quiz-screen">
         <h1 className="quiz-h1">📝 チョーク検定</h1>
         <p className="quiz-lead">
-          全{QUIZ.length}問のバンクから毎回ランダムに{QUIZ_PER_PLAY}問を出題。
+          全{QUIZ.length}問の中から、毎回ランダムに{QUIZ_PER_PLAY}問を出題。
           {QUIZ_PASS}問以上の正解で合格です。選択肢の並びも毎回シャッフルされます。
           <br />「今日の検定」は全員おなじ{QUIZ_PER_PLAY}問。毎日挑戦して連続記録をのばそう。
         </p>
