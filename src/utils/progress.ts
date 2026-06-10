@@ -23,6 +23,14 @@ export type CraftedChalk = { name: string; rank: string; overall: number; ts: nu
 
 const DEFAULT: Progress = { visitedSections: [], quizPlays: 0, quizBest: 0, badges: [], cards: {}, dailyLastDate: '', dailyStreak: 0, craftedChalks: [] };
 
+// 初回訪問のウェルカムカード（コールドスタート緩和）。
+// 「白墨」1枚を最初から発見済みにして、図鑑が空っぽの状態で始まらないようにする。
+const WELCOME_CARD_ID = 'white-chalk';
+
+function freshProgress(): Progress {
+  return { ...DEFAULT, cards: { [WELCOME_CARD_ID]: { discovered: true, mastery: 0 } } };
+}
+
 function sanitizeCards(raw: unknown): Record<string, CardState> {
   const out: Record<string, CardState> = {};
   if (!raw || typeof raw !== 'object') return out;
@@ -36,10 +44,10 @@ function sanitizeCards(raw: unknown): Record<string, CardState> {
 }
 
 export function loadProgress(): Progress {
-  if (typeof window === 'undefined') return { ...DEFAULT, cards: {} };
+  if (typeof window === 'undefined') return freshProgress();
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return { ...DEFAULT, cards: {} };
+    if (!raw) return freshProgress();
     const p = JSON.parse(raw);
     return {
       visitedSections: Array.isArray(p.visitedSections) ? p.visitedSections : [],
@@ -57,7 +65,7 @@ export function loadProgress(): Progress {
         : [],
     };
   } catch {
-    return { ...DEFAULT, cards: {} };
+    return freshProgress();
   }
 }
 

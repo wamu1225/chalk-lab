@@ -67,14 +67,14 @@ export function GuessGame() {
   };
 
   // カードが少なすぎる場合の案内
-  if (discovered.length < 4) {
+  if (discovered.length < 2) {
     return (
       <article className="quiz-screen">
         <h1 className="quiz-h1"><ChalkIcon motif="play-guess" size={28} className="h1-icon" />チョーク絵当て</h1>
         <p className="quiz-lead">
           集めた図鑑カードの絵を見て、名前を当てるゲームです。
-          あそぶには図鑑カードが<strong>4枚以上</strong>必要（いまは{discovered.length}枚）。
-          まずはよみものを読んでカードを集めよう！
+          図鑑カードが<strong>2枚</strong>あればあそべます（いまは{discovered.length}枚）。
+          よみものを1つ読めば、すぐにあそべるよ！
         </p>
         <div className="quiz-modes">
           <a className="quiz-btn-primary" href={`${BASE}/map/`} onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>旅マップでよみものへ</a>

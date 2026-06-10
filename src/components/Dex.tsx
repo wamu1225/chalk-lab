@@ -48,13 +48,13 @@ export function Dex() {
       </div>
       <div className="dex-progress-bar"><span style={{ width: `${TOTAL_CARDS ? (found / TOTAL_CARDS) * 100 : 0}%` }} /></div>
 
-      {found === 0 && (
+      {found <= 1 && (
         <a
           className="dex-guide"
           href={`${BASE}/map/`}
           onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}
         >
-          <strong>まだカードがありません。</strong>
+          <strong>{found === 1 ? 'さいしょの1枚をプレゼント！' : 'まだカードがありません。'}</strong>
           よみものを最後まで読むと、ここにカードが集まります。まずは「旅のマップ」から読んでみよう！
         </a>
       )}
