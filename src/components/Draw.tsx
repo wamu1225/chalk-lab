@@ -169,7 +169,7 @@ export function Draw() {
         onPointerLeave={up}
       />
 
-      <p className="draw-hint">💡 ヒント：ゆっくりなぞると濃く、すばやく動かすとかすれます。本物のチョークみたいですね。</p>
+      <p className="draw-hint">ヒント：ゆっくりなぞると濃く、すばやく動かすとかすれます。本物のチョークみたいですね。</p>
 
       <div className="quiz-back">
         <a href={`${BASE}/`} onClick={(e) => { e.preventDefault(); navigateTo('/'); }}><ArrowLeft size={16} /> トップへ戻る</a>

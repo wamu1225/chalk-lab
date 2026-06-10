@@ -182,7 +182,7 @@ function buildFaqHtml(sectionId: string): string {
   const items = faqs
     .map((qa) => `<details style="background:#f7f6f1;border:1px solid #e3e0d6;border-radius:8px;margin-bottom:8px;padding:12px 16px"><summary style="cursor:pointer;font-weight:700;color:#233028">Q. ${escapeHtml(qa.question)}</summary><p style="margin:10px 0 0;color:#4b5b51;line-height:1.85">A. ${escapeHtml(qa.answer)}</p></details>`)
     .join('');
-  return `<section style="margin:40px 0;padding:22px;background:#fff;border:1px solid #e3e0d6;border-radius:14px"><h3 style="margin:0 0 14px;color:${BOARD};font-size:1.05rem">❓ よくある質問</h3>${items}</section>`;
+  return `<section style="margin:40px 0;padding:22px;background:#fff;border:1px solid #e3e0d6;border-radius:14px"><h3 style="margin:0 0 14px;color:${BOARD};font-size:1.05rem">よくある質問</h3>${items}</section>`;
 }
 
 function buildSectionFallback(s: (typeof sections)[number]): string {
@@ -190,7 +190,7 @@ function buildSectionFallback(s: (typeof sections)[number]): string {
   const contentHtml = markdownToHtml(s.content);
   const faqHtml = buildFaqHtml(s.id);
   const refsHtml = (s.references && s.references.length)
-    ? `<aside style="margin:32px 0;padding:16px 18px;background:#f7f6f1;border:1px solid #e3e0d6;border-radius:14px"><h3 style="margin:0 0 10px;font-size:1rem;color:${BOARD}">📚 参考</h3><ul style="margin:0;padding-left:1.2em">${s.references.map((r) => `<li style="margin-bottom:6px"><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer" style="color:${BOARD}">${escapeHtml(r.label)}</a></li>`).join('')}</ul></aside>`
+    ? `<aside style="margin:32px 0;padding:16px 18px;background:#f7f6f1;border:1px solid #e3e0d6;border-radius:14px"><h3 style="margin:0 0 10px;font-size:1rem;color:${BOARD}">参考</h3><ul style="margin:0;padding-left:1.2em">${s.references.map((r) => `<li style="margin-bottom:6px"><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer" style="color:${BOARD}">${escapeHtml(r.label)}</a></li>`).join('')}</ul></aside>`
     : '';
   const leadHtml = s.lead ? `<p style="color:#233028;font-size:1.08rem;line-height:1.9;margin:14px 0 22px">${escapeHtml(s.lead)}</p>` : '';
   const kidHtml = s.kidSummary ? `<div style="background:#fff9ec;border:1px solid #f4c64a;border-radius:14px;padding:14px 18px;margin:0 0 24px"><span style="display:inline-block;background:${ACCENT};color:#3a2c06;font-weight:800;font-size:0.78rem;border-radius:999px;padding:3px 12px;margin-bottom:8px">やさしい まとめ</span><p style="margin:0;color:#233028;line-height:1.85">${escapeHtml(s.kidSummary)}</p></div>` : '';

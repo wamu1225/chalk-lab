@@ -324,10 +324,8 @@ function Home() {
           <p>よみものを読むと<strong>チョーク図鑑</strong>のカードを発見。チョーク検定に正解すると習熟度が上がり、バッジも集まります。</p>
         </div>
         <div className="play-banner-btns">
-          <a href={`${BASE}/map/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>旅のマップ</a>
-          <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>チョーク図鑑</a>
-          <a href={`${BASE}/quiz/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>チョーク検定</a>
-          <a href={`${BASE}/play/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/play/'); }}>ぜんぶのあそび →</a>
+          <a href={`${BASE}/map/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>旅のマップからはじめる</a>
+          <a href={`${BASE}/play/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/play/'); }}>ぜんぶのあそびを見る →</a>
         </div>
       </div>
 
@@ -340,7 +338,7 @@ function Home() {
             href={`${BASE}/${t.sectionId}/`}
             onClick={(e) => { e.preventDefault(); navigateTo(`/${t.sectionId}/`); }}
           >
-            <span className="trivia-label">💡 きょうのチョーク豆知識</span>
+            <span className="trivia-label">きょうのチョーク豆知識</span>
             <span className="trivia-text">{t.text}</span>
             {sec && <span className="trivia-more">「{sec.shortTitle}」で読む →</span>}
           </a>
@@ -415,7 +413,7 @@ function RelatedSections({ currentId }: { currentId: string }) {
   const related = sections.filter((s) => s.id !== currentId);
   return (
     <aside className="related-sections" aria-label="関連記事">
-      <h3>📚 ほかのよみものも読む</h3>
+      <h3>ほかのよみものも読む</h3>
       <div className="related-grid">
         {related.map((s) => (
           <a
@@ -438,7 +436,7 @@ function FAQBlock({ sectionId }: { sectionId: string }) {
   if (!faqs || faqs.length === 0) return null;
   return (
     <section className="faq-block" aria-label="よくある質問">
-      <h3>❓ よくある質問</h3>
+      <h3>よくある質問</h3>
       {faqs.map((qa, i) => (
         <details key={i} className="faq-item">
           <summary>{qa.question}</summary>
@@ -454,7 +452,7 @@ function DiscoveredCards({ sectionId, show }: { sectionId: string; show: boolean
   if (!show || cards.length === 0) return null;
   return (
     <aside className="discovered-cards" aria-label="このページで発見したカード">
-      <h3>🃏 このページで発見した図鑑カード</h3>
+      <h3>このページで発見した図鑑カード</h3>
       <div className="discovered-grid">
         {cards.map((c) => (
           <div key={c.id} className={`discovered-card rarity-${c.rarity}`}>
@@ -478,7 +476,7 @@ function References({ items }: { items?: { label: string; url: string }[] }) {
   if (!items || items.length === 0) return null;
   return (
     <aside className="references" aria-label="参考">
-      <h3>📚 参考</h3>
+      <h3>参考</h3>
       <ul>
         {items.map((r) => (
           <li key={r.url}>
@@ -715,7 +713,6 @@ function Glossary() {
       <Breadcrumb currentTitle="用語集" />
       <article className="section-page">
         <header className="article-header">
-          <div className="article-emoji" aria-hidden="true">📖</div>
           <h1>チョーク用語集</h1>
         </header>
         <p className="lead">

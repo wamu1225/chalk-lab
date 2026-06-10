@@ -125,7 +125,7 @@ export function Quiz() {
           </a>
         </div>
         {!passed && (
-          <p className="quiz-hint">💡 よみものを読み返すと、ぐっと解きやすくなります。</p>
+          <p className="quiz-hint">ヒント：よみものを読み返すと、ぐっと解きやすくなります。</p>
         )}
         <div className="quiz-back">
           <a href={`${BASE}/`} onClick={(e) => { e.preventDefault(); navigateTo('/'); }}><ArrowLeft size={16} /> トップへ戻る</a>
