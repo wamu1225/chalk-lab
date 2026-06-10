@@ -219,6 +219,26 @@ export const CHALK_CARDS: ChalkCard[] = [
     back: '製造の最後に表面をコーティングして、持っても手が汚れにくく、扱いやすくしています。',
     relatedSectionId: 'making',
   },
+
+  // ── 歴史（A1新記事連動） ──
+  {
+    id: 'nuriita', name: '塗板（ぬりいた）', emoji: '', rarity: 2, category: 'compare',
+    front: '黒板のご先祖さま。寺子屋で使われた板。',
+    back: '江戸時代の寺子屋などで使われたとされる。明治に黒板が海をわたってくる前から、日本にも「板に塗って書く」文化があった。',
+    relatedSectionId: 'history',
+  },
+  {
+    id: 'green-board', name: '緑の黒板', emoji: '', rarity: 1, category: 'board',
+    front: '「黒板」なのに緑色。その理由は規格にあり。',
+    back: '1950年代、JIS規格の制定をきっかけに塗面が黒から緑系に変わったとされる。名前にだけ「黒」が残った。',
+    relatedSectionId: 'history',
+  },
+  {
+    id: 'first-chalk-jp', name: '国産白墨はじまり', emoji: '', rarity: 3, category: 'legend',
+    front: '明治8年、七輪で石膏を焼いて作られた最初の国産白墨。',
+    back: 'チョークは明治6年に大阪の雑貨商が初輸入し、わずか2年後に国産化されたという。最初の白墨は七輪で石膏を焼いた手作りだった。',
+    relatedSectionId: 'history',
+  },
 ];
 
 export const TOTAL_CARDS = CHALK_CARDS.length;

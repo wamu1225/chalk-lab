@@ -93,6 +93,12 @@ export const glossary: GlossaryEntry[] = [
     relatedSectionId: 'sports',
   },
   {
+    term: '塗板',
+    reading: 'ぬりいた',
+    description: '江戸時代の寺子屋などで使われたとされる、黒板のご先祖にあたる板。明治に海外から黒板が伝わる前から、日本にも「板に塗って書く」道具がありました。',
+    relatedSectionId: 'history',
+  },
+  {
     term: '学校環境衛生基準',
     reading: 'がっこうかんきょうえいせいきじゅん',
     description: '学校の教室などの環境について文部科学省が定める基準。10マイクロメートル以下の細かい浮遊粉じんを、1立方メートルあたり0.10mg以下に保つよう求めています。',

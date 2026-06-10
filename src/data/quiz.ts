@@ -225,6 +225,34 @@ export const QUIZ: QuizQuestion[] = [
     explain: '炭酸マグネシウムは吸水性が高く、手の汗を吸ってサラサラに保ちます。',
     relatedSectionId: 'sports', relatedCardId: 'climbing',
   },
+  {
+    q: '1872年（明治5年）、黒板を日本に初めて持ち込んだ大学南校の先生は、どこの国の人？',
+    choices: ['アメリカ', 'フランス', 'イギリス', 'ドイツ'],
+    answer: 0, difficulty: 2,
+    explain: '学校制度のスタートと同時に、アメリカ人教師のスコットが大学南校（東京大学の前身）に持ち込んだとされています。',
+    relatedSectionId: 'history', relatedCardId: 'nuriita',
+  },
+  {
+    q: '「黒板」という名前は、何という英語をそのまま訳したもの？',
+    choices: ['blackboard', 'greenboard', 'chalkboard', 'schoolboard'],
+    answer: 0, difficulty: 1,
+    explain: '英語の「ブラックボード（blackboard）」をそのまま翻訳して「黒板」になったとされています。当時は本当に黒い板でした。',
+    relatedSectionId: 'history', relatedCardId: 'green-board',
+  },
+  {
+    q: '黒板の塗面が黒から緑系に変わったきっかけとされるのは？',
+    choices: ['JIS規格の制定', 'テレビの普及', 'チョークの改良', '校舎の鉄筋化'],
+    answer: 0, difficulty: 2,
+    explain: '1950年代、JIS規格の制定をきっかけに黒から緑系へ変わったとされています。名前は「黒板」のまま残りました。',
+    relatedSectionId: 'history', relatedCardId: 'green-board',
+  },
+  {
+    q: '明治8年ごろに完成した初の国産白墨は、何を焼いて作られた？',
+    choices: ['石膏', '石灰石', '貝がら', 'ねん土'],
+    answer: 0, difficulty: 3,
+    explain: '黒板メーカーの資料によると、石膏を七輪で焼いた白墨が初の国産品とされています。チョークの輸入開始からわずか2年後のことでした。',
+    relatedSectionId: 'history', relatedCardId: 'first-chalk-jp',
+  },
 ];
 
 // 乱数：Math.random（通常）と、日替わりシード（今日の検定）で共用する

@@ -3,6 +3,7 @@ import * as path from 'path';
 import { sections } from '../src/data/sections.ts';
 import { FAQ_BY_SECTION } from '../src/data/faqs.ts';
 import { glossary } from '../src/data/glossary.ts';
+import { QUIZ } from '../src/data/quiz.ts';
 import { CHALK_CARDS, CATEGORY_LABEL, TOTAL_CARDS } from '../src/data/chalkCards.ts';
 import { iconSvg, SECTION_ICON } from '../src/data/chalkIcons.ts';
 import { figureSvg } from '../src/data/figures.ts';
@@ -313,8 +314,8 @@ writeStaticPage('privacy', 'プライバシーポリシー', 'チョークラボ
   <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">広告について</h2><p>本サイトでは Google AdSense などの第三者配信の広告サービスを利用することがあります。広告配信事業者は、ユーザーの興味に応じた広告を表示するために Cookie を使用することがあります。Cookie の使用を望まない場合は、Google の広告設定から無効にできます。</p>
   <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">免責事項</h2><p>本サイトの情報の利用により生じた損害について、運営者は一切の責任を負いません。</p>`);
 
-writeStaticPage('quiz', 'チョーク検定（クイズ）', 'チョークの科学・歴史・トリビアから、全30問の中より毎回ランダムに10問を出題するクイズ。読んだ知識を力だめしできます。',
-  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">全30問の中から、毎回ランダムに10問を出題。8問以上の正解で合格です。選択肢の並びも毎回シャッフルされ、連続正解すると記録がのびます。さらに「今日の検定」は全員おなじ10問で、毎日挑戦すると連続記録（デイリーストリーク）がのびます。よみものを読んでから挑戦すると解きやすくなります。</p>
+writeStaticPage('quiz', 'チョーク検定（クイズ）', `チョークの科学・歴史・トリビアから、全${QUIZ.length}問の中より毎回ランダムに10問を出題するクイズ。読んだ知識を力だめしできます。`,
+  `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">全${QUIZ.length}問の中から、毎回ランダムに10問を出題。8問以上の正解で合格です。選択肢の並びも毎回シャッフルされ、連続正解すると記録がのびます。さらに「今日の検定」は全員おなじ10問で、毎日挑戦すると連続記録（デイリーストリーク）がのびます。よみものを読んでから挑戦すると解きやすくなります。</p>
   <p>このページはブラウザ上で、その場で答え合わせができるクイズです。出題テーマには、チョークが黒板に書けるしくみ、炭酸カルシウムと石膏のちがい、白亜と白亜紀の関係、伝説の羽衣チョーク（チョーク黙示録や韓国セジョンモールへの継承）、クライミング用チョークの役割、ホタテ貝殻の再利用などが含まれます。各問には難易度（★）が付き、正解すると解説と関連するよみものへのリンクが表示され、図鑑カードの習熟度も上がります。</p>
   <p><a href="/chalk-lab/" style="color:${BOARD};font-weight:600">トップのよみもの一覧</a>から各テーマを読んでから挑戦するのがおすすめです。バッジは<a href="/chalk-lab/badges/" style="color:${BOARD};font-weight:600">こちら</a>。</p>`);
 
@@ -373,10 +374,10 @@ writeStaticPage('play', 'あそぶ｜チョークラボの遊び一覧', 'チョ
   `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">読んで・解いて・集めて・作って・描いて。チョークラボの遊びがぜんぶここに。</p>
   <ul style="list-style:none;padding:0">
     <li style="margin-bottom:12px"><a href="/chalk-lab/map/" style="color:${BOARD};font-weight:600">旅のマップ</a> — よみものを順にめぐって全踏破をめざそう。</li>
-    <li style="margin-bottom:12px"><a href="/chalk-lab/dex/" style="color:${BOARD};font-weight:600">チョーク図鑑</a> — 読んで集めるカード28種。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/dex/" style="color:${BOARD};font-weight:600">チョーク図鑑</a> — 読んで集めるカード${TOTAL_CARDS}種。</li>
     <li style="margin-bottom:12px"><a href="/chalk-lab/workshop/" style="color:${BOARD};font-weight:600">チョーク工房</a> — 成分を配合して自分だけのチョークを作ろう。</li>
     <li style="margin-bottom:12px"><a href="/chalk-lab/draw/" style="color:${BOARD};font-weight:600">黒板キャンバス</a> — チョークで黒板にお絵かき。</li>
-    <li style="margin-bottom:12px"><a href="/chalk-lab/quiz/" style="color:${BOARD};font-weight:600">チョーク検定</a> — 全30問からランダム10問。今日の検定も。</li>
+    <li style="margin-bottom:12px"><a href="/chalk-lab/quiz/" style="color:${BOARD};font-weight:600">チョーク検定</a> — 全${QUIZ.length}問からランダム10問。今日の検定も。</li>
     <li style="margin-bottom:12px"><a href="/chalk-lab/guess/" style="color:${BOARD};font-weight:600">チョーク絵当て</a> — カードの絵を見て名前を当てよう。</li>
     <li style="margin-bottom:12px"><a href="/chalk-lab/badges/" style="color:${BOARD};font-weight:600">ステータス＆バッジ</a> — レベル・XP・バッジを確認。</li>
   </ul>

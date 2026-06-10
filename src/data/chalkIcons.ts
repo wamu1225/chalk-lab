@@ -57,6 +57,11 @@ export const ICON_ART: Record<string, { tint: IconTint; art: string }> = {
   'dover': { tint: 'geology', art: `<circle cx="46" cy="19" r="5" fill="none" stroke="#fdfdfb" stroke-width="2.4"/><path d="M12 26 L18 22 L26 28 L34 23 L42 30 L50 25 L50 40 L12 40 Z" fill="#fdfdfb"/><path d="M10 47 q8 -4 16 0 t16 0 t12 0" fill="none" stroke="#cfe0e8" stroke-width="2.6" stroke-linecap="round" opacity="0.85"/>` },
   'coating': { tint: 'board', art: `<rect x="26" y="16" width="12" height="32" rx="2" fill="#fdfdfb"/><rect x="33" y="16" width="5" height="32" rx="1.5" fill="#dcdacf"/><g stroke="#ffe9a8" stroke-width="2.4" stroke-linecap="round"><line x1="47" y1="18" x2="47" y2="24"/><line x1="44" y1="21" x2="50" y2="21"/></g>` },
 
+  // ── 歴史（history 記事の図鑑カード） ──
+  'nuriita': { tint: 'compare', art: `<rect x="14" y="16" width="36" height="26" rx="2" fill="none" stroke="#fdfdfb" stroke-width="3"/><path d="M21 25 h14 M21 32 h10" stroke="#fdfdfb" stroke-width="2.2" stroke-linecap="round"/><line x1="18" y1="50" x2="46" y2="50" stroke="#fdfdfb" stroke-width="2.6" stroke-linecap="round"/><g transform="rotate(35 50 46)"><rect x="48" y="40" width="5" height="11" rx="2" fill="#fdfdfb"/></g>` },
+  'green-board': { tint: 'board', art: `<rect x="12" y="17" width="40" height="28" rx="3" fill="#17171b"/><path d="M32 17 h17 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-17 Z" fill="#2f6b50"/><rect x="12" y="17" width="40" height="28" rx="3" fill="none" stroke="#fdfdfb" stroke-width="3"/><path d="M17 32 q5 -7 10 0" stroke="#fdfdfb" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M37 32 q5 -7 10 0" stroke="#fdfdfb" stroke-width="2.2" fill="none" stroke-linecap="round"/><line x1="32" y1="50" x2="32" y2="56" stroke="#fdfdfb" stroke-width="2.6" stroke-linecap="round"/>` },
+  'first-chalk-jp': { tint: 'legend', art: `<path d="M20 33 h24 l-2.5 15 a4 4 0 0 1 -4 3.5 h-11 a4 4 0 0 1 -4 -3.5 Z" fill="none" stroke="#fdfdfb" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="41" r="2.2" fill="#fdfdfb" opacity="0.7"/><path d="M26 28 q2 -5 0 -9 M32 29 q3 -6 0 -12 M38 28 q2 -5 0 -9" fill="none" stroke="#f4c64a" stroke-width="2.4" stroke-linecap="round"/><g transform="rotate(-22 13 21)"><rect x="9" y="14" width="5.5" height="14" rx="1.8" fill="#fdfdfb"/></g>` },
+
   // ── あそび（ゲーム系ページ用・絵文字の代替） ──
   'play-hub': { tint: 'board', art: `<rect x="16" y="16" width="32" height="32" rx="7" fill="none" stroke="#fdfdfb" stroke-width="3"/><g fill="#fdfdfb"><circle cx="25" cy="25" r="2.7"/><circle cx="39" cy="25" r="2.7"/><circle cx="25" cy="39" r="2.7"/><circle cx="39" cy="39" r="2.7"/></g>` },
   'play-map': { tint: 'legend', art: `<path d="M14 18 L26 14 L38 18 L50 14 V46 L38 50 L26 46 L14 50 Z" fill="none" stroke="#fdfdfb" stroke-width="3" stroke-linejoin="round"/><line x1="26" y1="14" x2="26" y2="46" stroke="#fdfdfb" stroke-width="2" opacity="0.55"/><line x1="38" y1="18" x2="38" y2="50" stroke="#fdfdfb" stroke-width="2" opacity="0.55"/><path d="M19 40 q8 -10 14 -5 t12 -9" fill="none" stroke="#f4c64a" stroke-width="2.6" stroke-dasharray="4 3" stroke-linecap="round"/>` },
@@ -79,6 +84,7 @@ export const SECTION_ICON: Record<string, string> = {
   geology: 'chalk-rock',
   sports: 'climbing',
   health: 'dust',
+  history: 'blackboard-origin',
 };
 
 // 静的SVG文字列（prerender 用 / Reactでも利用可）

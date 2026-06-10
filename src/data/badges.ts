@@ -27,7 +27,7 @@ export const BADGES: Badge[] = [
     id: 'half-read',
     name: 'チョーク見習い',
     emoji: '📗',
-    desc: 'よみものを半分（4つ）読んだ',
+    desc: 'よみものを4つ読んだ',
     earned: (p) => p.visitedSections.length >= 4,
     progress: (p) => ({ now: p.visitedSections.length, goal: 4 }),
   },
