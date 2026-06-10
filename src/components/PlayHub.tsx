@@ -29,22 +29,24 @@ export function PlayHub() {
       <p className="quiz-lead">読んで・解いて・集めて・作って・描いて。チョークラボの遊びがぜんぶここに。</p>
       <LevelBanner />
 
-      <div className="hub-grid">
+      <ol className="hub-list">
         {MODES.map((m) => (
-          <a
-            key={m.path}
-            className="hub-card"
-            href={`${BASE}${m.path}`}
-            onClick={(e) => { e.preventDefault(); navigateTo(m.path); }}
-          >
-            <ChalkIcon motif={m.motif} size={42} className="hub-icon" />
-            <span className="hub-card-body">
-              <span className="hub-card-title">{m.title}</span>
-              <span className="hub-card-desc">{m.desc}</span>
-            </span>
-          </a>
+          <li key={m.path}>
+            <a
+              className="hub-item"
+              href={`${BASE}${m.path}`}
+              onClick={(e) => { e.preventDefault(); navigateTo(m.path); }}
+            >
+              <ChalkIcon motif={m.motif} size={38} className="hub-icon" />
+              <span className="hub-item-body">
+                <span className="hub-item-title">{m.title}</span>
+                <span className="hub-item-desc">{m.desc}</span>
+              </span>
+              <span className="hub-item-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ol>
 
       <div className="quiz-back">
         <a href={`${BASE}/`} onClick={(e) => { e.preventDefault(); navigateTo('/'); }}><ArrowLeft size={16} /> トップへ戻る</a>

@@ -93,22 +93,7 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 16px;
 }
-.section-card {
-  background: var(--paper-card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 20px;
-  text-decoration: none;
-  color: var(--ink);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.section-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent-soft); }
-.section-card-emoji { display: block; margin-bottom: 10px; }
-.section-card-title { font-size: 1.1rem; margin: 8px 0; }
-.section-card-desc { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 12px; flex: 1; }
-.section-card-cta { color: var(--board); font-weight: 700; font-size: 0.9rem; }
+/* （旧 .section-card グリッドは廃止済み・C4でCSSも削除） */
 
 .home-trust {
   margin-top: 34px;
@@ -234,21 +219,11 @@
 /* ===== Related ===== */
 .related-sections { margin: 36px 0; }
 .related-sections h3 { font-size: 1.05rem; color: var(--board); margin-bottom: 12px; }
-.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.related-card {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--paper-card);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 12px;
-  text-decoration: none;
-  color: var(--ink);
-  font-size: 0.9rem;
-}
-.related-card:hover { border-color: var(--accent-soft); box-shadow: var(--shadow); }
-.related-emoji { display: inline-block; vertical-align: middle; border-radius: 7px; flex: none; }
+.related-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 0; }
+.related-list li { display: flex; align-items: center; }
+.related-list li + li::before { content: '・'; color: var(--ink-soft); opacity: 0.5; margin: 0 10px; }
+.related-list a { color: var(--board); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+.related-list a:hover { border-bottom-color: var(--accent); }
 
 /* ===== Footer ===== */
 .section-footer { margin-top: 28px; }
@@ -526,7 +501,7 @@
 /* ===== アクセシビリティ：キーボード操作の可視フォーカス ===== */
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 a:focus-visible, button:focus-visible, input:focus-visible, [role="button"]:focus-visible,
-.hub-card:focus-visible, .section-card:focus-visible, .dex-chip:focus-visible, .draw-swatch:focus-visible,
+.hub-item:focus-visible, .dex-chip:focus-visible, .draw-swatch:focus-visible,
 .quiz-choice:focus-visible, .play-btn:focus-visible, .tl-dot:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 /* マウス操作では従来どおり（focus-visible のみ表示） */
 
@@ -636,13 +611,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, [role="button"]:focu
 
 /* ===== あそびハブ ===== */
 .hub-screen { max-width: 880px; margin: 0 auto; padding: 28px 16px 56px; }
-.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 8px; }
-.hub-card { display: flex; align-items: center; gap: 12px; background: var(--paper-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--ink); box-shadow: var(--shadow); transition: transform 0.15s, border-color 0.15s; }
-.hub-card:hover { transform: translateY(-3px); border-color: var(--accent-soft); }
+.hub-list { list-style: none; padding: 0; margin: 8px 0 0; border-top: 1px solid var(--line); }
+.hub-list li { border-bottom: 1px solid var(--line); }
+.hub-item { display: flex; align-items: center; gap: 14px; padding: 14px 6px; text-decoration: none; color: var(--ink); }
+.hub-item:hover { background: #faf9f5; }
+.hub-item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.hub-item-title { font-weight: 800; color: var(--board); }
+.hub-item-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.6; }
+.hub-item-arrow { flex: none; color: var(--accent); font-weight: 800; font-size: 1.1rem; }
 .hub-emoji { font-size: 2rem; flex: none; }
-.hub-card-body { display: flex; flex-direction: column; gap: 3px; }
-.hub-card-title { font-weight: 800; color: var(--board); }
-.hub-card-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.5; }
 
 /* ===== 学習の冒険マップ ===== */
 .map-screen { max-width: 720px; margin: 0 auto; padding: 28px 16px 56px; }

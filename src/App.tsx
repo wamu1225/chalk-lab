@@ -414,19 +414,18 @@ function RelatedSections({ currentId }: { currentId: string }) {
   return (
     <aside className="related-sections" aria-label="関連記事">
       <h3>ほかのよみものも読む</h3>
-      <div className="related-grid">
+      <ul className="related-list">
         {related.map((s) => (
-          <a
-            key={s.id}
-            href={`${BASE}/${s.id}/`}
-            className="related-card"
-            onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); }}
-          >
-            <ChalkIcon motif={SECTION_ICON[s.id]} size={32} className="related-emoji" />
-            <span className="related-title">{s.shortTitle}</span>
-          </a>
+          <li key={s.id}>
+            <a
+              href={`${BASE}/${s.id}/`}
+              onClick={(e) => { e.preventDefault(); navigateTo(`/${s.id}/`); }}
+            >
+              {s.shortTitle}
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </aside>
   );
 }
