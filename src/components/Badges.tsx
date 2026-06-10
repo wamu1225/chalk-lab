@@ -51,16 +51,26 @@ export function Badges() {
       </div>
 
       <div className="badge-grid">
-        {BADGES.map((b) => {
-          const has = earned.has(b.id);
-          return (
-            <div key={b.id} className={`badge-card ${has ? 'earned' : 'locked'}`}>
-              <BadgeMedal id={b.id} earned={has} size={58} className="badge-medal" />
-              <div className="badge-name">{b.name}</div>
-              <div className="badge-desc">{b.desc}</div>
-            </div>
-          );
-        })}
+        {[...BADGES]
+          .sort((a, b) => (earned.has(b.id) ? 1 : 0) - (earned.has(a.id) ? 1 : 0))
+          .map((b) => {
+            const has = earned.has(b.id);
+            const prog = !has && b.progress ? b.progress(progress) : null;
+            const pct = prog ? Math.min(100, Math.round((prog.now / prog.goal) * 100)) : 0;
+            return (
+              <div key={b.id} className={`badge-card ${has ? 'earned' : 'locked'}`}>
+                <BadgeMedal id={b.id} earned={has} size={58} className="badge-medal" />
+                <div className="badge-name">{b.name}</div>
+                <div className="badge-desc">{b.desc}</div>
+                {prog && (
+                  <div className="badge-progress">
+                    <span className="badge-progress-bar"><span style={{ width: `${pct}%` }} /></span>
+                    <span className="badge-progress-num">{prog.now} / {prog.goal}</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
       </div>
 
       <div className="badge-cta">

@@ -384,7 +384,11 @@
 .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 .badge-card { border: 1px solid var(--line); border-radius: 14px; padding: 16px 12px; background: var(--paper); }
 .badge-card.earned { border-color: var(--accent-soft); background: #fff9ec; box-shadow: 0 0 10px rgba(224,168,46,0.25); }
-.badge-card.locked { opacity: 0.7; }
+.badge-card.locked { opacity: 0.85; background: #fbfaf6; }
+.badge-progress { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.badge-progress-bar { flex: 1; height: 5px; background: #e9e6dc; border-radius: 3px; overflow: hidden; }
+.badge-progress-bar > span { display: block; height: 100%; background: var(--accent-soft); border-radius: 3px; }
+.badge-progress-num { font-size: 0.74rem; color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
 .badge-emoji { font-size: 2.2rem; }
 .badge-medal { display: block; margin: 0 auto 8px; }
 .badge-name { font-weight: 800; color: var(--ink); margin: 6px 0 4px; font-size: 0.95rem; }

@@ -11,6 +11,8 @@ export type Badge = {
   emoji: string;
   desc: string;
   earned: (p: Progress) => boolean;
+  // 任意：未獲得バッジに「いま n / 目標」の進捗ヒントを出す（数えられる実績のみ）
+  progress?: (p: Progress) => { now: number; goal: number };
 };
 
 export const BADGES: Badge[] = [
@@ -27,6 +29,7 @@ export const BADGES: Badge[] = [
     emoji: '📗',
     desc: 'よみものを半分（4つ）読んだ',
     earned: (p) => p.visitedSections.length >= 4,
+    progress: (p) => ({ now: p.visitedSections.length, goal: 4 }),
   },
   {
     id: 'all-read',
@@ -34,6 +37,7 @@ export const BADGES: Badge[] = [
     emoji: '🎓',
     desc: 'すべてのよみものを読んだ',
     earned: (p) => sections.every((s) => p.visitedSections.includes(s.id)),
+    progress: (p) => ({ now: sections.filter((s) => p.visitedSections.includes(s.id)).length, goal: sections.length }),
   },
   {
     id: 'first-quiz',
@@ -48,6 +52,7 @@ export const BADGES: Badge[] = [
     emoji: '🏅',
     desc: `チョーク検定で${QUIZ_PASS}問以上正解した`,
     earned: (p) => p.quizBest >= QUIZ_PASS,
+    progress: (p) => ({ now: p.quizBest, goal: QUIZ_PASS }),
   },
   {
     id: 'quiz-perfect',
@@ -55,6 +60,7 @@ export const BADGES: Badge[] = [
     emoji: '👑',
     desc: `チョーク検定で${QUIZ_PER_PLAY}問全問正解した`,
     earned: (p) => p.quizBest >= QUIZ_PER_PLAY,
+    progress: (p) => ({ now: p.quizBest, goal: QUIZ_PER_PLAY }),
   },
   {
     id: 'dex-starter',
@@ -69,6 +75,7 @@ export const BADGES: Badge[] = [
     emoji: '📇',
     desc: '図鑑のカードを半分あつめた',
     earned: (p) => discoveredCount(p) >= Math.ceil(TOTAL_CARDS / 2),
+    progress: (p) => ({ now: discoveredCount(p), goal: Math.ceil(TOTAL_CARDS / 2) }),
   },
   {
     id: 'dex-complete',
@@ -76,6 +83,7 @@ export const BADGES: Badge[] = [
     emoji: '🏆',
     desc: '図鑑のカードをすべてあつめた',
     earned: (p) => discoveredCount(p) >= TOTAL_CARDS,
+    progress: (p) => ({ now: discoveredCount(p), goal: TOTAL_CARDS }),
   },
   {
     id: 'rare-collector',
@@ -83,6 +91,10 @@ export const BADGES: Badge[] = [
     emoji: '💎',
     desc: 'すべてのレア（★★★）カードをあつめた',
     earned: (p) => CHALK_CARDS.filter((c) => c.rarity === 3).every((c) => p.cards[c.id]?.discovered),
+    progress: (p) => {
+      const rares = CHALK_CARDS.filter((c) => c.rarity === 3);
+      return { now: rares.filter((c) => p.cards[c.id]?.discovered).length, goal: rares.length };
+    },
   },
   {
     id: 'level-doctor',
@@ -97,6 +109,7 @@ export const BADGES: Badge[] = [
     emoji: '',
     desc: 'すべての図鑑カードを習熟MAX（★★★）にした',
     earned: (p) => masterySum(p) >= TOTAL_CARDS * 3,
+    progress: (p) => ({ now: masterySum(p), goal: TOTAL_CARDS * 3 }),
   },
   {
     id: 'daily-3',
@@ -104,6 +117,7 @@ export const BADGES: Badge[] = [
     emoji: '',
     desc: '今日の検定に3日連続で挑戦した',
     earned: (p) => p.dailyStreak >= 3,
+    progress: (p) => ({ now: p.dailyStreak, goal: 3 }),
   },
   {
     id: 'daily-7',
@@ -111,6 +125,7 @@ export const BADGES: Badge[] = [
     emoji: '',
     desc: '今日の検定に7日連続で挑戦した',
     earned: (p) => p.dailyStreak >= 7,
+    progress: (p) => ({ now: p.dailyStreak, goal: 7 }),
   },
   {
     id: 'workshop-first',
