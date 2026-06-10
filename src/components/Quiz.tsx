@@ -98,7 +98,7 @@ export function Quiz() {
         {best > 0 && <p className="quiz-best">これまでの最高記録：{best} / {QUIZ_PER_PLAY} 問</p>}
         <div className="quiz-modes">
           <button className="quiz-btn-primary" onClick={() => start('random')}>ランダム検定をはじめる</button>
-          <button className="quiz-btn-daily" onClick={() => start('daily')}>🗓️ 今日の検定{dailyDone ? '（今日クリア済み）' : ''}</button>
+          <button className="quiz-btn-daily" onClick={() => start('daily')}>今日の検定{dailyDone ? '（今日クリア済み）' : ''}</button>
         </div>
         {dailyStreak > 0 && <p className="quiz-best">今日の検定 連続記録：{dailyStreak}日{dailyDone ? '（今日クリア済み）' : ''}</p>}
         <div className="quiz-back">
