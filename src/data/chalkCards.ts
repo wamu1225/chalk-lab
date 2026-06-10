@@ -162,13 +162,13 @@ export const CHALK_CARDS: ChalkCard[] = [
   {
     id: 'sidewalk', name: '路面チョーク', emoji: '', rarity: 1, category: 'board',
     front: '地面に大きくお絵かきできる、路面用のチョーク。',
-    back: 'スポーツの白線ひきや、公園での落書きあそびなどに使われます。',
+    back: 'ザラついた面ほど、削れた粉がよくひっかかる。つるつるのガラスには書けないのに、コンクリートの路面が格好のキャンバスになるのは、このしくみのおかげ。',
     relatedSectionId: 'types',
   },
   {
     id: 'school-spec', name: '学校用のサイズ', emoji: '', rarity: 1, category: 'board',
     front: '日本の学校用チョークは、長さ約6.5cmが標準。',
-    back: '業務用と学校用で、長さや太さが違うこともあります。',
+    back: '工場では、練った材料を機械から円柱状に押し出し、約6.5cmに切りそろえて作る。「押し出して・切って・乾かす」は、うどんやパスタの製造ともよく似た方式。',
     relatedSectionId: 'types',
   },
   {
@@ -192,19 +192,19 @@ export const CHALK_CARDS: ChalkCard[] = [
   {
     id: 'recycle', name: '資源の循環', emoji: '', rarity: 2, category: 'eco',
     front: 'ごみを毎日使う道具に変える「資源の循環」。',
-    back: 'ホタテ貝殻や卵殻を活かしたチョークは、ごみを減らしながら役立つ道具を作る良い例です。',
+    back: '日本では2005年からホタテ貝の微粉末を配合したチョークが作られ、いまでは年間およそ60トンもの貝殻が、毎日使う道具としてよみがえっているという。',
     relatedSectionId: 'making',
   },
   {
     id: 'limestone', name: '石灰石', emoji: '', rarity: 1, category: 'material',
     front: 'チョークの炭酸カルシウムは、石灰石からもとれる。',
-    back: '石灰石は炭酸カルシウムを主成分とする岩。貝殻や卵殻と同じ成分で、チョークの材料になります。',
+    back: '白い崖をつくる「白亜」も、白くやわらかい石灰岩の仲間。黒板のチョークとドーバーの白い崖は、岩石としては親戚どうしと言える。',
     relatedSectionId: 'basics',
   },
   {
     id: 'pigment', name: '顔料', emoji: '', rarity: 1, category: 'material',
     front: '色チョークの色は「顔料」でつけている。',
-    back: '白い土台に色のもとの粉（顔料）を混ぜて、赤・青・黄・緑などの色チョークを作ります。',
+    back: '同じ白い土台でも、混ぜる顔料しだいで赤・青・黄・緑に変わる。発色を強めた蛍光チョークは、この顔料を多めに配合している。',
     relatedSectionId: 'basics',
   },
   {
