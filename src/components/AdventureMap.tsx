@@ -22,7 +22,7 @@ export function AdventureMap() {
 
   return (
     <article className="map-screen">
-      <h1 className="quiz-h1">🗺️ チョークの旅</h1>
+      <h1 className="quiz-h1"><ChalkIcon motif="play-map" size={28} className="h1-icon" />チョークの旅</h1>
       <p className="quiz-lead">
         よみものをめぐる旅のマップです。読んだ地点には<strong>✓スタンプ</strong>。
         「つぎはここ！」の地点から読み進めて、ぜんぶ踏破しよう！
@@ -59,7 +59,7 @@ export function AdventureMap() {
               <span>全踏破おめでとう！きみはもうチョーク博士だ！</span>
             </span>
           ) : (
-            <>🏆 ゴール：チョーク博士！（ぜんぶ読むとここに到達）</>
+            <>ゴール：チョーク博士！（ぜんぶ読むとここに到達）</>
           )}
         </li>
       </ol>

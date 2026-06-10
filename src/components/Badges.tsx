@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
+import { ChalkIcon } from './ChalkIcon';
 import { BADGES } from '../data/badges';
 import { loadProgress } from '../utils/progress';
 import { LevelBanner } from './LevelBanner';
@@ -22,11 +23,11 @@ export function Badges() {
 
   return (
     <article className="badges-screen">
-      <h1 className="quiz-h1">🏆 ステータス＆バッジ</h1>
+      <h1 className="quiz-h1"><ChalkIcon motif="play-badges" size={28} className="h1-icon" />ステータス＆バッジ</h1>
       <LevelBanner />
       {earnedCount === BADGES.length && (
         <div className="complete-banner" role="status">
-          <span className="complete-banner-emoji" aria-hidden="true">🏆</span>
+          <ChalkIcon motif="play-badges" size={40} className="complete-banner-icon" />
           <div>
             <strong>コンプリート達成！</strong>
             すべてのバッジを集めました。チョークのことなら、もうあなたは博士です！

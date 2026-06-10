@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { ArrowLeft, Eraser, Trash2, Download } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
+import { ChalkIcon } from './ChalkIcon';
 
 const BOARD = '#1f3a2e';
 const COLORS = [
@@ -130,7 +131,7 @@ export function Draw() {
 
   return (
     <article className="draw-screen">
-      <h1 className="quiz-h1">🖍️ 黒板キャンバス</h1>
+      <h1 className="quiz-h1"><ChalkIcon motif="play-draw" size={28} className="h1-icon" />黒板キャンバス</h1>
       <p className="quiz-lead">
         黒板にチョークで書いてみよう。指やマウスでなぞると、チョークみたいな“かすれ”た線が描けます。
         色をかえたり、黒板消しで消したりできます。

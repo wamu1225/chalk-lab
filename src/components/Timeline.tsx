@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
 import { TIMELINE } from '../data/timeline';
+import { ChalkIcon } from './ChalkIcon';
 
 export function Timeline() {
   const [i, setI] = useState(0);
@@ -16,7 +17,7 @@ export function Timeline() {
 
   return (
     <article className="timeline-screen">
-      <h1 className="quiz-h1">⏳ チョーク誕生の旅</h1>
+      <h1 className="quiz-h1"><ChalkIcon motif="play-timeline" size={28} className="h1-icon" />チョーク誕生の旅</h1>
       <p className="quiz-lead">毎日のチョークは、何千万年も前の小さな生き物からできました。順番にたどってみよう。</p>
 
       <div className="timeline-stage">

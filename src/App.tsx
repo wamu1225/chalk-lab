@@ -320,14 +320,14 @@ function Home() {
 
       <div className="play-banner">
         <div className="play-banner-text">
-          <h2>🎮 読んで・解いて・集めよう</h2>
+          <h2>読んで・解いて・集めよう</h2>
           <p>よみものを読むと<strong>チョーク図鑑</strong>のカードを発見。チョーク検定に正解すると習熟度が上がり、バッジも集まります。</p>
         </div>
         <div className="play-banner-btns">
-          <a href={`${BASE}/map/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>🗺️ 旅のマップ</a>
-          <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>📚 チョーク図鑑</a>
-          <a href={`${BASE}/quiz/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>📝 チョーク検定</a>
-          <a href={`${BASE}/play/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/play/'); }}>🎮 ぜんぶのあそび →</a>
+          <a href={`${BASE}/map/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/map/'); }}>旅のマップ</a>
+          <a href={`${BASE}/dex/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/dex/'); }}>チョーク図鑑</a>
+          <a href={`${BASE}/quiz/`} className="play-btn" onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>チョーク検定</a>
+          <a href={`${BASE}/play/`} className="play-btn play-btn-ghost" onClick={(e) => { e.preventDefault(); navigateTo('/play/'); }}>ぜんぶのあそび →</a>
         </div>
       </div>
 

@@ -30,7 +30,7 @@ export function Dex() {
 
   return (
     <article className="dex-screen">
-      <h1 className="quiz-h1">📚 チョーク図鑑</h1>
+      <h1 className="quiz-h1"><ChalkIcon motif="play-dex" size={28} className="h1-icon" />チョーク図鑑</h1>
       <p className="quiz-lead">
         よみものを読むとカードを<strong>発見</strong>、チョーク検定に正解すると<strong>習熟度（★）</strong>が上がります。
         ぜんぶ集めて、チョーク博士になろう！
@@ -136,7 +136,7 @@ export function Dex() {
 
       <div className="dex-cta">
         <a className="quiz-btn-primary" href={`${BASE}/guess/`} onClick={(e) => { e.preventDefault(); navigateTo('/guess/'); }}>
-          🎨 集めたカードで絵当てクイズ
+          集めたカードで絵当てクイズ
         </a>
         <a className="quiz-btn-ghost" href={`${BASE}/quiz/`} onClick={(e) => { e.preventDefault(); navigateTo('/quiz/'); }}>
           チョーク検定で習熟度を上げる

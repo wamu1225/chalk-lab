@@ -30,7 +30,7 @@ export const BADGES: Badge[] = [
   },
   {
     id: 'all-read',
-    name: 'チョーク博士',
+    name: 'よみもの全踏破',
     emoji: '🎓',
     desc: 'すべてのよみものを読んだ',
     earned: (p) => sections.every((s) => p.visitedSections.includes(s.id)),

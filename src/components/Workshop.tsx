@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { BASE, SITE_NAME, navigateTo } from '../utils/nav';
+import { ChalkIcon } from './ChalkIcon';
 import { DEFAULT_RECIPE, INGREDIENTS, SCORE_BARS, PRESETS, computeScores } from '../data/workshop';
 import type { Recipe } from '../data/workshop';
 import { loadProgress } from '../utils/progress';
@@ -47,7 +48,7 @@ export function Workshop() {
 
   return (
     <article className="workshop-screen">
-      <h1 className="quiz-h1">🧪 チョーク工房</h1>
+      <h1 className="quiz-h1"><ChalkIcon motif="play-workshop" size={28} className="h1-icon" />チョーク工房</h1>
       <p className="quiz-lead">
         成分を配合して、自分だけの「マイチョーク」を作ろう。配合で<strong>書き味・折れにくさ・粉の出にくさ・発色・エコ率</strong>が変わります。
         よみもの（<a href={`${BASE}/basics/`} onClick={(e) => { e.preventDefault(); navigateTo('/basics/'); }}>基礎</a>・
@@ -59,7 +60,7 @@ export function Workshop() {
         const bestRank = best >= 85 ? 'S' : best >= 72 ? 'A' : best >= 55 ? 'B' : best > 0 ? 'C' : null;
         return (
           <div className="workshop-challenge">
-            <span>🎯 目標：<strong>ランクA（総合72）以上</strong>のマイチョークを作ろう！バランスよく配合するのがコツ。</span>
+            <span>目標：<strong>ランクA（総合72）以上</strong>のマイチョークを作ろう！バランスよく配合するのがコツ。</span>
             {bestRank && <span className="workshop-best">これまでの最高：ランク{bestRank}（総合{best}）</span>}
           </div>
         );
@@ -75,7 +76,7 @@ export function Workshop() {
           ))}
         </div>
       </div>
-      {presetNote && <p className="workshop-preset-note">📖 {presetNote}</p>}
+      {presetNote && <p className="workshop-preset-note">{presetNote}</p>}
 
       <div className="workshop-grid">
         <section className="workshop-mix" aria-label="配合">
