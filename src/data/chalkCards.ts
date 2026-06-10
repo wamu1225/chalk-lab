@@ -50,7 +50,7 @@ export const CHALK_CARDS: ChalkCard[] = [
   {
     id: 'dustless', name: 'ダストレスチョーク', emoji: '🌀', rarity: 2, category: 'board',
     front: '粉が舞い散りにくいチョーク。今の学校の主流。',
-    back: '「粉ゼロ」ではなく「舞いにくい」の意味。比重の大きい炭酸カルシウムを高密度に固め、消したとき粉が垂直に落ちやすくしている。',
+    back: '「粉ゼロ」ではなく「舞いにくい」の意味。つぶの重い炭酸カルシウムを高密度に固め、消したとき粉が垂直に落ちやすくしている。',
     relatedSectionId: 'types',
   },
   {
@@ -70,7 +70,7 @@ export const CHALK_CARDS: ChalkCard[] = [
   {
     id: 'gypsum', name: '石膏（せっこう）', emoji: '🧱', rarity: 2, category: 'material',
     front: '焼き石膏に水を混ぜると固まる、もう一つのチョーク材料。',
-    back: '硫酸カルシウム。水和反応で固まると元の粉には戻らない（不可逆）。やわらかく太字向きだが粉が舞いやすい。',
+    back: '硫酸カルシウム。水と反応して固まると元の粉には戻らない（不可逆）。やわらかく太字向きだが粉が舞いやすい。',
     relatedSectionId: 'making',
   },
 

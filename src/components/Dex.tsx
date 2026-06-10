@@ -43,7 +43,7 @@ export function Dex() {
         </div>
         <div className="dex-stat">
           <span className="dex-stat-num">{masteryPct}%</span>
-          <span className="dex-stat-label">習熟度コンプ</span>
+          <span className="dex-stat-label">習熟MAX</span>
         </div>
       </div>
       <div className="dex-progress-bar"><span style={{ width: `${TOTAL_CARDS ? (found / TOTAL_CARDS) * 100 : 0}%` }} /></div>

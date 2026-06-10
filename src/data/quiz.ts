@@ -89,7 +89,7 @@ export const QUIZ: QuizQuestion[] = [
     q: '石膏チョークは「焼き石膏」に何を混ぜると固まる？',
     choices: ['水', '油', 'お酢', '砂糖'],
     answer: 0, difficulty: 2,
-    explain: '焼き石膏に水を混ぜると水和反応で固まります。一度固まると元の粉には戻りません（不可逆）。',
+    explain: '焼き石膏に水を混ぜると化学反応（水和反応）で固まります。一度固まると元の粉には戻りません（不可逆）。',
     relatedSectionId: 'making', relatedCardId: 'gypsum',
   },
   {

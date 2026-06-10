@@ -117,7 +117,7 @@ export function Quiz() {
         <h1 className="quiz-h1">{perfect ? '全問正解！チョークマスター！' : passed ? '合格！おめでとう' : 'もう少し！'}</h1>
         <p className="quiz-chara-line">{perfect ? 'チョーくん：かんぺき！きみはチョーク博士だ！' : passed ? 'チョーくん：合格おめでとう！その調子！' : 'チョーくん：だいじょうぶ、よみものを読めばもっと解けるよ！'}</p>
         <p className="quiz-score">{correct} / {total} 問 正解</p>
-        <p className="quiz-best">最高記録：{best} / {QUIZ_PER_PLAY} 問 ／ 最高コンボ：{maxStreak}</p>
+        <p className="quiz-best">最高記録：{best} / {QUIZ_PER_PLAY} 問 ／ 最高連続正解：{maxStreak}</p>
         <div className="quiz-result-actions">
           <button className="quiz-btn-primary" onClick={() => start('random')}>もう一度（別の問題で）</button>
           <a className="quiz-btn-ghost" href={`${BASE}/badges/`} onClick={(e) => { e.preventDefault(); navigateTo('/badges/'); }}>
