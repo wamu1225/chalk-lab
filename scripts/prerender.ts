@@ -263,6 +263,10 @@ function writeSectionPage(s: (typeof sections)[number]) {
 
 for (const s of sections) writeSectionPage(s);
 
+// ゲーム/ツール/ナビ/ステータス頁（固有の参照実体がなく、記事と重複するゲーミフィケーション層）は
+// クローラの薄コンテンツ判定を避けるため noindex＋sitemap除外。実記事8本とグロッサリは indexed のまま残す。
+const NOINDEX_IDS = new Set(['quiz', 'badges', 'dex', 'workshop', 'draw', 'map', 'guess', 'play', 'timeline']);
+
 function writeStaticPage(id: string, title: string, description: string, bodyHtml: string) {
   const dir = path.join(DIST_DIR, id);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -285,6 +289,11 @@ function writeStaticPage(id: string, title: string, description: string, bodyHtm
   });
   let html = applyMeta(subDirTemplateHtml, title, description, `${BASE_URL}/${id}/`, 'website')
     .replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
+  if (NOINDEX_IDS.has(id)) {
+    html = /<meta name="robots"/.test(html)
+      ? html.replace(/<meta name="robots" content="[^"]*"/, '<meta name="robots" content="noindex,follow"')
+      : html.replace('</head>', '  <meta name="robots" content="noindex,follow">\n  </head>');
+  }
   html = html.replace('</head>', `<script type="application/ld+json">${pageJsonLd}</script>\n  <script type="application/ld+json">${breadcrumbJsonLd}</script>\n  </head>`);
   fs.writeFileSync(path.join(dir, 'index.html'), html);
   generatedCount++;
@@ -395,22 +404,14 @@ console.log(`✓ Generated ${generatedCount} static pages`);
 
 // sitemap.xml
 const sitemapToday = new Date().toISOString().split('T')[0];
+// noindex 頁（ゲーム/ツール/ナビ）は sitemap から除外＝索引対象は実記事とグロッサリ等のみ
 const sitemapEntries = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/play/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/timeline/', changefreq: 'monthly', priority: '0.7' },
   ...sections.map((s) => ({ path: `/${s.id}/`, changefreq: 'monthly', priority: '0.9' })),
-  { path: '/map/', changefreq: 'monthly', priority: '0.7' },
-  { path: '/dex/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/workshop/', changefreq: 'monthly', priority: '0.7' },
-  { path: '/draw/', changefreq: 'monthly', priority: '0.7' },
-  { path: '/quiz/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/guess/', changefreq: 'monthly', priority: '0.7' },
-  { path: '/badges/', changefreq: 'monthly', priority: '0.5' },
   { path: '/glossary/', changefreq: 'monthly', priority: '0.6' },
   { path: '/about/', changefreq: 'yearly', priority: '0.3' },
   { path: '/privacy/', changefreq: 'yearly', priority: '0.3' },
-];
+].filter((e) => !NOINDEX_IDS.has(e.path.replace(/^\/|\/$/g, '')));
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapEntries.map((e) => `  <url>
