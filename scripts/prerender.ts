@@ -8,11 +8,11 @@ import { CHALK_CARDS, CATEGORY_LABEL, TOTAL_CARDS } from '../src/data/chalkCards
 import { iconSvg, SECTION_ICON } from '../src/data/chalkIcons.ts';
 import { figureSvg } from '../src/data/figures.ts';
 import { TIMELINE } from '../src/data/timeline.ts';
+import { SITE_NAME, ABOUT_CONTENT, PRIVACY_CONTENT } from '../src/data/static-pages.ts';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
 const BASE_URL = 'https://study-apps.com/chalk-lab';
-const SITE_NAME = 'チョークラボ';
 const BOARD = '#1f3a2e';
 const ACCENT = '#e0a82e';
 const FONT = "'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',Meiryo,sans-serif";
@@ -311,17 +311,12 @@ const glossaryHtml = glossarySorted.map((g) => {
 writeStaticPage('glossary', 'チョーク用語集', 'チョークに関する用語（炭酸カルシウム、石膏、白亜、円石藻、羽衣チョークなど）の解説。',
   `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">本サイトに登場する用語をまとめました。炭酸カルシウム、石膏、白亜、円石藻など、チョークの理解に役立ててください。</p><dl style="margin:0;padding:0">${glossaryHtml}</dl>`);
 
+// SSOT（src/data/static-pages.ts）から本文を読む（2026-08-10・O-2-15＝App.tsxとの二重管理を解消）
 writeStaticPage('about', 'サイトについて', 'チョークラボについて。サイトの目的・編集方針・運営者・お問い合わせ・免責事項。',
-  `<p>「${SITE_NAME}」は、身近なのに意外と知らない「チョーク」について、楽しく学べることを目指した解説サイトです。チョークの成分や書けるしくみ、種類、作り方、歴史、白亜と白亜紀の関係、スポーツ用や裁縫用のチョークまで、はばひろく紹介しています。読むだけでなく、クイズやバッジ集めなどの遊んで学べるしかけも順次そろえていきます。</p>
-  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">編集・制作方針</h2><p>本サイトのコンテンツは、一般に公開されている情報や資料を参照しつつ、運営者が内容を再構成し、はじめての読者にも分かりやすい形で独自に解説しています。他サイトの文章をそのまま転載することはありません。成分・歴史などの記述は、確認できる事実をもとにまとめるよう努めており、誤りや古くなった情報に気づいた場合は、お問い合わせを受けて随時見直し・修正します。</p>
-  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">運営者について</h2><p>個人で運営しています。広告収入はサイトの維持費にあてています。</p>
-  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">お問い合わせ</h2><p>ご質問・誤りのご指摘は<a href="https://forms.gle/ccMv7oKwz6ysDHBe6" target="_blank" rel="noopener noreferrer" style="color:${BOARD}">こちらのGoogleフォーム</a>からお願いします。</p>
-  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">免責事項</h2><p>本サイトの情報は可能な限り正確を期していますが、その完全性・正確性を保証するものではありません。健康に関わる内容については一般的な情報提供であり、専門的な助言の代わりにはなりません。気になる症状がある場合は医師などの専門家にご相談ください。</p>`);
+  markdownToHtml(ABOUT_CONTENT));
 
 writeStaticPage('privacy', 'プライバシーポリシー', 'チョークラボのプライバシーポリシー。Cookie・アクセス解析・広告の使用について。',
-  `<h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">アクセス解析</h2><p>本サイトでは Google Analytics を使用しています。Cookie を利用して匿名のトラフィックデータを収集します。収集される情報は匿名で、個人を特定するものではありません。</p>
-  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">広告について</h2><p>本サイトでは Google AdSense などの第三者配信の広告サービスを利用することがあります。広告配信事業者は、ユーザーの興味に応じた広告を表示するために Cookie を使用することがあります。Cookie の使用を望まない場合は、Google の広告設定から無効にできます。</p>
-  <h2 class="content-h2" style="font-size:1.3rem;color:${BOARD};padding:0 0 6px;border-bottom:2px solid #e3e0d6;margin:32px 0 14px">免責事項</h2><p>本サイトの情報の利用により生じた損害について、運営者は一切の責任を負いません。</p>`);
+  markdownToHtml(PRIVACY_CONTENT));
 
 writeStaticPage('quiz', 'チョーク検定（クイズ）', `チョークの科学・歴史・トリビアから、全${QUIZ.length}問の中より毎回ランダムに10問を出題するクイズ。読んだ知識を力だめしできます。`,
   `<p style="color:#4b5b51;font-size:1.05rem;margin:16px 0 24px">全${QUIZ.length}問の中から、毎回ランダムに10問を出題。8問以上の正解で合格です。選択肢の並びも毎回シャッフルされ、連続正解すると記録がのびます。さらに「今日の検定」は全員おなじ10問で、毎日挑戦すると連続記録（デイリーストリーク）がのびます。よみものを読んでから挑戦すると解きやすくなります。</p>
