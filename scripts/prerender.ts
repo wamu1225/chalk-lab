@@ -398,20 +398,21 @@ writeStaticPage('timeline', 'チョーク誕生の旅（白亜紀タイムライ
 console.log(`✓ Generated ${generatedCount} static pages`);
 
 // sitemap.xml
+// lastmod はページ単位の実更新日（O-2-27）。sections は既存の s.updatedAt をそのまま使う。
 const sitemapToday = new Date().toISOString().split('T')[0];
 // noindex 頁（ゲーム/ツール/ナビ）は sitemap から除外＝索引対象は実記事とグロッサリ等のみ
 const sitemapEntries = [
-  { path: '/', changefreq: 'weekly', priority: '1.0' },
-  ...sections.map((s) => ({ path: `/${s.id}/`, changefreq: 'monthly', priority: '0.9' })),
-  { path: '/glossary/', changefreq: 'monthly', priority: '0.6' },
-  { path: '/about/', changefreq: 'yearly', priority: '0.3' },
-  { path: '/privacy/', changefreq: 'yearly', priority: '0.3' },
+  { path: '/', lastmod: sitemapToday, changefreq: 'weekly', priority: '1.0' },
+  ...sections.map((s) => ({ path: `/${s.id}/`, lastmod: s.updatedAt, changefreq: 'monthly', priority: '0.9' })),
+  { path: '/glossary/', lastmod: sitemapToday, changefreq: 'monthly', priority: '0.6' },
+  { path: '/about/', lastmod: sitemapToday, changefreq: 'yearly', priority: '0.3' },
+  { path: '/privacy/', lastmod: sitemapToday, changefreq: 'yearly', priority: '0.3' },
 ].filter((e) => !NOINDEX_IDS.has(e.path.replace(/^\/|\/$/g, '')));
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapEntries.map((e) => `  <url>
     <loc>${BASE_URL}${e.path}</loc>
-    <lastmod>${sitemapToday}</lastmod>
+    <lastmod>${e.lastmod}</lastmod>
     <changefreq>${e.changefreq}</changefreq>
     <priority>${e.priority}</priority>
   </url>`).join('\n')}
