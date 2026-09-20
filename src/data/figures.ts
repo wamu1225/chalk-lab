@@ -71,7 +71,9 @@ const geologyTimeline = (() => {
   const cx = [52, 158, 264, 348];
   const labels = ['円石藻', '海底につもる', '白亜（白い岩）', '白亜紀'];
   const arrows = [105, 211, 306].map((x) => arrow(x + 8, 50)).join('');
-  const labelText = cx.map((x, i) => t(x, 100, labels[i], CH, 12)).join('');
+  // O-2-25＝viewBox 400 の図は390px画面で358pxに描かれる（scale 0.895）ので、
+  // font-size 12 では実効10.7px にしかならない。13 にして実効11.6px にする。
+  const labelText = cx.map((x, i) => t(x, 100, labels[i], CH, 13)).join('');
   const icons = [
     // 円石藻（小さな円盤）
     `<g transform="translate(${cx[0]},48)"><circle r="15" fill="none" stroke="${CH}" stroke-width="2.2"/><circle r="6" fill="none" stroke="${CH}" stroke-width="2"/><g stroke="${CH}" stroke-width="2" stroke-linecap="round"><line x1="7" y1="0" x2="14" y2="0"/><line x1="-7" y1="0" x2="-14" y2="0"/><line x1="0" y1="7" x2="0" y2="14"/><line x1="0" y1="-7" x2="0" y2="-14"/></g></g>`,
